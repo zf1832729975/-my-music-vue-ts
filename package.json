@@ -6,14 +6,31 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "proxy": "set IS_WEB=true& node ./src/proxy/server.js",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
   "main": "background.js",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,html,md,vue,ts}": [
+      "prettier --config .prettierrc.js --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
   "dependencies": {
+    "apicache": "^1.5.3",
+    "axios": "^0.19.1",
+    "big-integer": "^1.6.48",
     "core-js": "^2.6.5",
+    "crypto": "^1.0.1",
     "element-ui": "^2.13.0",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
@@ -32,8 +49,11 @@
     "electron": "^6.0.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "less": "^3.0.4",
-    "less-loader": "^5.0.0",
+    "husky": "^4.0.10",
+    "lint-staged": "^9.5.0",
+    "node-sass": "^4.13.1",
+    "prettier": "^1.19.1",
+    "sass-loader": "^8.0.2",
     "typescript": "^3.4.3",
     "vue-cli-plugin-electron-builder": "^1.4.4",
     "vue-template-compiler": "^2.6.10"

@@ -1,0 +1,80 @@
+@import "./_variable.scss";
+@import "./header.scss";
+@import "./flex.css";
+
+// reset
+html,body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+body {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  color: #2c3e50;
+  font-size: 12px;
+}
+
+ul,li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+h1,p {
+  margin: 0;
+}
+
+/* base 
+----------------*/
+#app {
+  height: 100%;
+}
+
+/* global
+---------------- */
+.fl{
+  float: left;
+}
+.fr {
+  float: right;
+}
+
+.tl {
+  text-align: left;
+}
+.tc {
+  text-align: center;
+}
+.tr {
+  text-align: right;
+}
+.v-middle {
+  vertical-align: middle;
+}
+.h-full {
+  height: 100%;
+}
+.w-full {
+  width: 100%;
+}
+.full {
+  width: 100%;
+  height: 100%;
+}
+
+@mixin margin1($dir) {
+  argin-#{ $dir }: 0.25rem !important;
+}
+
+.ml-1 {
+  @include margin1(left);
+}
+.mr-1{
+  @include margin1(right);
+}
+.mt-1 {
+  @include margin1(top);
+}
+.mt-1 {
+  @include margin1(bottom);
+}
