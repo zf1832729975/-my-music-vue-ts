@@ -3,15 +3,18 @@
 @import "./flex.css";
 
 // reset
-html,body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
 body {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+  -webkit-user-select: none;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   color: #2c3e50;
   font-size: 12px;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 ul,li {
@@ -24,11 +27,6 @@ h1,p {
   margin: 0;
 }
 
-/* base 
-----------------*/
-#app {
-  height: 100%;
-}
 
 /* global
 ---------------- */
@@ -52,18 +50,25 @@ h1,p {
   vertical-align: middle;
 }
 .h-full {
-  height: 100%;
+  height: 100% !important;
 }
 .w-full {
-  width: 100%;
+  width: 100% !important;
 }
 .full {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 @mixin margin1($dir) {
-  argin-#{ $dir }: 0.25rem !important;
+  @if $dir {
+    margin-#{ $dir }: 0.25rem !important;
+  } @else {
+    margin: 0.25rem !important;
+  }
+}
+@mixin margin2($dir) {
+  margin-#{ $dir }: 0.5rem !important;
 }
 
 .ml-1 {
@@ -77,4 +82,17 @@ h1,p {
 }
 .mt-1 {
   @include margin1(bottom);
+}
+////////////////
+.ml-2 {
+  @include margin2(left);
+}
+.mr-2 {
+  @include margin2(right);
+}
+.mt-2 {
+  @include margin2(top);
+}
+.mt-2 {
+  @include margin2(bottom);
 }
