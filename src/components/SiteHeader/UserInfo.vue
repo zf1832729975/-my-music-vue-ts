@@ -3,19 +3,31 @@
     <!-- 用信息 -->
     <div flex="cross:center">
       <el-avatar :size="22" :src="user.imgSrc"></el-avatar>
-      <p class="ml-2">{{ user.name }}</p>
+      <!-- 用户信息 Popover -->
+      <el-popover>
+        <!-- 用户信息详细面板 -->
+        <UserInfo />
+        <p class="ml-2 user-name" slot="reference">
+          {{ user.name }}
+          <i class="arrow-down el-icon-arrow-down"></i>
+        </p>
+      </el-popover>
     </div>
-    <div class="m1-2">开通VIP</div>
+    <el-button type="text" style="font-size:14px;">开通VIP</el-button>
     <!-- 皮肤 -->
-    <i class="m1-2"></i>
+    <el-button class="el-icon-star-off" type="text"></el-button>
     <!-- 邮箱 -->
-    <i class="m1-2"></i>
-    <i class="m1-2">设置</i>
+    <el-badge :value="2" type="warning">
+      <el-button type="text" icon="el-icon-ice-cream"></el-button>
+    </el-badge>
+    <!-- 设置 -->
+    <el-button type="text" class="el-icon-setting" title="设置"></el-button>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import UserInfo from '@/components/UserInfo/index.vue'
 
 // user interface
 interface IUser {
@@ -23,16 +35,15 @@ interface IUser {
   imgSrc: string
 }
 
-@Component({})
-export default class Template extends Vue {
+@Component({
+  components: {
+    UserInfo
+  }
+})
+export default class HeaderUserInfo extends Vue {
   private user: IUser = {
     name: '咫尺天涯_飞',
     imgSrc: require('@/assets/img/logo.jpg')
   }
 }
 </script>
-
-<style lang="scss">
-.user-info {
-}
-</style>

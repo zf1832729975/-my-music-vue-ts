@@ -34,32 +34,3 @@ export default class Search extends Vue {
   handleSearch() {}
 }
 </script>
-
-<style lang="scss">
-.search {
-  flex-grow: 1;
-  .el-input {
-    $height: 22px;
-    min-width: 200px;
-    max-width: 300px;
-    .el-input__inner {
-      background-color: #a82828;
-      border: none;
-      border-radius: $height;
-      color: #fff;
-      height: $height !important;
-      padding: 0 #{$height / 2};
-      padding-right: #{$height / 2 + 12px};
-    }
-    .el-input__suffix {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      margin-right: 5px;
-      &:hover {
-        color: #fff;
-      }
-    }
-  }
-}
-</style>

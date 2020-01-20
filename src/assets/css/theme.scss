@@ -1,5 +1,7 @@
 /* 改变主题色变量 */
-$--color-primary: #31c27c;
+@import "./variable";
+// $--color-primary: #31c27c;
+$--color-primary: $primary-color;
 // $--color-primary: #C62F2F;
 
 /* 改变 icon 字体路径变量，必需 */

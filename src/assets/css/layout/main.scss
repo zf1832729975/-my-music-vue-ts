@@ -1,0 +1,7 @@
+.site-container {
+  height: 100vh;
+  overflow: hidden;
+}
+.site-container__body {
+  height: calc(100% - #{ $site-header-height + $site-footer-height });
+}

@@ -1,5 +1,5 @@
 <template>
-  <el-header class="site-header" height="50px">
+  <el-header class="site-header">
     <el-row :gutter="20" class="h-full" flex="cross:center">
       <!-- 左边区域 -->
       <el-col :span="12" flex="cross:center">
@@ -27,13 +27,22 @@
         <!-- 操作按钮 -->
         <div class="opt-btn-group">
           <!-- mini模式 -->
-          <!-- <el-button type="text" icon="el-icon-arrow-left"></el-button> -->
+          <!-- <el-button type="text" icon="el-icon-arrow-left" title="mini模式"></el-button> -->
           <!-- 最小化 -->
-          <el-button type="text" icon="el-icon-minus"></el-button>
+          <el-button
+            type="text"
+            icon="el-icon-minus"
+            title="最小化"
+          ></el-button>
           <!-- 缩放 -->
-          <el-button type="text" icon="el-icon-full-screen"></el-button>
+          <el-button
+            type="text"
+            icon="el-icon-full-screen"
+            title="最大化"
+          ></el-button>
+          <!-- <el-button type="text" icon="el-icon-full-screen" title="向下还原"></el-button> -->
           <!-- 关闭 -->
-          <el-button type="text" icon="el-icon-close"></el-button>
+          <el-button type="text" icon="el-icon-close" title="关闭"></el-button>
         </div>
       </el-col>
     </el-row>
@@ -52,54 +61,3 @@ export default class SiteHeader extends Vue {
   private logoSrc: string = require('@/assets/img/logo.jpg')
 }
 </script>
-
-<style lang="scss">
-.system-name {
-  font-size: 18px;
-  color: #fff;
-  margin: 0;
-  font-weight: 400;
-  margin-left: 10px;
-}
-.site-header {
-  // color: #fefefe;
-  color: #e0e0e0;
-  font-size: 14px;
-  padding: 0 2px 0 16px !important;
-  // 方向
-  .dir-btn-group {
-    flex-shrink: 0;
-    margin-right: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 2px;
-    .el-button {
-      padding: 2px;
-      margin: 1px 4px;
-      font-size: 14px;
-      font-weight: bold;
-      color: #fff;
-    }
-  }
-  // 操作按钮
-  .opt-btn-group {
-    display: flex;
-    align-items: center;
-    padding: 2px 4px;
-    flex-shrink: 0;
-    .el-button {
-      padding: 2px;
-      margin: 0 4px;
-      font-size: 16px;
-      color: #e0e0e0;
-      &:hover {
-        color: #fff;
-      }
-    }
-  }
-  .el-divider {
-    height: 1.2em;
-    background-color: #999;
-    margin: 0 20px;
-  }
-}
-</style>

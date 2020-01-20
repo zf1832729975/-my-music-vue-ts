@@ -1,0 +1,115 @@
+$default-color: #e0e0e0;
+
+// common
+.site-header {
+  background: $primary-color;
+  height: $site-header-height !important;
+  overflow: hidden;
+  color: $default-color;
+  font-size: 14px;
+  padding: 0 2px 0 16px !important;
+  // 头像
+  .el-avatar {
+    cursor: pointer;
+  }
+  // 按钮
+  .el-button {
+    color: $default-color;
+    padding: 2px 0;
+    margin: 0 10px;
+    font-size: 18px;
+    &:hover {
+      color: #fff;
+    }
+  }
+  // 分割线
+  .el-divider {
+    height: 1.2em;
+    background-color: #aaa;
+    margin: 0 20px;
+  }
+}
+// 系统名
+.system-name {
+  font-size: 18px;
+  color: #fff;
+  margin: 0;
+  font-weight: 400;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+// 方向 按钮
+.site-header  .dir-btn-group{
+  flex-shrink: 0;
+  margin-right: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.185);
+  border-radius: 2px;
+  .el-button {
+    padding: 2px;
+    margin: 1px 4px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+  }
+}
+
+// 搜索
+.search {
+  flex-grow: 1;
+  .el-input {
+    $height: 24px;
+    min-width: 200px;
+    max-width: 300px;
+    .el-input__inner {
+      background-color: #a82828;
+      border: none;
+      border-radius: $height;
+      color: #fff;
+      height: $height !important;
+      padding: 0 #{$height / 2};
+      padding-right: #{$height / 2 + 12px};
+    }
+    .el-input__suffix {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      margin-right: 5px;
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+}
+
+
+// 操作按钮
+.site-header  .opt-btn-group {
+  display: flex;
+  align-items: center;
+  padding: 2px 4px;
+  flex-shrink: 0;
+  .el-button {
+    padding: 2px;
+    margin: 0 4px;
+  }
+}
+// 用户信息
+.site-header .user-info {
+  // 用户名
+  .user-name {
+    cursor: pointer;
+    &:hover {
+      color: #fff;
+    }
+    .arrow-down {
+      margin-left: 5px;
+    }
+  }
+  // 邮箱的徽标
+  .el-badge__content {
+    height: 16px;
+    line-height: 16px;
+    padding: 0 4px;
+  }
+}
