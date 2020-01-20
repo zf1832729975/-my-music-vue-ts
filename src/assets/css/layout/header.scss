@@ -24,9 +24,10 @@ $default-color: #e0e0e0;
   }
   // 分割线
   .el-divider {
-    height: 1.2em;
-    background-color: #aaa;
-    margin: 0 20px;
+    height: 1.3em;
+    // background-color: #aaa;
+    background-color: rgba(0, 0, 0, 0.185);
+    margin: 0 12px;
   }
 }
 // 系统名

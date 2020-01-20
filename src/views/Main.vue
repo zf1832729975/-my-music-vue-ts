@@ -4,7 +4,9 @@
     <el-container class="site-container__body">
       <SiteAside />
       <el-main class="site-main">
-        <el-button @click="getBanner">/banner</el-button>
+        <el-scrollbar>
+          <router-view></router-view>
+        </el-scrollbar>
       </el-main>
     </el-container>
     <el-footer class="site-footer" height="70px">Footer</el-footer>

@@ -1,3 +1,8 @@
+<!-- --------------------------------------
+ * 头部用户姓名展示、注意，用户详细的的 Popver 组件不在这里做
+ * @author zhoufei
+ * @date 2020/1/20
+-------------------------------------- --->
 <template>
   <div class="user-info h-full" flex="cross:center">
     <!-- 用信息 -->
@@ -9,7 +14,7 @@
         <UserInfo />
         <p class="ml-2 user-name" slot="reference">
           {{ user.name }}
-          <i class="arrow-down el-icon-arrow-down"></i>
+          <i class="arrow-down el-icon-caret-bottom"></i>
         </p>
       </el-popover>
     </div>

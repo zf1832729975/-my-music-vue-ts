@@ -1,3 +1,8 @@
+<!-- --------------------------------------
+ * 侧边栏组件
+ * @author zhoufei
+ * @date 2020/1/20
+-------------------------------------- --->
 <template>
   <el-aside class="site-aside" width="210px">
     <el-scrollbar>

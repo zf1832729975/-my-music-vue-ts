@@ -1,3 +1,8 @@
+<!-- --------------------------------------
+ * 网站头部
+ * @author zhoufei
+ * @date 2020/1/20
+-------------------------------------- --->
 <template>
   <el-header class="site-header">
     <el-row :gutter="20" class="h-full" flex="cross:center">

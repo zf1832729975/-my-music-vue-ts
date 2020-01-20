@@ -1,0 +1,37 @@
+.home {
+  padding: 5px 30px 30px;
+}
+
+// tabs
+.home {
+  // .el-tabs,
+  .el-tabs__header {
+    margin-bottom: 20px;
+  }
+  .el-tab-pane {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  // 标签
+  .el-tabs__item {
+    padding: 0px 10px;
+    width: 80px;
+    text-align: center;
+    font-size: 16px;
+  }
+  .el-tabs__nav-scroll {
+    display: flex;
+    justify-content: center
+  }
+  .is-scrollable .el-tabs__nav-scroll {
+    display: block;
+  }
+}
+
+// 走马灯
+.home{
+    // 激活
+    .el-carousel__indicator.is-active button {
+      background-color: $primary-color;
+    }
+}

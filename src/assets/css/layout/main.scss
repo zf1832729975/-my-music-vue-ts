@@ -5,3 +5,10 @@
 .site-container__body {
   height: calc(100% - #{ $site-header-height + $site-footer-height });
 }
+
+.el-main.site-main {
+  padding: 0;
+}
+.site-main {
+  background-color: #FAFAFA;
+}

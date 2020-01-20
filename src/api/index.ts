@@ -5,6 +5,9 @@ export function login(phone: number | string, password: string) {
   return http.get('/login/cellphone?phone=' + phone + '&password=' + password)
 }
 
+/**
+ * 获取 banner
+ */
 export function banner() {
   return http.get('/banner')
 }
