@@ -1,0 +1,105 @@
+<%
+/* // chunks 示例（生产环境）
+chunks = {
+  "chunk-vendors": { 
+    size: 2186564, entry: "/js/chunk-vendors.4a66b167.js", hash: "d63b17ea4e1109392285", css: []
+  },
+  app: { 
+    size: 52875, entry: "/js/app.8c9d2182.js", hash: "5767db9a60f87f277577", css: ["/css/app.d4a6b4ed.css"]
+  },
+  red: {
+    size: 441228, entry: "/js/red.0c3b9afc.js", hash: "87c353d0828b012887ae", css: ["/css/red.ed2cf700.css"]
+  }
+}
+*/
+  var chunks = htmlWebpackPlugin.files.chunks
+  var themes = {}
+  var notThemeEntries = ['app', 'compat', 'chunk-vendors']; // 不是主题的那些entry
+  for (var theme in chunks) {
+    if (!notThemeEntries.includes(theme)) {
+      themes[theme] = chunks[theme].css[0]
+    }
+  }
+%>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel=icon href=favicon.ico type="image/x-icon" />
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <title>我的云音乐</title>
+
+  <!-- 判断兼容性、是否支持vue -->
+  <script>
+    try {
+      Object.defineProperty({}, "k", {});
+    } catch (e) {
+      location = './no-compat.html';
+    }
+    var DEFAULT_VERSION = 8.0;
+    var ua = navigator.userAgent.toLowerCase();
+    var isIE = ua.indexOf("msie") > -1;
+    var safariVersion;
+    if (isIE) {
+      safariVersion = ua.match(/msie ([\d.]+)/)[1];
+    }
+    if (safariVersion <= DEFAULT_VERSION) {
+      location = './no-compat.html';
+    };
+  </script>
+
+  <!-- 写在vue组件中的样式 -->
+  <link rel="stylesheet" href="<%= chunks['app'].css[0] %>">
+  <% if (chunks['chunk-vendors'] && chunks['chunk-vendors'].css[0]) { %>
+  <link rel="stylesheet" href="<%= chunks['chunk-vendors'].css[0] %>">
+  <% } %>
+
+  <!-- 主题 -->
+  <link id="_theme_link" rel="stylesheet" href="">
+
+  <!-- 主题文件 -->
+  <script>
+    var themes = <%= JSON.stringify(themes) %>;
+    var chunks = <%= JSON.stringify(chunks) %>;
+    var currentTheme = ''
+    window.changeTheme = function (theme) {
+      var link = document.getElementById('_theme_link')
+      var style = themes[theme]
+      if (style) {
+        currentTheme = theme
+        link.setAttribute('href', style)
+        localStorage.setItem('_theme_name', theme)
+      } else {
+        throw new Error('没有找到主题样式')
+      }
+    }
+
+    window.onload = function () {
+      currentTheme = localStorage.getItem('_theme_name')
+      if (!currentTheme) {
+        for (var name in themes) {
+          currentTheme = name
+          break
+        }
+      }
+      changeTheme(currentTheme)
+    }
+
+  </script>
+
+</head>
+
+<body>
+  <noscript>
+    <strong>你的流量器不支持脚本，或你的流量器禁用了脚本</strong>
+  </noscript>
+  <div id="app"></div>
+
+  <script src="<%= chunks['app'].entry %>"></script>
+  <script src="<%= chunks['chunk-vendors'].entry %>"></script>
+</body>
+
+</html>

@@ -9,10 +9,10 @@
       <!-- 左边区域 -->
       <el-col :span="12" flex="cross:center">
         <!-- logo  -->
-        <div flex="crosss:center" style="min-width:150px">
+        <router-link to="/" flex="crosss:center" style="min-width:150px">
           <el-avatar :size="22" :src="logoSrc"></el-avatar>
           <h1 class="system-name">网易云音乐</h1>
-        </div>
+        </router-link>
 
         <!-- 按钮 -->
         <div class="dir-btn-group">

@@ -26,7 +26,9 @@
       <el-button type="text" icon="el-icon-ice-cream"></el-button>
     </el-badge>
     <!-- 设置 -->
-    <el-button type="text" class="el-icon-setting" title="设置"></el-button>
+    <router-link to="/setting">
+      <el-button type="text" class="el-icon-setting" title="设置"></el-button>
+    </router-link>
   </div>
 </template>
 

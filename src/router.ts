@@ -26,6 +26,11 @@ export default new Router({
           path: '/home',
           name: 'home',
           component: Home
+        },
+        {
+          path: '/setting',
+          name: 'setting',
+          component: () => import('@/views/setting/index.vue')
         }
       ]
     }
