@@ -1,21 +1,17 @@
 <!-- --------------------------------------
- * 模板文件
+ * 个性推荐==>推荐歌单
  * @author zhoufei
- * @date 2020/1/22
+ * @date 2020/1/20
 -------------------------------------- --->
 <template>
-  <div>模板文件</div>
+  <div>个性推荐==>推荐歌单</div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
-  components: {
-
-  }
+  components: {}
 })
-export default class Template extends Vue {
-
-}
+export default class RecommendSongList extends Vue {}
 </script>

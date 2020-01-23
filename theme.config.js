@@ -46,6 +46,7 @@ function _getThemeConfig(themeName, fileName) {
   }
 }
 
+// themes
 if (process.env.NODE_ENV === 'production') {
   // 生产环境
   const arr = (process.env.THEMES || defaultTheme).split(',')

@@ -27,20 +27,5 @@ import SiteAside from '@/components/SiteAside/index.vue'
     SiteAside
   }
 })
-export default class Home extends Vue {
-  created() {
-    this.getBanner()
-  }
-
-  getBanner() {
-    // @ts-ignore
-    this.$http('/banner').then(res => {
-      console.log(' res: ', res)
-    })
-
-    personalized().then(res => {
-      console.log('推荐歌单 res: ', res)
-    })
-  }
-}
+export default class Home extends Vue {}
 </script>

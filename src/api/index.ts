@@ -1,15 +1,10 @@
 import http from '@/utils/http'
 
+export * from './module/discover'
+
 // 手机登录
 export function login(phone: number | string, password: string) {
   return http.get('/login/cellphone?phone=' + phone + '&password=' + password)
-}
-
-/**
- * 获取 banner
- */
-export function banner() {
-  return http.get('/banner')
 }
 
 // 获取推荐歌单
