@@ -17,6 +17,7 @@ const mainRoutes = [
     path: '/',
     name: 'home',
     component: _import('discover'),
+    redirect: { name: 'homeRecommend' },
     children: [
       {
         path: '',

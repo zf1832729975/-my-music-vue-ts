@@ -14,10 +14,12 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
+    console.log(' config: ', config)
     // config.headers['Accept'] = 'application/json'
     return config
   },
   error => {
+    console.log('111 error: ', error)
     Promise.reject(error)
   }
 )
@@ -25,6 +27,7 @@ service.interceptors.request.use(
 // respone拦截器
 service.interceptors.response.use(
   response => {
+    console.log(' response: ', response)
     if (response.data.code !== 200) {
       switch (response.data.code) {
         case 401: // 用户未登录
@@ -52,6 +55,7 @@ service.interceptors.response.use(
     }
   },
   error => {
+    console.log('22222 error: ', error)
     if (error.response) {
       const res = error.response.data
 

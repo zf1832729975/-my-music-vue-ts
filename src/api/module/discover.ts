@@ -6,9 +6,16 @@ import http from '@/utils/http'
 
 /**
  * 获取 banner
+ * @params {} type:资源类型,对应以下类型,默认为 0 即PC
+ * 0: pc
+1: android
+
+2: iphone
+
+3: ipad
  */
-export function banner() {
-  return http.get('/banner')
+export function banner(type: number = 0) {
+  return http.get(`/banner?type=${type}`)
 }
 
 /**

@@ -36,18 +36,23 @@
           <!-- 最小化 -->
           <el-button
             type="text"
-            icon="el-icon-minus"
+            icon="icon-zuixiaohua"
             title="最小化"
           ></el-button>
           <!-- 缩放 -->
           <el-button
             type="text"
-            icon="el-icon-full-screen"
-            title="最大化"
+            icon="icon-zuidahua"
+            title="向下还原"
           ></el-button>
+          <!-- <el-button
+            type="text"
+            icon="icon-zuidahua"
+            title="最大化"
+          ></el-button> -->
           <!-- <el-button type="text" icon="el-icon-full-screen" title="向下还原"></el-button> -->
           <!-- 关闭 -->
-          <el-button type="text" icon="el-icon-close" title="关闭"></el-button>
+          <el-button type="text" icon="icon-close" title="关闭"></el-button>
         </div>
       </el-col>
     </el-row>

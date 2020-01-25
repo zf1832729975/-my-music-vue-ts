@@ -20,14 +20,14 @@
     </div>
     <el-button type="text" style="font-size:14px;">开通VIP</el-button>
     <!-- 皮肤 -->
-    <el-button class="el-icon-star-off" type="text"></el-button>
+    <el-button class="icon-pifu" type="text"></el-button>
     <!-- 邮箱 -->
     <el-badge :value="2" type="warning">
-      <el-button type="text" icon="el-icon-ice-cream"></el-button>
+      <el-button type="text" icon="icon-youxiang"></el-button>
     </el-badge>
     <!-- 设置 -->
     <router-link to="/setting">
-      <el-button type="text" class="el-icon-setting" title="设置"></el-button>
+      <el-button type="text" class="icon-setting" title="设置"></el-button>
     </router-link>
   </div>
 </template>

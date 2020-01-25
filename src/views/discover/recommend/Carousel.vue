@@ -11,6 +11,7 @@
     height="250px"
     v-loading="loading"
     element-loading-text="拼命加载中"
+    element-loading-spinner="icon-loading big"
     element-loading-background="rgba(0, 0, 0, 0)"
   >
     <el-carousel-item
@@ -47,6 +48,9 @@ export default class Carousel extends Vue {
         console.log('获取 banner 列表 res: ', res)
         // @ts-ignore
         this.list = res.banners
+      })
+      .catch(err => {
+        console.log(' err: ', err)
       })
       .finally(() => {
         this.loading = false

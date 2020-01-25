@@ -8,10 +8,10 @@
     <div class="more-view">
       <div class="more-view__content">
         <h3 class="more-view__title">{{ title }}</h3>
-        <div class="more-btn">
+        <router-link :to="url" class="more-btn">
           <span>更多</span>
           <i class="el-icon-arrow-right"></i>
-        </div>
+        </router-link>
       </div>
       <el-divider></el-divider>
     </div>
@@ -25,6 +25,9 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({
   components: {},
   props: {
+    url: {
+      type: String // 跳转地址
+    },
     title: {
       type: String
       // required: true
