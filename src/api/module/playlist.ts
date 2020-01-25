@@ -5,7 +5,7 @@
 import http from '@/utils/http'
 
 /**
- * @description 歌单分类
+ * 歌单分类
  */
 export function getPlaylistCatlist() {
   return http.get('/playlist/catlist')

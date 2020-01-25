@@ -16,8 +16,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-import { personalized } from '@/api'
-
 import SiteHeader from '@/components/SiteHeader/index.vue'
 import SiteAside from '@/components/SiteAside/index.vue'
 

@@ -14,7 +14,10 @@
         </el-image>
 
         <!-- 播放量 -->
-        <p class="play-count">{{ item.playCount }}</p>
+        <p class="play-count">
+          <i class="icon-erji1 iconfont"></i>
+          <span class="text">{{ item.playCount }}</span>
+        </p>
         <p class="copy-writer">{{ item.copywriter }}</p>
 
         <!-- 播放按钮 -->
@@ -71,7 +74,7 @@ export default class RecommendSongList extends Vue {
 <style lang="scss">
 $space: 10px;
 .playlist {
-  margin: 0 -$space;
+  margin: 0 #{-$space};
 }
 .playlist-item {
   position: relative;
@@ -112,6 +115,14 @@ $space: 10px;
     text-align: right;
     padding-right: 4px;
     background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7));
+    .iconfont {
+      font-size: 12px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    .text {
+      vertical-align: middle;
+    }
   }
 
   .copy-writer {
