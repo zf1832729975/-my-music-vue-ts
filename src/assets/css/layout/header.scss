@@ -11,6 +11,7 @@ $default-color: #e0e0e0;
   // 头像
   .el-avatar {
     cursor: pointer;
+    -webkit-app-region: no-drag;
   }
   // 按钮
   .el-button {
@@ -18,12 +19,14 @@ $default-color: #e0e0e0;
     padding: 2px 0;
     margin: 0 10px;
     font-size: 18px;
+    -webkit-app-region: no-drag;
     &:hover {
       color: #fff;
     }
   }
   // 分割线
   .el-divider {
+    -webkit-app-region: no-drag;
     height: 1.3em;
     // background-color: #aaa;
     background-color: rgba(0, 0, 0, 0.185);
@@ -42,6 +45,7 @@ $default-color: #e0e0e0;
 
 // 方向 按钮
 .site-header  .dir-btn-group{
+  -webkit-app-region: no-drag;
   flex-shrink: 0;
   margin-right: 15px;
   border: 1px solid rgba(0, 0, 0, 0.185);

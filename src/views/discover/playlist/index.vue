@@ -5,6 +5,7 @@
 -------------------------------------- --->
 <template>
   <div class="playlist">
+    <!-- 筛选 -->
     <el-popover
       placement="right-start"
       popper-class="select-playlist-popover"
@@ -22,7 +23,7 @@
           <div class="body">
             <div class="all-playlist">全部歌单</div>
             <el-row
-              :gutter="20"
+              :gutter="0"
               v-for="(catArr, key) in listObj"
               :key="key"
               class="categories-item"
@@ -50,12 +51,21 @@
         </el-scrollbar>
       </div>
     </el-popover>
+
+    <!-- 热门标签 -->
+    <p class="hot-tags">
+      热门标签:&nbsp;&nbsp;
+      <span class="hot-tag-item" v-for="item in hotTags" :key="item.id">
+        {{ item.name }}
+        <el-divider direction="vertical"></el-divider>
+      </span>
+    </p>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getPlaylistCatlist } from '@/api'
+import { getPlaylistCatlist, getPlaylistHot } from '@/api'
 
 @Component({
   components: {}
@@ -65,10 +75,13 @@ export default class PlayList extends Vue {
   private categories: Object = {}
   /** 整理好的数据列表 */
   private listObj: Array<Object> = []
+  /** 热门标签 */
+  private hotTags: Array<Object> = []
   /** 激活的id */
   private activeId: number = 0
   created() {
     this.getPlaylistCatlist()
+    this.getPlaylistHot()
   }
 
   /** 获取歌单分类 */
@@ -89,8 +102,15 @@ export default class PlayList extends Vue {
         // @ts-ignore
         obj[item.category].push(item)
       })
+    })
+  }
 
-      console.log(' obj: ', obj)
+  /** 获取热门歌单分类 */
+  getPlaylistHot() {
+    getPlaylistHot().then(res => {
+      // console.log('获取热门歌单分类 res: ', res)
+      // @ts-ignore
+      this.hotTags = res.tags
     })
   }
 }

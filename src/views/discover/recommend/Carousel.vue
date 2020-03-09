@@ -4,24 +4,26 @@
  * @date 2020/1/20
 -------------------------------------- --->
 <template>
-  <el-carousel
-    indicator-position="outside"
-    :interval="10000"
-    type="card"
-    height="250px"
-    v-loading="loading"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="icon-loading big"
-    element-loading-background="rgba(0, 0, 0, 0)"
-  >
-    <el-carousel-item
-      v-for="item in list"
-      :key="item.id"
-      @click.native="$router.push(item.url)"
+  <div>
+    <NetworkError v-if="loadError" />
+    <el-carousel
+      v-else
+      indicator-position="outside"
+      :interval="10000"
+      type="card"
+      height="250px"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="icon-loading big"
+      element-loading-background="rgba(0, 0, 0, 0)"
     >
-      <el-image :src="item.picUrl" fit="fill"></el-image>
-    </el-carousel-item>
-  </el-carousel>
+      <el-carousel-item v-for="item in list" :key="item.id">
+        <router-link :to="item.url">
+          <el-image :src="item.picUrl" fit="fill"></el-image>
+        </router-link>
+      </el-carousel-item>
+    </el-carousel>
+  </div>
 </template>
 
 <script lang="ts">
@@ -34,6 +36,8 @@ import { banner } from '@/api/index'
 export default class Carousel extends Vue {
   /** banner列表 */
   private list: Array<any> = []
+  /** 加载错误 */
+  private loadError: boolean = false
   /** 是否加载中 */
   private loading: boolean = false
   created() {
@@ -45,11 +49,12 @@ export default class Carousel extends Vue {
     this.loading = true
     banner()
       .then(res => {
+        this.loadError = false
         console.log('获取 banner 列表 res: ', res)
-        // @ts-ignore
         this.list = res.banners
       })
       .catch(err => {
+        this.loadError = true
         console.log(' err: ', err)
       })
       .finally(() => {

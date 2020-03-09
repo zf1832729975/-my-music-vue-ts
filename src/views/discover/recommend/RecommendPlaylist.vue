@@ -8,27 +8,31 @@
     <li class="playlist-item" v-for="item in list" :key="item.id">
       <!-- 顶部图片区域部分 -->
       <div class="body" @click="handleClick(item)">
-        <!-- 图片 -->
-        <el-image :src="item.picUrl" fit="fit">
-          <img slot="placeholder" :src="placeholderImage" />
-        </el-image>
+        <router-link :to="`/playlist?id=${item.id}`">
+          <!-- 图片 -->
+          <el-image :src="item.picUrl" fit="fit">
+            <img slot="placeholder" :src="placeholderImage" />
+          </el-image>
 
-        <!-- 播放量 -->
-        <p class="play-count">
-          <i class="icon-erji1 iconfont"></i>
-          <span class="text">{{ item.playCount }}</span>
-        </p>
-        <p class="copy-writer">{{ item.copywriter }}</p>
+          <!-- 播放量 -->
+          <p class="play-count">
+            <i class="icon-erji1 iconfont"></i>
+            <span class="text">{{ item.playCount }}</span>
+          </p>
+          <p class="copy-writer">{{ item.copywriter }}</p>
+        </router-link>
 
         <!-- 播放按钮 -->
         <el-button
-          icon="icon-bofang2 iconfont"
+          icon="icon-bofang2 iconfont play-button"
           type="text"
           @click.stop="handlePlayClick(item)"
         ></el-button>
       </div>
       <!-- 底部文字部分 -->
-      <p class="footer-name" @click="handleClick(item)">{{ item.name }}</p>
+      <router-link class="footer-name" :to="`/playlist?id=${item.id}`">{{
+        item.name
+      }}</router-link>
     </li>
   </ul>
 </template>
@@ -96,6 +100,9 @@ $space: 10px;
       .copy-writer {
         top: 0px;
       }
+      .play-button {
+        display: block;
+      }
     }
   }
   .el-image,
@@ -124,7 +131,6 @@ $space: 10px;
       vertical-align: middle;
     }
   }
-
   .copy-writer {
     position: absolute;
     top: -50px;
@@ -138,9 +144,13 @@ $space: 10px;
   .footer-name {
     cursor: pointer;
     line-height: 1.4;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
-  .el-button {
+  .play-button {
+    display: none;
     position: absolute;
     right: 6px;
     bottom: 6px;
@@ -149,9 +159,8 @@ $space: 10px;
     overflow: hidden;
     color: #fff;
     background: rgba($color: #000000, $alpha: 0.3);
-    .iconfont {
-      font-size: 18px;
-    }
+    font-size: 20px;
+    transition: all 0.3s;
   }
 }
 </style>

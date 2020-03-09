@@ -1,5 +1,5 @@
 <template>
-  <el-container class="site-container">
+  <el-container class="site-container is-vertical">
     <SiteHeader />
     <el-container class="site-container__body">
       <SiteAside />
@@ -9,7 +9,7 @@
         </el-scrollbar>
       </el-main>
     </el-container>
-    <el-footer class="site-footer" height="70px">Footer</el-footer>
+    <SiteFooter />
   </el-container>
 </template>
 
@@ -18,11 +18,13 @@ import { Component, Vue } from 'vue-property-decorator'
 
 import SiteHeader from '@/components/SiteHeader/index.vue'
 import SiteAside from '@/components/SiteAside/index.vue'
+import SiteFooter from '@/components/SiteFooter'
 
 @Component({
   components: {
     SiteHeader,
-    SiteAside
+    SiteAside,
+    SiteFooter
   }
 })
 export default class Home extends Vue {}

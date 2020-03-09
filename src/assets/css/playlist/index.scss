@@ -59,8 +59,9 @@ $border-color: #e1e1e2;
   }
 
   .playlist-item {
-    padding: 6px;
-    width: 87px;
+    padding: 8px 0;
+    font-size: 13px;
+    width: 88px;
     // width: 20%;
     text-align: center;
     position: relative;
@@ -130,5 +131,20 @@ $border-color: #e1e1e2;
         transform: scale(0.8);
       }
     }
+  }
+}
+
+// 热门标签
+.hot-tags {
+  margin: 5px 0;
+  .hot-tag-item {
+    cursor: pointer;
+    color: #777;
+    &:hover {
+      color: #000;
+    }
+  }
+  .hot-tag-item:last-child .el-divider {
+    display: none;
   }
 }

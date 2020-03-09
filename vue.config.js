@@ -1,5 +1,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const themesEntry = require('./theme.config')
+const webpack = require('webpack')
+
+console.log(' process.env.IS_WEB: ', process.env.IS_WEB)
 
 module.exports = {
   baseUrl: process.env.NODE_ENV === 'production' ? './' : '/', // 部署应用包时的基本 URL
@@ -34,7 +37,13 @@ module.exports = {
             filename: 'index.html',
             template: './public/dev.html',
             inject: true
-          })
+          }),
+
+      new webpack.DefinePlugin({
+        '$process': JSON.stringify({
+          IS_WEB: !!process.env.IS_WEB
+        })
+      })
     ]
   },
 

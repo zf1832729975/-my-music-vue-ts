@@ -21,3 +21,17 @@ export function banner(type: number = 0) {
 /**
  * 获取歌单
  */
+
+/**
+ * 独家放送
+ */
+export function getPrivateContent() {
+  return http.get('/personalized/privatecontent')
+}
+
+/**
+ * 获取最新专辑
+ */
+export function getAlbumNewest() {
+  return http.get('/album/newest')
+}

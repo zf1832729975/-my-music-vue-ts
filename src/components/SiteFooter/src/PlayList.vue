@@ -11,11 +11,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
-  components: {
-
-  }
+  components: {}
 })
-export default class Template extends Vue {
-
-}
+export default class Template extends Vue {}
 </script>

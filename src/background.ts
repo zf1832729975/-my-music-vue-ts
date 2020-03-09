@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import {
   createProtocol,
   installVueDevtools
@@ -26,17 +26,23 @@ protocol.registerSchemesAsPrivileged([
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    // width: 800,
+    width: 1200,
+    // height: 600,
+    height: 800,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    minHeight: 556,
+    minWidth: 936,
+    useContentSize: true,
+    frame: false // 无边窗口
   })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
+    // if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
@@ -99,3 +105,22 @@ if (isDevelopment) {
     })
   }
 }
+// close
+ipcMain.on('close', e => {
+  win && win.close()
+})
+
+// 最小化
+ipcMain.on('minimize', e => {
+  win && win.minimize()
+})
+
+// 最大化
+ipcMain.on('maximize', e => {
+  if (!win) return
+  if (win.isMaximized()) {
+    win.restore()
+  } else {
+    win.maximize()
+  }
+})

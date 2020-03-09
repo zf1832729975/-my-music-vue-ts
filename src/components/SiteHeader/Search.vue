@@ -4,7 +4,7 @@
  * @date 2020/1/20
 -------------------------------------- --->
 <template>
-  <div class="search">
+  <div class="search no-drag">
     <el-input
       size="mini"
       v-model="formData.keywords"
