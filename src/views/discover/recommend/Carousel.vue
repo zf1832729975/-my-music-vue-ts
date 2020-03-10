@@ -51,6 +51,7 @@ export default class Carousel extends Vue {
       .then(res => {
         this.loadError = false
         console.log('获取 banner 列表 res: ', res)
+        // @ts-ignore
         this.list = res.banners
       })
       .catch(err => {

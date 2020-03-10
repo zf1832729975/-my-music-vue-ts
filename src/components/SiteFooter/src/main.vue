@@ -6,7 +6,7 @@
 <template>
   <el-footer class="site-footer" height="70px" flex="cross:center">
     <!-- 播放按钮组 -->
-    <div class="play-btn-group">
+    <div class="play-btn-group" flex-box="0">
       <el-button type="text" icon="icon-shangyishou1"> </el-button>
       <el-button type="text" icon="icon-bofang"> </el-button>
       <el-button type="text" icon="icon-xiayishou1"> </el-button>
@@ -31,7 +31,7 @@
         class="progress-bar"
         v-model="palyTime"
         :max="120"
-        style="width:200px;"
+        style="width:100px;"
         flex-box="1"
       >
       </el-slider>
@@ -76,30 +76,43 @@
       <el-button type="text" class="border">
         词
       </el-button>
-      <el-popover placement="top">
-        <div>
-          <p>测试</p>
-          <p>测试</p>
-          <p>测试</p>
-          <p>测试</p>
-          <p>测试</p>
-          <p>测试</p>
-          <p>测试</p>
-          <p>测试</p>
-          <p>测试</p>
-        </div>
+      <!-- 播放列表 -->
+      <el-popover
+        placement="top"
+        popper-class="palylist-popper"
+        :visible-arrow="false"
+      >
+        <PlayListHistory />
         <el-button type="text" icon="icon-yinleliebiao" slot="reference">
         </el-button>
       </el-popover>
     </div>
   </el-footer>
 </template>
-
+<style>
+.el-popover.palylist-popper {
+  width: 500px;
+  padding: 0 !important;
+  top: 150px !important;
+  left: auto !important;
+  bottom: 50px;
+  right: 0 !important;
+  margin: 0 !important;
+  border-right: none !important;
+  border-bottom: none !important;
+  /* box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); */
+  box-shadow: -10px -10px 12px 0 rgba(0, 0, 0, 0.1) !important;
+  /* box-shadow: h-shadow v-shadow blur spread color inset; */
+}
+</style>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import PlayListHistory from './PlayListHistory.vue'
 
 @Component({
-  components: {}
+  components: {
+    PlayListHistory
+  }
 })
 export default class Footer extends Vue {
   private palyTime: number = 0

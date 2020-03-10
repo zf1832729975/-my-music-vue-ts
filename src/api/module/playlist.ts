@@ -27,3 +27,10 @@ export function getPlaylistHot() {
 export function getPersonalized(limit: number = 30) {
   return http.get(`/personalized?limit=${limit}`)
 }
+
+/**
+ * 获取歌单详情
+ */
+export function getPlaylistDetail(id: number) {
+  return http.get(`/playlist/detail?id=${id}`)
+}

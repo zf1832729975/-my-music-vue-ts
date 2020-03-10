@@ -1,11 +1,11 @@
-
 // reset
 body {
   padding: 0;
   margin: 0;
   -webkit-user-select: none; /*禁止用户选择*/
   // font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-  font-family: "微软雅黑","Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+  font-family: '微软雅黑', 'Helvetica Neue', Helvetica, 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
   color: #2c3e50;
   // font-size: 14px;
   font-size: 13px;
@@ -19,22 +19,27 @@ ul {
   box-sizing: border-box;
 }
 
-ul,li {
+ul,
+li {
   list-style: none;
 }
 a {
   text-decoration: none;
   color: inherit;
 }
-h1,p {
+h1,
+p {
   margin: 0;
 }
 //  scrollbar
 .el-scrollbar {
   height: 100%;
 }
-.el-scrollbar__wrap {
-  overflow-x: hidden;
+body {
+  .el-scrollbar__view,
+  .el-scrollbar__wrap {
+    overflow-x: hidden;
+  }
 }
 
 /* global
@@ -45,8 +50,17 @@ h1,p {
 .no-drag {
   -webkit-app-region: no-drag;
 }
+.db {
+  display: block;
+}
+.di {
+  display: inline;
+}
+.dib {
+  display: inline-block;
+}
 
-.fl{
+.fl {
   float: left;
 }
 .fr {
@@ -76,6 +90,12 @@ h1,p {
   height: 100% !important;
 }
 
+.text-ellipsis {
+  white-space: nowrap;
+  display: block;
+  text-overflow: ellipsis;
+}
+
 @mixin margin1($dir) {
   @if $dir {
     margin-#{ $dir }: 0.25rem !important;
@@ -90,7 +110,7 @@ h1,p {
 .ml-1 {
   @include margin1(left);
 }
-.mr-1{
+.mr-1 {
   @include margin1(right);
 }
 .mt-1 {
@@ -111,4 +131,8 @@ h1,p {
 }
 .mt-2 {
   @include margin2(bottom);
+}
+
+.text-gray {
+  color: gray;
 }
