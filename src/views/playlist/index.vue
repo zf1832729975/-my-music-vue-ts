@@ -101,10 +101,10 @@
           </el-table-column>
 
           <el-table-column label="操作" width="80px" :resizable="false">
-            <template slot-scope="">
+            <template>
               <el-button type="text" icon="icon-xihuan"></el-button>
-              <el-button type="text" icon="icon-xiazai"></el-button> </template
-            >type="text"
+              <el-button type="text" icon="icon-xiazai"></el-button>
+            </template>
           </el-table-column>
           <el-table-column
             label="音乐标题"
