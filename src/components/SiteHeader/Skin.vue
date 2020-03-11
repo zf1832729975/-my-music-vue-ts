@@ -191,7 +191,6 @@ export default class Skin extends Vue {
         background-color: #cd2929;
         color: #fff;
         font-size: 14px;
-        vertical-align: middle;
       }
     }
   }
@@ -201,10 +200,6 @@ export default class Skin extends Vue {
     height: 100%;
     cursor: pointer;
     // padding: 6px;
-    &:hover {
-      // padding: 4px;
-      // border: 1px solid;
-    }
   }
   .theme-title {
     width: 100%;
