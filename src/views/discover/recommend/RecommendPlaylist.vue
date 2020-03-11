@@ -43,33 +43,30 @@ import { getPersonalized } from '@/api'
 // @ts-ignore
 import placeholderImage from '@/assets/img/placeholder.jpg'
 
-@Component({
-  components: {}
-})
+@Component({})
 export default class RecommendSongList extends Vue {
-  /** 占位图片 */
   private placeholderImage: string = placeholderImage
-  /** 推荐歌单列表 */
   private list: Array<Object> = []
+
   created() {
     this.getPersonalized()
   }
+
   /** 获取推荐歌单 */
-  getPersonalized() {
-    getPersonalized(30).then(res => {
-      console.log('推荐歌单 res: ', res)
-      // @ts-ignore
-      this.list = res.result
-    })
+  private async getPersonalized(): Promise<void> {
+    const res = await getPersonalized(30)
+
+    console.log('推荐歌单 res: ', res)
+    // @ts-ignore
+    this.list = res.result
   }
 
-  /**  */
-  handleClick(item: object) {
+  private handleClick(item: object) {
     // @ts-ignore
     this.$router.push(`/playlist?id=${item.id}`)
   }
 
-  handlePlayClick(item: object) {
+  private handlePlayClick(item: object) {
     console.log(' item: ', item)
   }
 }

@@ -24,21 +24,21 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { getPrivateContent } from '@/api'
 
-@Component({
-  components: {}
-})
+@Component({})
 export default class PrivateContent extends Vue {
   private list: Array<Object> = []
+
   created() {
     this.getPrivateContent()
   }
+
   /** 获取独家放送 */
-  getPrivateContent() {
-    getPrivateContent().then(res => {
-      console.log('获取独家放送 res: ', res)
-      // @ts-ignore
-      this.list = res.result
-    })
+  private async getPrivateContent(): Promise<void> {
+    const res = await getPrivateContent()
+
+    console.log('获取独家放送 res: ', res)
+    // @ts-ignore
+    this.list = res.result
   }
 }
 </script>

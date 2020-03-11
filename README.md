@@ -1,40 +1,50 @@
 # music-vue-ts--2
 
-> Typescript + vue + axios + vuex + sass 
+> Typescript + vue + axios + vuex + sass
 
 ## Project setup
+
 ```
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 yarn serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 yarn build
 ```
 
 ### Lints and fixes files
+
 ```
 yarn lint
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-
 ## electron 中安装的包
+
 > yarn add -S express apicache crypto big-integer
 
 ## 代码规范、提交
+
 > 不要分号，使用单引号，函数定义时括号前面不要空格
-> 必须符合eslint规范才能提交、和standard规范差不多
+> 必须符合 eslint 规范才能提交、和 standard 规范差不多
 > prettier husky lint-staged eslint
 
 ## 项目结构
+
+> playlist 歌单
+> playList 播放列表
+
 ```
 |--_vue-ts-template 模板文件
   |--index.vue Vue模板文件（typescript）
@@ -64,7 +74,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
           |--recommend 发现音乐==>推荐
           |--toplist    发现音乐==>排行榜
       |--mv MV视频页面
-      |--playlist 播放列表页面
+      |--playlist 歌单详情页面
       |--song 歌曲页面、歌曲的详情
   |--App.vue
   |--background.ts electron.js 运行文件

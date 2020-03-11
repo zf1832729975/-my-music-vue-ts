@@ -30,6 +30,18 @@
   </el-container>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component({
+  components: {}
+})
+export default class PlayListHistory extends Vue {
+  /** 播放列表 */
+  private playList: Array<Object> = []
+}
+</script>
+
 <style lang="scss">
 .playlist-histroy {
   background: #f9f9f9;
@@ -46,15 +58,3 @@
   }
 }
 </style>
-
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-
-@Component({
-  components: {}
-})
-export default class PlayListHistory extends Vue {
-  /** 播放列表 */
-  private playlist: Array<Object> = []
-}
-</script>

@@ -8,14 +8,15 @@ module.exports = {
     parser: '@typescript-eslint/parser'
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    // 'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 
     // 分号不错误
     // https://eslint.org/docs/user-guide/configuring
     // 'semi': 0, //语句强制分号结尾
-    'semi': [2, 'never'], // 语句强制分号结尾
-    'quotes': [2, 'single'], // 引号类型 `` "" ''
+    semi: [2, 'never'], // 语句强制分号结尾
+    quotes: [2, 'single'], // 引号类型 `` "" ''
     yoda: 'off',
     // allow async-await
     'generator-star-spacing': 'off', // 生成器函数*的前后空格

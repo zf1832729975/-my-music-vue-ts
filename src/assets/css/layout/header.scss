@@ -44,7 +44,7 @@ $default-color: #e0e0e0;
 }
 
 // 方向 按钮
-.site-header  .dir-btn-group{
+.site-header .dir-btn-group {
   -webkit-app-region: no-drag;
   flex-shrink: 0;
   margin-right: 15px;
@@ -89,9 +89,8 @@ $default-color: #e0e0e0;
   }
 }
 
-
 // 操作按钮
-.site-header  .opt-btn-group {
+.site-header .opt-btn-group {
   display: flex;
   align-items: center;
   padding: 2px 4px;
@@ -115,8 +114,15 @@ $default-color: #e0e0e0;
   }
   // 邮箱的徽标
   .el-badge__content {
+    margin-right: 5px;
+    $color: mix($primary-color, #000000, 90%);
     height: 16px;
     line-height: 16px;
+    display: flex;
+    align-items: center;
     padding: 0 4px;
+    background-color: #fff;
+    color: $color;
+    border-color: $color;
   }
 }

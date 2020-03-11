@@ -102,7 +102,7 @@ chunks = {
         window.$theme = theme
         return true
       } else {
-        throw new Error('没有找到主题样式')
+        throw new Error('没有找到主题样式:', theme)
       }
     }
 

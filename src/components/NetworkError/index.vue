@@ -11,18 +11,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component({
-  components: {},
-  props: {
-    message: {
-      type: String,
-      default: '网络不给力哦，请检查你的网络设置-'
-    }
-  }
+  components: {}
 })
-export default class NetworkError extends Vue {}
+export default class NetworkError extends Vue {
+  @Prop({ default: '网络不给力哦，请检查你的网络设置-' }) message!: string
+}
 </script>
 
 <style lang="scss">

@@ -72,34 +72,18 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { Theme } from '@/types'
 // @ts-ignore
 import themeConfig from '@/assets/themes/config'
 
-interface IthemeConfig {
-  name: string
-  title: string
-  backgroundImage: string
-  themeColor: string
-}
-
 @Component({
-  components: {},
-  computed: {
-    currentThemeConfig: {
-      get() {
-        return this.$store.state.currentThemeConfig
-      },
-      set(val) {
-        this.$store.commit('UPDAE_currentThemeConfig', val)
-      }
-    }
-  }
+  components: {}
 })
 export default class Skin extends Vue {
-  // theme
+  /** 主题 */
   private themes: object = themeConfig
   /** custom 列表 */
-  private customColorList = [
+  private customColorList: Array<string> = [
     '#FF5C8A',
     '#FF7A9E',
     '#FE76C8',
@@ -114,14 +98,22 @@ export default class Skin extends Vue {
     '#FD544E'
   ]
   /** 自定义颜色值 */
-  private customColorValue = '#FF5C8A'
-  // 激活的 tab
-  private tabActive = 'theme'
+  private customColorValue: string = '#FF5C8A'
+  /** 激活的 tab */
+  private tabActive: string = 'theme'
+  /** 当前主题配置 */
+  get currentThemeConfig(): Theme {
+    return this.$store.state.currentThemeConfig
+  }
+  set currentThemeConfig(val: Theme) {
+    this.$store.commit('UPDAE_currentThemeConfig', val)
+  }
+
   created() {
-    // @ts-ignore
     this.customColorValue = this.currentThemeConfig.themeColor
   }
-  changeTheme(theme: IthemeConfig) {
+
+  private changeTheme(theme: Theme): void {
     // @ts-ignore
     let res = window.changeTheme(theme.name)
 
@@ -130,10 +122,8 @@ export default class Skin extends Vue {
       this.currentThemeConfig = themeConfig[theme.name]
     }
   }
-  // popoverShow
-  popoverShow() {
+  private popoverShow(): void {
     this.tabActive = 'theme'
-    // @ts-ignore
     this.customColorValue = this.currentThemeConfig.themeColor
   }
 }

@@ -16,9 +16,7 @@
     animation-duration: 1.2s;
   }
 }
-body .el-button--text {
-  // color: #606266;
-}
+
 #app .el-table--mini td {
   padding: 3px 0;
 }

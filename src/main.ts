@@ -8,6 +8,8 @@ import { http, noop } from './utils'
 Vue.config.productionTip = false
 Vue.prototype.$http = http
 
+Vue.prototype.$bus = new Vue()
+
 console.log(' $process: ', $process)
 
 if (!$process.IS_WEB) {

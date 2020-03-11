@@ -1,11 +1,11 @@
 <!-- --------------------------------------
- * 播放列表
+ * 歌单详情页面
  * @author zhoufei
  * @date 2020/1/22
 -------------------------------------- --->
 <template>
   <div class="playlist" v-loading="loading">
-    <!-- 封面 -->
+    <!-- 封面  start-->
     <div flex class="cover">
       <el-image
         class="cover-image"
@@ -84,112 +84,34 @@
         </p>
       </div>
     </div>
+    <!-- 封面 end-->
 
     <el-tabs value="track">
       <el-tab-pane name="track" label="歌曲列表">
         <!-- 歌曲列表 -->
-        <el-table :data="playlist.tracks" stripe border>
-          <el-table-column
-            label=""
-            width="50px"
-            :resizable="false"
-            align="right"
-          >
-            <template slot-scope="scope">
-              {{ (scope.$index + 1) | zeroize }}
-            </template>
-          </el-table-column>
-
-          <el-table-column label="操作" width="80px" :resizable="false">
-            <template>
-              <el-button type="text" icon="icon-xihuan"></el-button>
-              <el-button type="text" icon="icon-xiazai"></el-button>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="音乐标题"
-            prop="name"
-            sortable
-          ></el-table-column>
-          <el-table-column label="歌手" prop="ar[0].name">
-            <template slot-scope="{ row }">
-              {{ row.ar | artistJoin }}
-            </template>
-          </el-table-column>
-          <el-table-column label="专辑" prop="al.name" sortable>
-            <!-- <template slot-scope="{ row }">
-              {{ row.al.name }}
-            </template> -->
-          </el-table-column>
-          <el-table-column label="时长" prop="dt" width="80px" sortable>
-            <template slot-scope="{ row }">
-              {{ row.dt | toTime }}
-            </template>
-          </el-table-column>
-        </el-table>
+        <Tracks :playlist="playlist" />
       </el-tab-pane>
       <el-tab-pane
         name="comment"
         :label="`评论(${playlist.commentCount})`"
+        lazy
       ></el-tab-pane>
-      <el-tab-pane name="collect" label="收藏者"></el-tab-pane>
+      <el-tab-pane name="collect" label="收藏者" lazy></el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script lang="ts">
+import Tracks from './Tracks.vue'
+
 import { Component, Vue } from 'vue-property-decorator'
 import { getPlaylistDetail } from '@/api'
 import { formatDate } from '@/utils'
-
-interface Iartist {
-  id: number
-  /** 歌手名 */
-  name: string
-}
-
-interface Itrack {
-  /** 歌曲名 */
-  name: string
-  id: number
-  /** 歌手 */
-  ar: Array<Iartist>
-  /** alia 别名、综艺 */
-  alia: Array<string>
-  /** album 专辑 */
-  al: object
-  /** 时长 */
-  dt: number
-}
-
-interface Iplaylist {
-  subscribers: Array<object>
-  subscribed: boolean
-
-  /** 创建者 */
-  creator: object
-  /** 歌曲列表 */
-  tracks: Array<Itrack>
-  trackIds: Array<object>
-  // 歌曲数
-  trackCount: number
-  /** 描述 */
-  description: string
-  /** 标签 */
-  tags: Array<string>
-
-  /** 封面 */
-  coverImgUrl: string
-  /** 歌单名 */
-  name: string
-}
+import { Iplaylist, Iartist, Itrack } from '@/types'
 
 @Component({
-  components: {},
+  components: { Tracks },
   filters: {
-    artistJoin(arr: Array<Iartist>) {
-      return arr.map(item => item.name).join('/')
-    },
     formatDate(data: Date) {
       return formatDate(data, 'yyyy-MM-dd')
     }

@@ -20,22 +20,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component({
-  components: {},
-  props: {
-    url: {
-      type: String // 跳转地址
-    },
-    title: {
-      type: String
-      // required: true
-    }
-  }
+  components: {}
 })
 export default class Template extends Vue {
-  // title: string = '推荐歌单'
+  @Prop({ default: '' }) url!: string
+  @Prop({ default: '' }) title!: string
 }
 </script>
 <style lang="scss">

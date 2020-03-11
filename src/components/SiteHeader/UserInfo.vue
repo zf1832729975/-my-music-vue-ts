@@ -22,7 +22,7 @@
     <!-- 皮肤 -->
     <Skin />
     <!-- 邮箱 -->
-    <el-badge :value="2" type="warning">
+    <el-badge :value="2">
       <el-button type="text" icon="icon-youxiang"></el-button>
     </el-badge>
     <!-- 设置 -->

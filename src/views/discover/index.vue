@@ -19,24 +19,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 
-@Component({
-  components: {},
-  watch: {
-    '$route.path': {
-      handler(path) {
-        // @ts-ignore
-        this.tabsActive = path === '/' ? '/discover' : path
-      },
-      immediate: true
-    }
-  }
-})
+@Component({})
 export default class Discover extends Vue {
-  /** 激活的 tabs */
-  tabsActive: string = '/discover'
-  tabClick(tab: Object) {
+  private tabsActive: string = '/discover'
+
+  // watch
+  @Watch('$route.path', {
+    immediate: true
+  })
+  routerChange(path: string): void {
+    this.tabsActive = path === '/' ? '/discover' : path
+  }
+
+  private tabClick(tab: Object): void {
     // @ts-ignore
     this.$router.push(tab.name)
   }
