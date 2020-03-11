@@ -47,7 +47,7 @@
         <UserInfo />
         <el-divider direction="vertical" v-if="!IS_WEB"></el-divider>
         <!-- 操作按钮 -->
-        <div class="opt-btn-group" v-if="!IS_WEB">
+        <div class="opt-btn-group" v-if="!IS_WEB" @click.stop>
           <!-- mini模式 -->
           <!-- <el-button type="text" icon="el-icon-arrow-left" title="mini模式"></el-button> -->
           <!-- 最小化 -->
@@ -103,6 +103,8 @@ export default class SiteHeader extends Vue {
   }
 
   minimize() {
+    console.log('xxx')
+    console.log(' this.$send: ', this.$send)
     this.$send('minimize')
   }
   close() {

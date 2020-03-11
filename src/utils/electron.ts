@@ -6,6 +6,7 @@ import Vue from 'vue'
 import { ipcRenderer } from 'electron'
 
 Vue.prototype.$send = function _send(name: string) {
+  console.log(' name: ', name)
   ipcRenderer.send(name)
 }
 

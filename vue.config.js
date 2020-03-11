@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const themesEntry = require('./theme.config')
+const themeConfig = require('./theme.config')
 const webpack = require('webpack')
 
 console.log(' process.env.IS_WEB: ', process.env.IS_WEB)
@@ -10,7 +10,7 @@ module.exports = {
   configureWebpack: {
     entry: {
       app: './src/main.ts',
-      ...themesEntry
+      ...themeConfig.entry
       // theme: ['./src/assets/themes/red/index.scss']
     },
     plugins: [
@@ -40,10 +40,11 @@ module.exports = {
           }),
 
       new webpack.DefinePlugin({
-        '$process': JSON.stringify({
-          IS_WEB: !!process.env.IS_WEB
+        $process: JSON.stringify({
+          IS_WEB: !!process.env.IS_WEB,
+          THEME: themeConfig.name // 仅在开发环境中用，生产环境中不用
         })
-      })
+      }),
     ]
   },
 

@@ -83,7 +83,15 @@ chunks = {
   <script>
     var themes = <%= JSON.stringify(themes) %>;
     var chunks = <%= JSON.stringify(chunks) %>;
-    var currentTheme = ''
+    var currentTheme = localStorage.getItem('_theme_name')
+    if (!currentTheme) {
+      for (var name in themes) {
+        currentTheme = name
+        break
+      }
+    }
+    window.$theme = currentTheme
+
     window.changeTheme = function (theme) {
       var link = document.getElementById('_theme_link')
       var style = themes[theme]
@@ -91,19 +99,14 @@ chunks = {
         currentTheme = theme
         link.setAttribute('href', style)
         localStorage.setItem('_theme_name', theme)
+        window.$theme = theme
+        return true
       } else {
         throw new Error('没有找到主题样式')
       }
     }
 
     window.onload = function () {
-      currentTheme = localStorage.getItem('_theme_name')
-      if (!currentTheme) {
-        for (var name in themes) {
-          currentTheme = name
-          break
-        }
-      }
       changeTheme(currentTheme)
     }
 

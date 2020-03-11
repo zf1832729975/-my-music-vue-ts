@@ -20,7 +20,7 @@
     </div>
     <el-button type="text" style="font-size:14px;">开通VIP</el-button>
     <!-- 皮肤 -->
-    <el-button class="icon-pifu" type="text"></el-button>
+    <Skin />
     <!-- 邮箱 -->
     <el-badge :value="2" type="warning">
       <el-button type="text" icon="icon-youxiang"></el-button>
@@ -35,7 +35,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import UserInfo from '@/components/UserInfo/index.vue'
-
+import Skin from './Skin.vue'
 // user interface
 interface IUser {
   name: string
@@ -44,7 +44,8 @@ interface IUser {
 
 @Component({
   components: {
-    UserInfo
+    UserInfo,
+    Skin
   }
 })
 export default class HeaderUserInfo extends Vue {

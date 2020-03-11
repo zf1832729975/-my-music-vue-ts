@@ -9,13 +9,12 @@ Vue.config.productionTip = false
 Vue.prototype.$http = http
 
 console.log(' $process: ', $process)
+
 if (!$process.IS_WEB) {
   require('./utils/electron')
 } else {
   Vue.prototype.$send = noop
 }
-
-Vue.prototype.$send = noop
 
 new Vue({
   router,
