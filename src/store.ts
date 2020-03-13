@@ -12,7 +12,8 @@ let currentThemeConfig =
     ? themeConfig[(<any>window).$theme]
     : themeConfig[$process.THEME]
 
-const audioStoryKey = '_audio_attribute'
+const audioStoryKey = 'audio_attribute'
+const playListStoryKey = 'playList'
 
 const defaultAudio: Audio = {
   // 音乐地址
@@ -34,7 +35,7 @@ const defaultAudio: Audio = {
 
 const state: State = {
   currentThemeConfig: currentThemeConfig || {},
-  playList: new Map(),
+  playList: new Map(loadCache(playListStoryKey, [])),
   currentPlayId: -1,
   audio: {
     ...defaultAudio /** 防止存储的少一些字段 */,
@@ -52,6 +53,7 @@ export default new Vuex.Store({
     },
     UPDATE_playList(state: State, data: Map<number, Track>) {
       state.playList = data
+      putCache(playListStoryKey, data)
     },
     UPDATE_audio(state: State, data: Audio) {
       state.audio = data

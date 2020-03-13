@@ -295,6 +295,8 @@ export default class Footer extends Vue {
   /** 播放音乐  */
   playMusic() {
     this.timer && clearInterval(this.timer)
+    // @ts-ignore
+    this.$refs.audio.currentTime = this.audio.currentTime
 
     // @ts-ignore
     this.$refs.audio.play()
@@ -307,8 +309,6 @@ export default class Footer extends Vue {
         this.audio.currentTime = this.$refs.audio.currentTime
       }
     }, 1000)
-    // @ts-ignore
-    this.audio.currentTime = this.$refs.audio.currentTime
 
     if (this.audio.paused === true) {
       this.audio.paused = false
@@ -319,6 +319,10 @@ export default class Footer extends Vue {
   private pauseMusic(): void {
     // @ts-ignore
     this.$refs.audio.pause()
+    // 保存当前时间，播放的时候使用
+    // @ts-ignore
+    this.audio.currentTime = this.$refs.audio.currentTime
+
     this.timer && clearInterval(this.timer)
     if (this.audio.paused === false) {
       this.audio.paused = true
@@ -343,24 +347,17 @@ export default class Footer extends Vue {
 
   /** 播放一个 增量的 index */
   playIncrementMusic(increment: number = 0) {
-    if (increment === 0) {
-      this.audio.currentTime = 0
-      this.$nextTick(() => {
-        this.playMusic()
-      })
-      return
+    if (increment !== 0) {
+      const ids: Array<number> = [...this.playList.keys()]
+      const curId = this.audio.id
+      const curIndex = ids.indexOf(curId)
+      let newIndex = curIndex + increment
+      while (newIndex < 0) newIndex = ids.length - newIndex
+      newIndex = newIndex % ids.length
+      const newId = ids[newIndex]
+      this.audio.id = newId
+      this.audio.src = `https://music.163.com/song/media/outer/url?id=${newId}.mp3`
     }
-    const ids: Array<number> = [...this.playList.keys()]
-    const curId = this.audio.id
-    const curIndex = ids.indexOf(curId)
-    let newIndex = curIndex + increment
-    while (newIndex < 0) newIndex = ids.length - newIndex
-    newIndex = newIndex % ids.length
-    const newId = ids[newIndex]
-    this.audio.id = newId
-    this.audio.src = `https://music.163.com/song/media/outer/url?id=${newId}.mp3`
-
-    console.log(' newIndex: ', newIndex)
     this.$nextTick(() => {
       this.audio.currentTime = 0
       this.playMusic()
