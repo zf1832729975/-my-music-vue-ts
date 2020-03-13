@@ -1,5 +1,22 @@
+/** 单个主题配置 */
+export interface Theme {
+  /** 主题名、en */
+  name: string
+  /** 主题标题、zh */
+  title?: string
+  /** 主题色 */
+  themeColor: string
+  /** 背景图 */
+  backgroundImage?: string
+}
+
+/** 主题列表 */
+export interface Themes {
+  [key: string]: Theme
+}
+
 /** 歌手信息 */
-export interface Iartist {
+export interface Artist {
   id: number
   /** 歌手名 */
   name: string
@@ -16,12 +33,12 @@ export interface Album {
 }
 
 /** 歌曲信息 */
-export interface Itrack {
+export interface Track {
   /** 歌曲名 */
   name: string
   id: number
   /** 歌手列表 */
-  ar: Array<Iartist>
+  ar: Array<Artist>
   /** alia 别名、综艺列表 */
   alia: Array<string>
   /** album 专辑 */
@@ -31,7 +48,7 @@ export interface Itrack {
 }
 
 /** 歌单详情 */
-export interface Iplaylist {
+export interface Playlist {
   /** 订阅列表 */
   subscribers: Array<object>
   /** 是否被订阅 */
@@ -40,7 +57,7 @@ export interface Iplaylist {
   /** 创建者 */
   creator: object
   /** 歌曲列表 */
-  tracks: Array<Itrack>
+  tracks: Array<Track>
   trackIds: Array<object>
   // 歌曲数
   trackCount: number
@@ -56,7 +73,7 @@ export interface Iplaylist {
 }
 
 /** audio  */
-export interface IAudio {
+export interface Audio {
   /** 音乐地址 */
   src: string
   /** 当前时间 */
@@ -69,16 +86,26 @@ export interface IAudio {
   volume: number
   /** 是否静音 */
   muted: boolean
+  /** 音乐的 id */
+  id: number
+  /** 播放模式 index */
+  modeIndex: number
+  /** 品质 index */
+  qualityIndex: number
 }
 
-/** 主题配置 */
-export interface Theme {
-  /** 主题名、en */
-  name: string
-  /** 主题标题、zh */
-  title?: string
-  /** 主题色 */
-  themeColor: string
-  /** 背景图 */
-  backgroundImage?: string
+/***
+ * 播放信息
+ * ==============================
+ */
+
+export interface State {
+  /** 当前主题 */
+  currentThemeConfig: Theme | object
+  /** 播放列表 */
+  playList: Map<number, Track>
+  /** 当前播放音乐的id */
+  currentPlayId: number
+  /** 当前选择的音乐的音频信息 */
+  audio: Audio
 }

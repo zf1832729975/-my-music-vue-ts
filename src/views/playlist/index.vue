@@ -107,7 +107,7 @@ import Tracks from './Tracks.vue'
 import { Component, Vue } from 'vue-property-decorator'
 import { getPlaylistDetail } from '@/api'
 import { formatDate } from '@/utils'
-import { Iplaylist, Iartist, Itrack } from '@/types'
+import { Playlist, Artist, Track } from '@/types'
 
 @Component({
   components: { Tracks },
@@ -122,7 +122,7 @@ export default class PlayList extends Vue {
   private playlistId: number = 0
   /** 加载中 */
   private loading: boolean = false
-  private playlist: Iplaylist = {
+  private playlist: Playlist = {
     subscribers: [],
     subscribed: false,
     creator: {},

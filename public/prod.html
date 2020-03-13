@@ -83,7 +83,12 @@ chunks = {
   <script>
     var themes = <%= JSON.stringify(themes) %>;
     var chunks = <%= JSON.stringify(chunks) %>;
-    var currentTheme = localStorage.getItem('_theme_name')
+    // var currentTheme = localStorage.getItem('_theme_name') ie 中 file:// 打开报错
+    var currentTheme = ''
+    try {
+      currentTheme = localStorage.getItem('_theme_name')
+    } catch(e) {}
+
     if (!currentTheme) {
       for (var name in themes) {
         currentTheme = name
@@ -98,7 +103,11 @@ chunks = {
       if (style) {
         currentTheme = theme
         link.setAttribute('href', style)
-        localStorage.setItem('_theme_name', theme)
+        // ie 中 file:// 打开报错
+        try {
+          localStorage.setItem('_theme_name', theme)
+        } catch(e) {}
+        
         window.$theme = theme
         return true
       } else {
@@ -112,6 +121,10 @@ chunks = {
 
   </script>
 
+  <!-- ie 浏览器判断、是ie 浏览器加载 babel-polyfill -->
+  <!--[if IE]>
+      <script src="<%= chunks['compat'].entry %>"></script>
+  <![endif]-->
 </head>
 
 <body>

@@ -32,8 +32,23 @@ Vue.filter('zeroize', function(n: string | number) {
   return Number(n) >= 10 ? n : '0' + n
 })
 
-Vue.filter('toTime', function(val: number) {
+Vue.filter('formatTime', function(val: number) {
   let s = Math.floor(val / 1000)
   let m = zeroize(Math.floor(s / 60))
   return m + ':' + zeroize(s % 60)
+})
+
+Vue.filter('formatCount', function(n: string | number) {
+  const num: number = Number(n)
+  let arr: Array<[number, string]> = [
+    [100000000, '亿'],
+    [10000, '万']
+  ]
+  for (let i = 0; i < arr.length; i++) {
+    let dot: number = arr[i][0]
+    if (num >= dot) {
+      return parseInt(num / dot + '') + arr[i][1]
+    }
+  }
+  return n
 })

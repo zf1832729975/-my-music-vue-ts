@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 // @ts-ignore
 import themeConfig from '@/assets/themes/config'
-
+import { Track, Theme, State, Audio } from '@/types'
+import { loadCache, putCache } from '@/utils'
 Vue.use(Vuex)
 
 // 生产环境、和开发环境用的不同，开发环境是通过 webpack 注入
@@ -11,13 +12,62 @@ let currentThemeConfig =
     ? themeConfig[(<any>window).$theme]
     : themeConfig[$process.THEME]
 
+const audioStoryKey = '_audio_attribute'
+
+const defaultAudio: Audio = {
+  // 音乐地址
+  src: '',
+  // 当前时间
+  currentTime: 0,
+  // 持续时间、总长
+  duration: 0,
+  // 是否暂停
+  paused: true,
+  // 音量 0~1
+  volume: 1,
+  // 是否静音
+  muted: false,
+  id: 0,
+  modeIndex: 0,
+  qualityIndex: 0
+}
+
+const state: State = {
+  currentThemeConfig: currentThemeConfig || {},
+  playList: new Map(),
+  currentPlayId: -1,
+  audio: {
+    ...defaultAudio /** 防止存储的少一些字段 */,
+    ...loadCache(audioStoryKey, defaultAudio),
+    // 是否暂停
+    paused: true
+  }
+}
+
 export default new Vuex.Store({
-  state: {
-    currentThemeConfig: currentThemeConfig || {}
-  },
+  state: state,
   mutations: {
-    UPDAE_currentThemeConfig(state, data) {
+    UPDAE_currentThemeConfig(state: State, data: Theme | object) {
       state.currentThemeConfig = data
+    },
+    UPDATE_playList(state: State, data: Map<number, Track>) {
+      state.playList = data
+    },
+    UPDATE_audio(state: State, data: Audio) {
+      state.audio = data
+      putCache(audioStoryKey, data)
+    }
+  },
+  getters: {
+    /** 当前播放音乐 */
+    currentMusic(state: State): Track | object {
+      const map = state.playList
+      const res = map.get(state.audio.id)
+      if (res) {
+        return res
+      } else {
+        return {}
+      }
     }
   },
   actions: {}

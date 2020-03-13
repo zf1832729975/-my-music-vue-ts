@@ -31,6 +31,7 @@
   "dependencies": {
     "apicache": "^1.5.3",
     "axios": "^0.19.1",
+    "babel-polyfill": "^6.26.0",
     "big-integer": "^1.6.48",
     "core-js": "^2.6.5",
     "crypto": "^1.0.1",
@@ -39,7 +40,8 @@
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.3",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vuex-class": "^0.3.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.0",

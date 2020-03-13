@@ -1,6 +1,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const themeConfig = require('./theme.config')
 const webpack = require('webpack')
+const path = require('path')
+
 
 console.log(' process.env.IS_WEB: ', process.env.IS_WEB)
 
@@ -9,6 +11,7 @@ module.exports = {
   // webpack配置
   configureWebpack: {
     entry: {
+      compat: './src/utils/compat-utils.ts', // 兼容性，分类出来，在ie中加载
       app: './src/main.ts',
       ...themeConfig.entry
       // theme: ['./src/assets/themes/red/index.scss']

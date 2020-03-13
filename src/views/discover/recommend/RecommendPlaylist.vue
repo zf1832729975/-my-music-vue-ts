@@ -17,7 +17,7 @@
           <!-- 播放量 -->
           <p class="play-count">
             <i class="icon-erji1 iconfont"></i>
-            <span class="text">{{ item.playCount }}</span>
+            <span class="text">{{ item.playCount | formatCount }}</span>
           </p>
           <p class="copy-writer">{{ item.copywriter }}</p>
         </router-link>

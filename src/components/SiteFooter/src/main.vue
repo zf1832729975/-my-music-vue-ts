@@ -7,19 +7,21 @@
   <el-footer class="site-footer" height="70px" flex="cross:center">
     <!-- 播放按钮组 -->
     <div class="play-btn-group" flex-box="0">
-      <el-button type="text" icon="icon-shangyishou1"> </el-button>
+      <el-button type="text" icon="icon-shangyishou1" @click="handlePreClick">
+      </el-button>
       <el-button type="text" @click="handlePlayBtnClick">
         <!-- 暂停中 -->
         <i v-if="audio.paused" class="icon-bofang" title="播放"></i>
         <!-- 播放中 -->
         <i v-else class="icon-iconstop" title="暂停"></i>
       </el-button>
-      <el-button type="text" icon="icon-xiayishou1"> </el-button>
+      <el-button type="text" icon="icon-xiayishou1" @click="handleNextClick">
+      </el-button>
     </div>
     <!-- 进度条  -->
     <div class="progress" flex-box="1" flex="cross:center">
       <span class="progress-time">{{
-        (audio.currentTime * 1000) | toTime
+        (audio.currentTime * 1000) | formatTime
       }}</span>
       <!-- 播放进度条滑块 -->
       <el-slider
@@ -33,7 +35,7 @@
       >
       </el-slider>
       <span class="progress-duration">{{
-        (audio.duration * 1000) | toTime
+        (audio.duration * 1000) | formatTime
       }}</span>
     </div>
 
@@ -76,27 +78,27 @@
       <el-button
         type="text"
         @click="handleModeClick"
-        :icon="palyMode[palyModeIndex].icon"
-        :title="palyMode[palyModeIndex].name"
+        :icon="palyMode[audio.modeIndex].icon"
+        :title="palyMode[audio.modeIndex].title"
       >
       </el-button>
 
       <!-- -品质 -->
       <el-dropdown
-        @command="qualityIndex = $event"
+        @command="audio.qualityIndex = $event"
         size="medium"
         placement="top"
       >
         <span class="el-dropdown-link">
           <el-button type="text" class="border">
-            {{ qualityList[qualityIndex].name }}
+            {{ qualityList[audio.qualityIndex].name }}
           </el-button>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item
             v-for="(item, index) in qualityList"
             :key="item.value"
-            :disabled="qualityList[qualityIndex].value === item.value"
+            :disabled="qualityList[audio.qualityIndex].value === item.value"
             :command="index"
           >
             {{ item.name }}</el-dropdown-item
@@ -125,8 +127,10 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
+import { State, Getter, Action, Mutation, namespace } from 'vuex-class'
 import PlayListHistory from './PlayListHistory.vue'
-import { Itrack, IAudio } from '@/types'
+import { Track, Audio } from '@/types'
+let vm: Footer | null = null
 
 @Component({
   components: {
@@ -136,23 +140,49 @@ import { Itrack, IAudio } from '@/types'
 })
 export default class Footer extends Vue {
   // 播放模式
-  private palyModeIndex: number = 0
   private palyMode = [
     {
-      icon: 'icon-liebiaoxunhuan',
-      name: '列表循环'
+      icon: 'icon-icon-1',
+      title: '顺序播放',
+      name: 'XH',
+      pre(vm: Footer) {
+        vm.playIncrementMusic(-1)
+      },
+      next: function(vm: Footer) {
+        vm.playIncrementMusic(+1)
+      }
     },
     {
       icon: 'icon-suijibofang',
-      name: '随机播放'
+      title: '随机播放',
+      name: 'SJ',
+      pre(vm: Footer) {
+        // 0~100 - 50
+        // 比如 size 100 增量 0 ~ 100
+        const len = vm.playList.size + 2
+        const increment = parseInt(Math.random() * len + '')
+        vm.playIncrementMusic(increment)
+      },
+      next: function(vm: Footer) {
+        // 0~100 - 50
+        const len = vm.playList.size + 2
+        const increment = parseInt(Math.random() * len + '')
+        vm.playIncrementMusic(increment)
+      }
     },
     {
       icon: 'icon-danquxunhuan',
-      name: '单曲循环'
+      title: '单曲循环',
+      name: 'DQ',
+      pre(vm: Footer) {
+        vm.playIncrementMusic(0)
+      },
+      next: function(vm: Footer) {
+        vm.playIncrementMusic(0)
+      }
     }
   ]
   // 品质
-  private qualityIndex: number = 0
   private qualityList = [
     {
       name: '标准品质',
@@ -169,13 +199,9 @@ export default class Footer extends Vue {
   ]
   // 定时器
   private timer: any = null
-  /** 音量存储key */
-  private volumeStoreKey: string = 'volume'
-  private initVolume: number | string | null = localStorage.getItem(
-    this.volumeStoreKey
-  )
+
   /** 音频 */
-  private audio: IAudio = {
+  private audio: Audio = {
     // 音乐地址
     src: 'https://music.163.com/song/media/outer/url?id=557583031.mp3',
     // 当前时间
@@ -185,11 +211,30 @@ export default class Footer extends Vue {
     // 是否暂停
     paused: true,
     // 音量 0~1
-    volume: this.initVolume !== null ? +this.initVolume : 1,
+    volume: 1,
     // 是否静音
-    muted: false
+    muted: false,
+    id: 0,
+    modeIndex: 0,
+    qualityIndex: 0
   }
 
+  // vuex
+  /** 获取默认的/存储的 audio，只第一次加载用 */
+  @State('audio') getInitAudio!: Audio
+  @State('playList') playList!: Map<number, Track>
+  @State('currentPlayId') currentPlayId!: number
+  @Getter('currentMusic') currentMusic!: Track | object
+  @Mutation('UPDATE_audio') updateAudio!: Audio
+
+  // watch
+  @Watch('audio', {
+    immediate: false,
+    deep: true
+  })
+  audioChange(data: Audio) {
+    this.updateAudio(data)
+  }
   @Watch('audio.paused')
   pausedChange(val: boolean): void {
     // 暂停
@@ -204,7 +249,6 @@ export default class Footer extends Vue {
     // @ts-ignore
     this.$refs.audio.volume = val
     this.audio.muted = !val
-    localStorage.setItem(this.volumeStoreKey, val + '')
   }
   @Watch('audio.muted')
   mutedChange(val: boolean) {
@@ -213,8 +257,13 @@ export default class Footer extends Vue {
   }
 
   created() {
-    this.$bus.$on('play-music', (song: Itrack) => {
+    vm = this
+    this.audio = this.getInitAudio
+
+    this.$bus.$on('play-music', (song: Track) => {
       this.audio.src = `https://music.163.com/song/media/outer/url?id=${song.id}.mp3`
+      this.audio.id = song.id
+
       // 确保 this.$refs.audio 变化
       this.$nextTick(() => {
         this.playMusic()
@@ -228,7 +277,7 @@ export default class Footer extends Vue {
 
   /** 模式点击 */
   handleModeClick() {
-    this.palyModeIndex = (this.palyModeIndex + 1) % this.palyMode.length
+    this.audio.modeIndex = (this.audio.modeIndex + 1) % this.palyMode.length
   }
 
   /** 播放按钮点击 */
@@ -253,7 +302,7 @@ export default class Footer extends Vue {
     this.timer = setInterval(() => {
       // 拖动的时候不能赋值
       // @ts-ignore
-      if (!this.$refs.playProgress.dragging) {
+      if (this.$refs.playProgress && !this.$refs.playProgress.dragging) {
         // @ts-ignore
         this.audio.currentTime = this.$refs.audio.currentTime
       }
@@ -290,6 +339,40 @@ export default class Footer extends Vue {
   onerror() {
     this.$message.error('加载失败，请重试！')
     this.pauseMusic()
+  }
+
+  /** 播放一个 增量的 index */
+  playIncrementMusic(increment: number = 0) {
+    if (increment === 0) {
+      this.audio.currentTime = 0
+      this.$nextTick(() => {
+        this.playMusic()
+      })
+      return
+    }
+    const ids: Array<number> = [...this.playList.keys()]
+    const curId = this.audio.id
+    const curIndex = ids.indexOf(curId)
+    let newIndex = curIndex + increment
+    while (newIndex < 0) newIndex = ids.length - newIndex
+    newIndex = newIndex % ids.length
+    const newId = ids[newIndex]
+    this.audio.id = newId
+    this.audio.src = `https://music.163.com/song/media/outer/url?id=${newId}.mp3`
+
+    console.log(' newIndex: ', newIndex)
+    this.$nextTick(() => {
+      this.audio.currentTime = 0
+      this.playMusic()
+    })
+  }
+
+  handlePreClick() {
+    this.palyMode[this.audio.modeIndex].pre(this)
+  }
+
+  handleNextClick() {
+    this.palyMode[this.audio.modeIndex].next(this)
   }
 }
 </script>
