@@ -45,6 +45,8 @@ export interface Track {
   al: Album
   /** 时长 */
   dt: number
+  /** 歌单id */
+  playlistId?: number
 }
 
 /** 歌单详情 */
@@ -70,6 +72,8 @@ export interface Playlist {
   coverImgUrl: string
   /** 歌单名 */
   name: string
+  /** 歌单 id */
+  id: number
 }
 
 /** audio  */

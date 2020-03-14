@@ -4,7 +4,8 @@
  * @date 2020/1/22
 -------------------------------------- --->
 <template>
-  <div class="playlist" v-loading="loading">
+  <NetworkError v-if="!loading && !playlist.id" />
+  <div class="playlist" v-loading="loading" v-else>
     <!-- 封面  start-->
     <div flex class="cover">
       <el-image
@@ -78,9 +79,15 @@
             </el-button>
           </span>
         </p>
-        <p>
-          简介：
-          <span v-html="playlist.description"></span>
+        <!-- 简介 -->
+        <p class="jianjie" v-if="playlist.description">
+          <el-input
+            type="textarea"
+            :value="`简介：${playlist.description}`"
+            autosize
+            readonly
+            resize="none"
+          ></el-input>
         </p>
       </div>
     </div>
@@ -102,12 +109,11 @@
 </template>
 
 <script lang="ts">
-import Tracks from './Tracks.vue'
-
 import { Component, Vue } from 'vue-property-decorator'
 import { getPlaylistDetail } from '@/api'
 import { formatDate } from '@/utils'
 import { Playlist, Artist, Track } from '@/types'
+import Tracks from './Tracks.vue'
 
 @Component({
   components: { Tracks },
@@ -136,7 +142,8 @@ export default class PlayList extends Vue {
     /** 封面 */
     coverImgUrl: '',
     /** 歌单名 */
-    name: ''
+    name: '',
+    id: 0
   }
 
   created() {
@@ -185,6 +192,7 @@ export default class PlayList extends Vue {
     border-right: 1px solid transparent;
   }
   .cover {
+    color: #333;
     margin: 20px;
     &-image {
       width: 200px;
@@ -209,6 +217,20 @@ export default class PlayList extends Vue {
           vertical-align: middle;
         }
       }
+    }
+    // 简介
+    .jianjie {
+    }
+    .el-textarea__inner {
+      padding: 0;
+      color: #333;
+      border: none;
+      background: none;
+      line-height: 1.3;
+      font-size: 13px;
+      font-style: normal;
+      font-family: '微软雅黑', 'Helvetica Neue', Helvetica, 'PingFang SC',
+        'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
     }
   }
   .right-info {

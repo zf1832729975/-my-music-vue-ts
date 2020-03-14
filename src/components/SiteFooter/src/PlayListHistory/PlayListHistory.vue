@@ -1,0 +1,197 @@
+<!-- --------------------------------------
+ * 模板文件
+ * @author zhoufei
+ * @date 2020/3/12
+-------------------------------------- --->
+<template>
+  <el-container class="playlist-histroy">
+    <el-header flex="cross:center main:center" height="45px">
+      <el-button-group>
+        <el-button
+          v-for="{ name, title } in tabList"
+          :key="name"
+          :type="activeTab === name ? 'info' : ''"
+          @click="tabClick(name)"
+          >{{ title }}</el-button
+        >
+      </el-button-group>
+    </el-header>
+    <el-footer height="30px" flex="main:justify  cross:center">
+      <span>总{{ playList.length || 0 }}首</span>
+      <div>
+        <span v-show="activeTab == 'playList'">
+          <el-button type="text" icon="icon-icon-test">收藏全部</el-button>
+          <el-divider direction="vertical"></el-divider>
+        </span>
+        <el-button type="text" icon="icon-shanchu">清空</el-button>
+      </div>
+    </el-footer>
+    <el-main>
+      <el-scrollbar>
+        <el-table
+          :show-header="false"
+          :data="playList"
+          stripe
+          @row-dblclick="handleRowDBClick"
+        >
+          <el-table-column
+            label="状态"
+            width="30px"
+            class-name="paly-status-column"
+            align="center"
+          >
+            <template slot-scope="{ row: [id] }">
+              <el-button type="text" v-if="audio.id === id">
+                <!-- 暂停中 -->
+                <i v-if="audio.paused" class="icon-zanting"></i>
+                <i v-else class="icon-bofang playing"></i>
+              </el-button>
+            </template>
+          </el-table-column>
+          <el-table-column label="音乐标题">
+            <template slot-scope="{ row: [id, track] }">
+              <div class="text-ellipsis">
+                <!-- 歌曲名 -->
+                <span class="song-name">{{ track.name }}</span>
+                <span v-if="track.alia.length" class="song-alia">
+                  ({{ track.alia.join('/') }})
+                </span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="歌手名" width="80px">
+            <template slot-scope="{ row: [id, track] }">
+              <a
+                class="artist-name text-ellipsis"
+                :href="`#/artist?id=${track.ar[0].id}`"
+                @click="close"
+              >
+                {{ track.ar[0].name }}
+              </a>
+            </template>
+          </el-table-column>
+          <el-table-column label="歌单" width="40px">
+            <template slot-scope="{ row: [id, track] }">
+              <a :href="`#/playlist?id=${track.playlistId}`" @click="close">
+                <i class="icon-link"></i>
+              </a>
+            </template>
+          </el-table-column>
+          <el-table-column label="时长" width="80px">
+            <template slot-scope="{ row: [id, track] }">
+              <span class="song-dt">{{ track.dt | formatTime }}</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-scrollbar>
+    </el-main>
+  </el-container>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import { State } from 'vuex-class'
+import { Track, Audio } from '@/types'
+
+@Component({
+  components: {}
+})
+export default class PlayListHistory extends Vue {
+  private playList: Array<[number, Track]> = []
+  private activeTab: string = 'playList'
+  private tabList = [
+    {
+      name: 'playList',
+      title: '播放列表'
+    },
+    {
+      name: 'history',
+      title: '播放记录'
+    }
+  ]
+
+  // vuex
+  @State('playList') playListMap!: Map<number, Track>
+  @State('audio') audio!: Audio
+
+  mounted() {
+    this.playList = JSON.parse(JSON.stringify(this.playListMap))
+  }
+
+  private tabClick(name: string) {
+    this.activeTab = name
+  }
+
+  private close() {
+    this.$emit('close')
+  }
+
+  private handleRowDBClick(row: Array<[number, Track]>) {
+    this.$bus.$emit('play-music', row[1])
+  }
+}
+</script>
+
+<style lang="scss">
+.playlist-histroy {
+  background: #f9f9f9;
+  height: 100%;
+  .el-header {
+    border-bottom: 1px solid #e1e1e2;
+    background: #f0f0f2;
+  }
+  .el-footer {
+    border-bottom: 1px solid #e1e1e2;
+    .el-button {
+      color: #666;
+      vertical-align: middle;
+      &:hover {
+        color: #000;
+      }
+      i {
+        margin-right: 4px;
+      }
+    }
+  }
+  .el-main {
+    padding: 0;
+  }
+  .el-table {
+    color: #888;
+  }
+  .el-table__row:hover {
+    .song-name,
+    .artist-name {
+      color: #111;
+    }
+    .song-dt {
+      color: #333;
+    }
+  }
+  .song-dt {
+    color: #555;
+  }
+  .artist-name {
+    color: #888;
+    &:hover {
+      color: #000;
+    }
+  }
+  // 播放状态
+  .paly-status-column {
+    .cell {
+      padding: 0;
+    }
+    .el-button {
+      margin: 0;
+      padding: 0;
+    }
+    i {
+      font-size: 14px;
+    }
+    .playing {
+      font-size: 12px;
+    }
+  }
+}
+</style>

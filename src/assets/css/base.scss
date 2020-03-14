@@ -2,7 +2,7 @@
 body {
   padding: 0;
   margin: 0;
-  -webkit-user-select: none; /*禁止用户选择*/
+  // -webkit-user-select: none; /*禁止用户选择*/
   // font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   font-family: '微软雅黑', 'Helvetica Neue', Helvetica, 'PingFang SC',
     'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
@@ -92,9 +92,10 @@ body {
 
 .text-ellipsis {
   white-space: nowrap;
-  display: block;
+  // display:block;
   text-overflow: ellipsis;
   overflow: hidden;
+  // display: inline-block;
 }
 
 @mixin margin1($dir) {

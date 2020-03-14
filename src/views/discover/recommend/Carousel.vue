@@ -5,9 +5,7 @@
 -------------------------------------- --->
 <template>
   <div>
-    <NetworkError v-if="loadError" />
     <el-carousel
-      v-else
       indicator-position="outside"
       :interval="10000"
       type="card"
@@ -37,7 +35,7 @@ export default class Carousel extends Vue {
   /** banner列表 */
   private list: Array<any> = []
   /** 加载错误 */
-  private loadError: boolean = false
+  // private loadError: boolean = false
   /** 是否加载中 */
   private loading: boolean = false
   created() {
@@ -49,14 +47,14 @@ export default class Carousel extends Vue {
     this.loading = true
     banner()
       .then(res => {
-        this.loadError = false
+        // this.loadError = false
         console.log('获取 banner 列表 res: ', res)
         // @ts-ignore
         this.list = res.banners
       })
       .catch(err => {
-        this.loadError = true
-        console.log(' err: ', err)
+        // this.loadError = true
+        this.$emit('load-error', err)
       })
       .finally(() => {
         this.loading = false

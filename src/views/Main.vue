@@ -18,7 +18,7 @@
       <MusicDetail v-else @shrink="handleShrink" />
 
       <!-- 拖动条蒙版、让鼠标变成箭头形状，防止来回更改作用 -->
-      <!-- <div class="drag-mark" v-if="dragging"></div> -->
+      <div class="drag-mark" v-if="dragging"></div>
       <!-- 拖动条 -->
       <div
         class="drag-bar"

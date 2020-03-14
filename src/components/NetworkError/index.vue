@@ -27,6 +27,7 @@ export default class NetworkError extends Vue {
   font-size: 16px;
   color: #333;
   font-weight: normal;
+  margin-top: 10%;
   img,
   p {
     margin: 30px 0;

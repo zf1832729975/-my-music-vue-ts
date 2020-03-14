@@ -30,7 +30,14 @@
         <el-button class="opt-btn" type="text" icon="icon-xiazai"></el-button>
       </template>
     </el-table-column>
-    <el-table-column label="音乐标题" prop="name" sortable></el-table-column>
+    <el-table-column label="音乐标题" prop="name" sortable>
+      <template slot-scope="{ row }">
+        <span class="song-name">{{ row.name }}</span>
+        <span v-if="row.alia.length" class="song-alia"
+          >({{ row.alia.join('/') }})</span
+        >
+      </template>
+    </el-table-column>
     <el-table-column label="歌手" prop="ar[0].name">
       <template slot-scope="{ row }">
         {{ row.ar | artistJoin }}
@@ -72,6 +79,7 @@ export default class Tracks extends Vue {
     const map: Map<number, Track> = new Map<number, Track>()
     const list = this.playlist.tracks
     list.forEach(item => {
+      item.playlistId = this.playlist.id
       map.set(item.id, item)
     })
     this.setPlayList(map)

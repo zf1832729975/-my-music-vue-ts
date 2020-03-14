@@ -4,9 +4,10 @@
  * @date 2020/1/17
 -------------------------------------- --->
 <template>
-  <div>
+  <NetworkError v-if="loadError" />
+  <div v-else>
     <!-- 走马灯组件 -->
-    <Carousel />
+    <Carousel @load-error="onLoadError" />
     <!-- 推荐歌单 -->
     <more-card title="推荐歌单" url="/discover/playlist">
       <RecommendPlaylist />
@@ -35,5 +36,10 @@ import PrivateContent from './PrivateContent.vue' // 独家放送
     PrivateContent
   }
 })
-export default class Recommend extends Vue {}
+export default class Recommend extends Vue {
+  private loadError: boolean = false
+  private onLoadError(): void {
+    this.loadError = true
+  }
+}
 </script>

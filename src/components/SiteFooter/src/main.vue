@@ -112,15 +112,7 @@
         词
       </el-button>
       <!-- 播放列表 -->
-      <el-popover
-        placement="top"
-        popper-class="palylist-popper"
-        :visible-arrow="false"
-      >
-        <PlayListHistory />
-        <el-button type="text" icon="icon-yinleliebiao" slot="reference">
-        </el-button>
-      </el-popover>
+      <PlayListHistory />
     </div>
   </el-footer>
 </template>
@@ -130,7 +122,8 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { State, Getter, Action, Mutation, namespace } from 'vuex-class'
 import { Slider } from 'element-ui'
 
-import PlayListHistory from './PlayListHistory.vue'
+// import PlayListHistory from './PlayListHistory.vue'
+import PlayListHistory from './PlayListHistory/index.vue'
 import { Track, Audio } from '@/types'
 let vm: Footer | null = null
 
@@ -268,6 +261,7 @@ export default class Footer extends Vue {
     this.$bus.$on('play-music', (song: Track) => {
       this.audio.src = `https://music.163.com/song/media/outer/url?id=${song.id}.mp3`
       this.audio.id = song.id
+      this.audio.currentTime = 0
 
       // 确保 this.$refs.audio 变化
       this.$nextTick(() => {
@@ -342,9 +336,10 @@ export default class Footer extends Vue {
   }
 
   /** 播放失败 */
-  onerror() {
+  onerror(event: Event) {
+    console.log('音乐加载失败 event: ', event)
     if (this.audio.src) {
-      this.$message.error('加载失败，请重试！')
+      this.$message.error('音乐加载失败，请检查你的网络！')
     }
     this.pauseMusic()
   }
@@ -377,20 +372,3 @@ export default class Footer extends Vue {
   }
 }
 </script>
-
-<style>
-.el-popover.palylist-popper {
-  width: 500px;
-  padding: 0 !important;
-  top: 150px !important;
-  left: auto !important;
-  bottom: 50px;
-  right: 0 !important;
-  margin: 0 !important;
-  border-right: none !important;
-  border-bottom: none !important;
-  /* box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); */
-  box-shadow: -10px -10px 12px 0 rgba(0, 0, 0, 0.1) !important;
-  /* box-shadow: h-shadow v-shadow blur spread color inset; */
-}
-</style>

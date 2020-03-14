@@ -14,15 +14,15 @@
 .site-main {
   background-color: #FAFAFA;
 }
-// .drag-mark {
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   bottom: 0;
-//   right: 0;
-//   z-index: 9;
-//   cursor: ew-resize;
-// }
+.drag-mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 9;
+  cursor: ew-resize;
+}
 .drag-bar {
   display: block;
   position: absolute;
@@ -35,4 +35,12 @@
   cursor: ew-resize;
   z-index: 10;
   // background-color: red;
+}
+
+.song-name {
+  color: #333;
+}
+.song-alia {
+  color: #888;
+  margin-left: 4px;
 }

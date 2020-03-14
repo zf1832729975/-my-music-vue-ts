@@ -62,13 +62,32 @@ export default new Vuex.Store({
   },
   getters: {
     /** 当前播放音乐 */
-    currentMusic(state: State): Track | object {
+    currentMusic(state: State): Track {
       const map = state.playList
       const res = map.get(state.audio.id)
       if (res) {
         return res
       } else {
-        return {}
+        return {
+          /** 歌曲名 */
+          name: '',
+          id: 0,
+          /** 歌手列表 */
+          ar: [],
+          /** alia 别名、综艺列表 */
+          alia: [],
+          /** album 专辑 */
+          al: {
+            id: 0,
+            name: '',
+            /** 专辑图 */
+            picUrl: '',
+            // tns: Array,
+            pic: 0
+          },
+          /** 时长, ms */
+          dt: 0
+        }
       }
     }
   },
