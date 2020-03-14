@@ -8,21 +8,23 @@
     class="site-header drag"
     @dragend.native="dragend"
     @dblclick.native="dblclick"
+    flex
   >
-    <el-row :gutter="20" class="h-full" flex="cross:center">
-      <!-- 左边区域 -->
-      <el-col :span="12" flex="cross:center">
-        <!-- logo  -->
-        <router-link
-          class="no-drag"
-          to="/"
-          flex="crosss:center"
-          style="min-width:150px"
-        >
-          <el-avatar :size="22" :src="logoSrc"></el-avatar>
-          <h1 class="system-name">网易云音乐</h1>
-        </router-link>
+    <!-- logo  -->
+    <div class="logo" :style="{ width: asideWidth }" flex="cross:center">
+      <router-link
+        class="no-drag"
+        to="/"
+        flex="crosss:center"
+        style="min-width:150px"
+      >
+        <el-avatar :size="22" :src="logoSrc"></el-avatar>
+        <h1 class="system-name">网易云音乐</h1>
+      </router-link>
+    </div>
 
+    <el-row :gutter="20" class="h-full" flex="cross:center" flex-box="1">
+      <el-col :span="12" flex="cross:center">
         <!-- 按钮 -->
         <div class="dir-btn-group">
           <el-button
@@ -76,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import Search from './Search.vue'
 import UserInfo from './UserInfo.vue'
 
@@ -84,6 +86,7 @@ import UserInfo from './UserInfo.vue'
   components: { Search, UserInfo }
 })
 export default class SiteHeader extends Vue {
+  @Prop({ default: '200px' }) asideWidth!: string
   private logoSrc: string = require('@/assets/img/logo @128x128.jpg')
   private isMaximize: boolean = false
 

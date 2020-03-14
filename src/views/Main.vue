@@ -1,6 +1,6 @@
 <template>
   <el-container class="site-container is-vertical">
-    <SiteHeader />
+    <SiteHeader :aside-width="asideWidth + 'px'" />
     <el-container class="site-container__body">
       <SiteAside :width="asideWidth + 'px'" />
       <el-main class="site-main">

@@ -7,7 +7,7 @@ $default-color: #e0e0e0;
   overflow: hidden;
   color: $default-color;
   font-size: 14px;
-  padding: 0 2px 0 16px !important;
+  padding: 0 2px 0 0 !important;
   // 头像
   .el-avatar {
     cursor: pointer;
@@ -33,6 +33,10 @@ $default-color: #e0e0e0;
     margin: 0 12px;
   }
 }
+.logo {
+  padding-left: 16px;
+  box-sizing: border-box;
+}
 // 系统名
 .system-name {
   font-size: 18px;
@@ -48,6 +52,7 @@ $default-color: #e0e0e0;
   -webkit-app-region: no-drag;
   flex-shrink: 0;
   margin-right: 15px;
+  margin-left: 8px;
   border: 1px solid rgba(0, 0, 0, 0.185);
   border-radius: 2px;
   .el-button {
