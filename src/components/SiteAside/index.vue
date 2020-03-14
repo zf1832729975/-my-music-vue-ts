@@ -4,7 +4,7 @@
  * @date 2020/1/20
 -------------------------------------- --->
 <template>
-  <el-aside class="site-aside" width="210px">
+  <el-aside class="site-aside" :width="width">
     <el-scrollbar>
       <!-- 每一个卡片 推荐  -->
       <dl>
@@ -68,6 +68,11 @@
   </el-aside>
 </template>
 
-<script>
-export default {}
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+
+@Component({})
+export default class SiteAside extends Vue {
+  @Prop({ default: '200px' }) width!: string
+}
 </script>

@@ -128,6 +128,8 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { State, Getter, Action, Mutation, namespace } from 'vuex-class'
+import { Slider } from 'element-ui'
+
 import PlayListHistory from './PlayListHistory.vue'
 import { Track, Audio } from '@/types'
 let vm: Footer | null = null
@@ -139,6 +141,11 @@ let vm: Footer | null = null
   watch: {}
 })
 export default class Footer extends Vue {
+  $refs: {
+    audio: HTMLAudioElement
+    playProgress: Slider
+  }
+
   // 播放模式
   private palyMode = [
     {
@@ -246,13 +253,11 @@ export default class Footer extends Vue {
   }
   @Watch('audio.volume')
   volumeChange(val: number) {
-    // @ts-ignore
     this.$refs.audio.volume = val
     this.audio.muted = !val
   }
   @Watch('audio.muted')
   mutedChange(val: boolean) {
-    // @ts-ignore
     this.$refs.audio.muted = val
   }
 
@@ -294,18 +299,16 @@ export default class Footer extends Vue {
 
   /** 播放音乐  */
   playMusic() {
+    console.log(' this.$refs: ', this.$refs)
     this.timer && clearInterval(this.timer)
-    // @ts-ignore
     this.$refs.audio.currentTime = this.audio.currentTime
 
-    // @ts-ignore
     this.$refs.audio.play()
 
     this.timer = setInterval(() => {
-      // 拖动的时候不能赋值
+      // 拖动的时候不能赋值 dragging
       // @ts-ignore
       if (this.$refs.playProgress && !this.$refs.playProgress.dragging) {
-        // @ts-ignore
         this.audio.currentTime = this.$refs.audio.currentTime
       }
     }, 1000)
@@ -317,10 +320,8 @@ export default class Footer extends Vue {
 
   /** 暂停音乐 */
   private pauseMusic(): void {
-    // @ts-ignore
     this.$refs.audio.pause()
     // 保存当前时间，播放的时候使用
-    // @ts-ignore
     this.audio.currentTime = this.$refs.audio.currentTime
 
     this.timer && clearInterval(this.timer)
@@ -330,18 +331,21 @@ export default class Footer extends Vue {
   }
 
   /** 播放结束 */
-  onended() {}
+  onended() {
+    this.handlePreClick()
+  }
 
   /** 操作当前时间播放时间改变 */
   handleCurrentTimeChange(val: number) {
     console.log('xxx val: ', val)
-    // @ts-ignore
     this.$refs.audio.currentTime = +val
   }
 
   /** 播放失败 */
   onerror() {
-    this.$message.error('加载失败，请重试！')
+    if (this.audio.src) {
+      this.$message.error('加载失败，请重试！')
+    }
     this.pauseMusic()
   }
 

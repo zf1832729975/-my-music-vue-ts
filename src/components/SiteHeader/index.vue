@@ -87,12 +87,8 @@ export default class SiteHeader extends Vue {
   private logoSrc: string = require('@/assets/img/logo @128x128.jpg')
   private isMaximize: boolean = false
 
-  // @ts-ignore
   public IS_WEB = $process.IS_WEB
 
-  created() {
-    console.log(' window: ', window)
-  }
   /** 前进 */
   forward() {
     this.$router.go(1)

@@ -72,7 +72,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { Theme } from '@/types'
+import { Theme, Themes } from '@/types'
 // @ts-ignore
 import themeConfig from '@/assets/themes/config'
 
@@ -81,7 +81,7 @@ import themeConfig from '@/assets/themes/config'
 })
 export default class Skin extends Vue {
   /** 主题 */
-  private themes: object = themeConfig
+  private themes: Themes = themeConfig as Themes
   /** custom 列表 */
   private customColorList: Array<string> = [
     '#FF5C8A',
@@ -114,12 +114,11 @@ export default class Skin extends Vue {
   }
 
   private changeTheme(theme: Theme): void {
-    // @ts-ignore
     let res = window.changeTheme(theme.name)
 
     if (res) {
       // @ts-ignore
-      this.currentThemeConfig = themeConfig[theme.name]
+      this.currentThemeConfig = themes[theme.name]
     }
   }
   private popoverShow(): void {

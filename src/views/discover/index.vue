@@ -33,8 +33,7 @@ export default class Discover extends Vue {
     this.tabsActive = path === '/' ? '/discover' : path
   }
 
-  private tabClick(tab: Object): void {
-    // @ts-ignore
+  private tabClick(tab: { name: string }): void {
     this.$router.push(tab.name)
   }
 }

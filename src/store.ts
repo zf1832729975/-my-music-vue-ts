@@ -9,7 +9,7 @@ Vue.use(Vuex)
 // 生产环境、和开发环境用的不同，开发环境是通过 webpack 注入
 let currentThemeConfig =
   process.env.NODE_ENV === 'production'
-    ? themeConfig[(<any>window).$theme]
+    ? themeConfig[window.$theme]
     : themeConfig[$process.THEME]
 
 const audioStoryKey = 'audio_attribute'

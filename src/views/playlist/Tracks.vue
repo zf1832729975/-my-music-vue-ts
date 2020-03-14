@@ -74,7 +74,6 @@ export default class Tracks extends Vue {
     list.forEach(item => {
       map.set(item.id, item)
     })
-    console.log(' map: ', map)
     this.setPlayList(map)
 
     this.$bus.$emit('play-music', row)

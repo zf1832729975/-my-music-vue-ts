@@ -94,6 +94,7 @@ body {
   white-space: nowrap;
   display: block;
   text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 @mixin margin1($dir) {

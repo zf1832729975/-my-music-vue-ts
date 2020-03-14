@@ -25,11 +25,9 @@ export default class Setting extends Vue {
   // @ts-ignore
   private themes: Object = window.themes || {}
   /** 选择的主题 */
-  // @ts-ignore
-  private selectedTheme: string = window.currentTheme || ''
+  private selectedTheme: string = window.$theme || ''
 
   private handleThemeChange(theme: string) {
-    // @ts-ignore
     window.changeTheme(theme)
   }
 }
