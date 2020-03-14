@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 // @ts-ignore
 import themeConfig from '@/assets/themes/config'
-import { Track, Theme, State, Audio } from '@/types'
+import { Track, Theme, State, Audio, HistoryTrack } from '@/types'
 import { loadCache, putCache } from '@/utils'
 Vue.use(Vuex)
 
@@ -12,9 +12,10 @@ let currentThemeConfig =
     ? themeConfig[window.$theme]
     : themeConfig[$process.THEME]
 
-const audioStoryKey = 'audio_attribute'
-const playListStoryKey = 'playList'
-
+const AUDIO_SK = 'audio_attribute'
+const PLAY_LIST_SK = 'playList'
+const HISTORY_SK = 'historyList'
+const HISTORY_MAX_NUMBER = 100 // 历史记录最大个数
 const defaultAudio: Audio = {
   // 音乐地址
   src: '',
@@ -35,14 +36,15 @@ const defaultAudio: Audio = {
 
 const state: State = {
   currentThemeConfig: currentThemeConfig || {},
-  playList: new Map(loadCache(playListStoryKey, [])),
+  playList: new Map(loadCache(PLAY_LIST_SK, [])),
   currentPlayId: -1,
   audio: {
     ...defaultAudio /** 防止存储的少一些字段 */,
-    ...loadCache(audioStoryKey, defaultAudio),
+    ...loadCache(AUDIO_SK, defaultAudio),
     // 是否暂停
     paused: true
-  }
+  },
+  historyList: new Map(loadCache(HISTORY_SK, []))
 }
 
 export default new Vuex.Store({
@@ -53,11 +55,26 @@ export default new Vuex.Store({
     },
     UPDATE_playList(state: State, data: Map<number, Track>) {
       state.playList = data
-      putCache(playListStoryKey, data)
+      putCache(PLAY_LIST_SK, data)
     },
     UPDATE_audio(state: State, data: Audio) {
       state.audio = data
-      putCache(audioStoryKey, data)
+      putCache(AUDIO_SK, data)
+    },
+    UPDATE_historyList(state: State, map: Map<number, HistoryTrack>) {
+      if (map.size > HISTORY_MAX_NUMBER) {
+        let deleteId = 0
+        try {
+          map.forEach(item => {
+            deleteId = item.id
+            throw new Error('跳出循环')
+          })
+        } catch (e) {
+          map.delete(deleteId)
+        }
+      }
+      state.historyList = map
+      putCache(HISTORY_SK, map)
     }
   },
   getters: {

@@ -124,7 +124,7 @@ import { Slider } from 'element-ui'
 
 // import PlayListHistory from './PlayListHistory.vue'
 import PlayListHistory from './PlayListHistory/index.vue'
-import { Track, Audio } from '@/types'
+import { Track, Audio, HistoryTrack } from '@/types'
 let vm: Footer | null = null
 
 @Component({
@@ -139,7 +139,10 @@ export default class Footer extends Vue {
     playProgress: Slider
   }
 
-  // 播放模式
+  // data
+  // 定时器
+  private timer: any = null
+  /** 播放模式 */
   private palyMode = [
     {
       icon: 'icon-icon-1',
@@ -182,7 +185,7 @@ export default class Footer extends Vue {
       }
     }
   ]
-  // 品质
+  /** 品质 */
   private qualityList = [
     {
       name: '标准品质',
@@ -197,9 +200,6 @@ export default class Footer extends Vue {
       value: 3
     }
   ]
-  // 定时器
-  private timer: any = null
-
   /** 音频 */
   private audio: Audio = {
     // 音乐地址
@@ -224,14 +224,14 @@ export default class Footer extends Vue {
   @State('audio') getInitAudio!: Audio
   @State('playList') playList!: Map<number, Track>
   @State('currentPlayId') currentPlayId!: number
+  @State('historyList') historyList!: Map<number, HistoryTrack>
   @Getter('currentMusic') currentMusic!: Track | object
-  @Mutation('UPDATE_audio') updateAudio!: Audio
+  @Mutation('UPDATE_audio') updateAudio!: (audio: Audio) => void
+  @Mutation('UPDATE_historyList')
+  updateHistoryList!: (historyList: Map<number, HistoryTrack>) => void
 
   // watch
-  @Watch('audio', {
-    immediate: false,
-    deep: true
-  })
+  @Watch('audio', { immediate: false, deep: true })
   audioChange(data: Audio) {
     this.updateAudio(data)
   }
@@ -254,25 +254,40 @@ export default class Footer extends Vue {
     this.$refs.audio.muted = val
   }
 
+  // hook
   created() {
     vm = this
     this.audio = this.getInitAudio
 
+    // 播放音乐、当传入 id <= 0 时停止播放
     this.$bus.$on('play-music', (song: Track) => {
-      this.audio.src = `https://music.163.com/song/media/outer/url?id=${song.id}.mp3`
       this.audio.id = song.id
       this.audio.currentTime = 0
-
-      // 确保 this.$refs.audio 变化
-      this.$nextTick(() => {
-        this.playMusic()
-      })
+      if (song.id <= 0) {
+        this.audio.src = ''
+        this.$nextTick(() => {
+          this.pauseMusic()
+        })
+      } else {
+        this.audio.src = `https://music.163.com/song/media/outer/url?id=${song.id}.mp3`
+        // 确保 this.$refs.audio 变化
+        this.$nextTick(() => {
+          this.playMusic()
+        })
+      }
     })
+    // 清空播放列表
+    this.$bus.$on('clear-play-list', () => {})
+
+    // 清空历史
+    this.$bus.$on('clear-history-list', () => {})
   }
 
   destroyed() {
     this.$bus.$off('play-music')
   }
+
+  //  methods
 
   /** 模式点击 */
   handleModeClick() {
@@ -294,10 +309,28 @@ export default class Footer extends Vue {
   /** 播放音乐  */
   playMusic() {
     console.log(' this.$refs: ', this.$refs)
+    if (!this.audio.src) {
+      return
+    }
     this.timer && clearInterval(this.timer)
     this.$refs.audio.currentTime = this.audio.currentTime
-
     this.$refs.audio.play()
+
+    const curId = this.audio.id
+    const track: Track | undefined = this.playList.get(curId)
+    // 就是存在了也要重新存，确保是最新的排列
+    if (track) {
+      let map = new Map(this.historyList)
+      map.delete(curId)
+      map.set(curId, {
+        ...track,
+        playDate: new Date()
+      })
+      this.updateHistoryList(map)
+    }
+    if (this.audio.paused === true) {
+      this.audio.paused = false
+    }
 
     this.timer = setInterval(() => {
       // 拖动的时候不能赋值 dragging
@@ -306,10 +339,6 @@ export default class Footer extends Vue {
         this.audio.currentTime = this.$refs.audio.currentTime
       }
     }, 1000)
-
-    if (this.audio.paused === true) {
-      this.audio.paused = false
-    }
   }
 
   /** 暂停音乐 */
@@ -348,6 +377,7 @@ export default class Footer extends Vue {
   playIncrementMusic(increment: number = 0) {
     if (increment !== 0) {
       const ids: Array<number> = [...this.playList.keys()]
+      if (!ids.length) return
       const curId = this.audio.id
       const curIndex = ids.indexOf(curId)
       let newIndex = curIndex + increment
@@ -364,11 +394,11 @@ export default class Footer extends Vue {
   }
 
   handlePreClick() {
-    this.palyMode[this.audio.modeIndex].pre(this)
+    if (this.playList.size) this.palyMode[this.audio.modeIndex].pre(this)
   }
 
   handleNextClick() {
-    this.palyMode[this.audio.modeIndex].next(this)
+    if (this.playList.size) this.palyMode[this.audio.modeIndex].next(this)
   }
 }
 </script>

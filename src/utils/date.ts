@@ -6,8 +6,9 @@ function zeroize(n: string | number) {
  * new Date
  * @param date
  */
-function newDate(date: Date = new Date()) {
+function newDate(date: Date | string | number = new Date()): Date {
   if (Object.prototype.toString.call(date) === '[object Date]') {
+    // @ts-ignore
     return date
   } else if (Number(date)) {
     return new Date(Number(date))
@@ -42,9 +43,9 @@ function newDate(date: Date = new Date()) {
   s: 秒，20
 */
 export function formatDate(
-  date: Date = new Date(),
+  date: Date | string | number = new Date(),
   format: string = 'yyyy/MM/dd HH:mm 周w'
-) {
+): string {
   date = newDate(date)
   var y = date.getFullYear()
   var obj = {

@@ -72,7 +72,7 @@ export default class Tracks extends Vue {
   @State('playList') getPlayList!: Map<number, Track>
   @State('audio') audio!: Audio
   // 设置播放列表
-  @Mutation('UPDATE_playList') setPlayList!: Map<number, Track>
+  @Mutation('UPDATE_playList') setPlayList!: (data: Map<number, Track>) => void
 
   /** 某一行被双击 */
   handleRowDBClick(row: Track, column: object, event: Event) {

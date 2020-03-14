@@ -13,7 +13,7 @@
     @after-leave="afterLeave"
     @show="show"
   >
-    <!-- 减少加载 -->
+    <!-- 减少加载、关闭了就不渲染了，页面中渲染过多会卡 -->
     <PlayListHistory @close="handleClose" v-if="listVisible" />
     <el-button type="text" icon="icon-yinleliebiao" slot="reference">
     </el-button>
@@ -32,6 +32,7 @@ import PlayListHistory from './PlayListHistory.vue'
 export default class Template extends Vue {
   private visible: boolean = false
   private listVisible: boolean = false
+
   private handleClose() {
     this.visible = false
   }

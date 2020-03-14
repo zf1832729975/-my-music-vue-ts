@@ -4,7 +4,7 @@
  * @date 2020/3/13
 -------------------------------------- --->
 <template>
-  <div class="music-card" flex="cross:center">
+  <div class="music-card" flex="cross:center" v-if="music.id">
     <div flex-box="0" class="image-wrap">
       <el-image :src="music.al.picUrl" fit="fill"></el-image>
       <i class="unfold-arrow icon-iconset0441" @click="handleExpand"></i>
@@ -18,7 +18,7 @@
           >({{ music.alia.join('/') }})</span
         >
       </p>
-      <p class="artist-name">{{ music.ar[0].name }}</p>
+      <p class="artist-name" v-if="music.ar.length">{{ music.ar[0].name }}</p>
     </div>
     <div class="opt-btn-group" flex-box="0">
       <i class="opt-btn icon-xihuan"></i>

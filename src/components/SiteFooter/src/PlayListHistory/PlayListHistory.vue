@@ -17,20 +17,22 @@
       </el-button-group>
     </el-header>
     <el-footer height="30px" flex="main:justify  cross:center">
-      <span>总{{ playList.length || 0 }}首</span>
+      <span>总{{ tableDate.length || 0 }}首</span>
       <div>
         <span v-show="activeTab == 'playList'">
           <el-button type="text" icon="icon-icon-test">收藏全部</el-button>
           <el-divider direction="vertical"></el-divider>
         </span>
-        <el-button type="text" icon="icon-shanchu">清空</el-button>
+        <el-button type="text" icon="icon-shanchu" @click="handleClear"
+          >清空</el-button
+        >
       </div>
     </el-footer>
     <el-main>
       <el-scrollbar>
         <el-table
           :show-header="false"
-          :data="playList"
+          :data="tableDate"
           stripe
           @row-dblclick="handleRowDBClick"
         >
@@ -77,9 +79,18 @@
               </a>
             </template>
           </el-table-column>
-          <el-table-column label="时长" width="80px">
+          <el-table-column
+            label="时长"
+            width="80px"
+            v-if="activeTab === 'playList'"
+          >
             <template slot-scope="{ row: [id, track] }">
               <span class="song-dt">{{ track.dt | formatTime }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="播放时间" width="100px" v-else>
+            <template slot-scope="{ row: [id, track] }">
+              <span class="play-date">{{ formatDate(track.playDate) }}</span>
             </template>
           </el-table-column>
         </el-table>
@@ -89,15 +100,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { State } from 'vuex-class'
-import { Track, Audio } from '@/types'
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import { State, Mutation } from 'vuex-class'
+import { Track, Audio, HistoryTrack } from '@/types'
+import { formatDate } from '@/utils'
 
 @Component({
   components: {}
 })
 export default class PlayListHistory extends Vue {
+  //  private arr: Array<[number, string]> = [[1, 2]]
+  private arr: Array<[number, string | number]> = [[1, 2]]
   private playList: Array<[number, Track]> = []
+  private historyList: Array<[number, HistoryTrack]> = []
   private activeTab: string = 'playList'
   private tabList = [
     {
@@ -105,19 +120,42 @@ export default class PlayListHistory extends Vue {
       title: '播放列表'
     },
     {
-      name: 'history',
+      name: 'historyList',
       title: '播放记录'
     }
   ]
 
   // vuex
   @State('playList') playListMap!: Map<number, Track>
+  @State('historyList') historyListMap!: Map<number, HistoryTrack>
   @State('audio') audio!: Audio
+  @Mutation('UPDATE_playList')
+  updatePlayList!: (data: Map<number, Track>) => void
+  @Mutation('UPDATE_historyList')
+  updateHistoryList!: (data: Map<number, HistoryTrack>) => void
 
-  mounted() {
-    this.playList = JSON.parse(JSON.stringify(this.playListMap))
+  get tableDate(): Array<[number, Track | HistoryTrack]> {
+    if (this.activeTab === 'playList') {
+      return this.playList
+    } else {
+      return this.historyList
+    }
   }
 
+  // watch
+  @Watch('historyListMap', { immediate: true })
+  historyChange(val: Map<number, HistoryTrack>) {
+    this.historyList = JSON.parse(JSON.stringify(val)).reverse()
+  }
+  @Watch('playListMap', { immediate: true })
+  playListChange(val: Map<number, Track>) {
+    this.playList = JSON.parse(JSON.stringify(val))
+  }
+
+  // methods
+  private formatDate(date: string) {
+    return formatDate(date, 'yyyy-MM-dd')
+  }
   private tabClick(name: string) {
     this.activeTab = name
   }
@@ -128,6 +166,15 @@ export default class PlayListHistory extends Vue {
 
   private handleRowDBClick(row: Array<[number, Track]>) {
     this.$bus.$emit('play-music', row[1])
+  }
+
+  private handleClear() {
+    if (this.activeTab === 'playList') {
+      this.updatePlayList(new Map())
+      this.$bus.$emit('play-music', { id: 0, msg: '清空' })
+    } else {
+      this.updateHistoryList(new Map())
+    }
   }
 }
 </script>
@@ -164,10 +211,12 @@ export default class PlayListHistory extends Vue {
     .artist-name {
       color: #111;
     }
+    .play-date,
     .song-dt {
       color: #333;
     }
   }
+  .play-date,
   .song-dt {
     color: #555;
   }

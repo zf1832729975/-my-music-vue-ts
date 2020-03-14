@@ -49,6 +49,11 @@ export interface Track {
   playlistId?: number
 }
 
+export interface HistoryTrack extends Track {
+  /** 播放时间, JSON.stringify(playDate)=>Date */
+  playDate: Date | string
+}
+
 /** 歌单详情 */
 export interface Playlist {
   /** 订阅列表 */
@@ -90,7 +95,7 @@ export interface Audio {
   volume: number
   /** 是否静音 */
   muted: boolean
-  /** 音乐的 id */
+  /** 音乐的 id、id <= 0 表示空、不会播放 */
   id: number
   /** 播放模式 index */
   modeIndex: number
@@ -112,4 +117,6 @@ export interface State {
   currentPlayId: number
   /** 当前选择的音乐的音频信息 */
   audio: Audio
+  /** 播放历史列表 */
+  historyList: Map<number, HistoryTrack>
 }
