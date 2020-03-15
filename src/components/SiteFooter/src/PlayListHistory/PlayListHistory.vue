@@ -110,7 +110,7 @@ import { formatDate } from '@/utils'
 })
 export default class PlayListHistory extends Vue {
   //  private arr: Array<[number, string]> = [[1, 2]]
-  private arr: Array<[number, string | number]> = [[1, 2]]
+  // private arr: Array<[number, string | number]> = [[1, 2]]
   private playList: Array<[number, Track]> = []
   private historyList: Array<[number, HistoryTrack]> = []
   private activeTab: string = 'playList'

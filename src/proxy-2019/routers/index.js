@@ -1698,8 +1698,10 @@ router.get('/top/playlist/highquality', (req, res, next) => {
 })
 router.get('/top/song', (req, res, next) => {
   const cookie = req.get('Cookie') ? req.get('Cookie') : ''
+  console.log(' req.query: ', req.query)
   const data = {
-    csrf_token: ''
+    csrf_token: '',
+    areaId: req.query.type | 0
   }
   createWebAPIRequest(
     'music.163.com',

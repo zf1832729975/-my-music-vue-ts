@@ -35,8 +35,6 @@ export default class PrivateContent extends Vue {
   /** 获取独家放送 */
   private async getPrivateContent(): Promise<void> {
     const res = await getPrivateContent()
-
-    console.log('获取独家放送 res: ', res)
     // @ts-ignore
     this.list = res.result
   }

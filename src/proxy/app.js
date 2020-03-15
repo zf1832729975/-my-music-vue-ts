@@ -1,79 +1,92 @@
-const express = require('express')
-const apicache = require('apicache')
-const path = require('path')
 const fs = require('fs')
+const path = require('path')
+const express = require('express')
+const bodyParser = require('body-parser')
+const request = require('./util/request')
+const packageJSON = require('./package.json')
+const exec = require('child_process').exec
+const cache = require('apicache').middleware
+
+// version check
+exec('npm info NeteaseCloudMusicApi version', (err, stdout, stderr) => {
+  if(!err){
+    let version = stdout.trim()
+    if(packageJSON.version < version){
+      console.log(`最新版本: ${version}, 当前版本: ${packageJSON.version}, 请及时更新`)
+    }
+  }
+})
+
 const app = express()
-let cache = apicache.middleware
 
-// 跨域设置
-app.all('*', function(req, res, next) {
-  if (req.path !== '/' && !req.path.includes('.')) {
-    res.header('Access-Control-Allow-Credentials', true)
-    // 这里获取 origin 请求头 而不是用 *
-    res.header('Access-Control-Allow-Origin', req.headers['origin'] || '*')
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With')
-    res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
-    res.header('Content-Type', 'application/json;charset=utf-8')
+// CORS & Preflight request
+app.use((req, res, next) => {
+  if(req.path !== '/' && !req.path.includes('.')){
+    res.set({
+      'Access-Control-Allow-Credentials': true,
+      'Access-Control-Allow-Origin': req.headers.origin || '*',
+      'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
+      'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',
+      'Content-Type': 'application/json; charset=utf-8'
+    })
   }
+  req.method === 'OPTIONS' ? res.status(204).end() : next()
+})
+
+// cookie parser
+app.use((req, res, next) => {
+  req.cookies = {}, (req.headers.cookie || '').split(/\s*;\s*/).forEach(pair => {
+    let crack = pair.indexOf('=')
+    if(crack < 1 || crack == pair.length - 1) return
+    req.cookies[decodeURIComponent(pair.slice(0, crack)).trim()] = decodeURIComponent(pair.slice(crack + 1)).trim()
+  })
   next()
 })
 
-const onlyStatus200 = (req, res) => res.statusCode === 200
+// body parser
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
 
-app.use(cache('2 minutes', onlyStatus200))
+// cache
+app.use(cache('2 minutes', ((req, res) => res.statusCode === 200)))
 
-app.use(express.static(path.resolve(__dirname, 'public')))
+// static
+app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(function(req, res, next) {
-  const proxy = req.query.proxy
-  if (proxy) {
-    req.headers.cookie = req.headers.cookie + `__proxy__${proxy}`
-  }
-  next()
-})
-
-// 因为这几个文件对外所注册的路由 和 其他文件对外注册的路由规则不一样, 所以专门写个MAP对这些文件做特殊处理
-const UnusualRouteFileMap = {
-  // key 为文件名, value 为对外注册的路由
+// router
+const special = {
   'daily_signin.js': '/daily_signin',
   'fm_trash.js': '/fm_trash',
   'personal_fm.js': '/personal_fm'
 }
 
-// 简化 路由 导出方式, 由这里统一对 router 目录中导出的路由做包装, 路由实际对应的文件只专注做它该做的事情, 不用重复写样板代码
-const { createWebAPIRequest, request } = require('./util/util')
-const Wrap = fn => (req, res) => fn(req, res, createWebAPIRequest, request)
+fs.readdirSync(path.join(__dirname, 'module')).reverse().forEach(file => {
+  if(!file.endsWith('.js')) return
+  let route = (file in special) ? special[file] : '/' + file.replace(/\.js$/i, '').replace(/_/g, '/')
+  let question = require(path.join(__dirname, 'module', file))
 
-// 同步读取 router 目录中的js文件, 根据命名规则, 自动注册路由
-fs.readdirSync('./router/')
-  .reverse()
-  .forEach(file => {
-    if (/\.js$/i.test(file) === false) {
-      return
-    }
-
-    let route
-
-    if (typeof UnusualRouteFileMap[file] !== 'undefined') {
-      route = UnusualRouteFileMap[file]
-    } else {
-      route =
-        '/' +
-        file
-          .replace(/\.js$/i, '')
-          .replace(/_/g, '/')
-          .replace(/[A-Z]/g, a => {
-            return '/' + a.toLowerCase()
-          })
-    }
-
-    app.use(route, Wrap(require('./router/' + file)))
+  app.use(route, (req, res) => {
+    let query = Object.assign({}, req.query, req.body, {cookie: req.cookies})
+    question(query, request)
+      .then(answer => {
+        console.log('[OK]', decodeURIComponent(req.originalUrl))
+        res.append('Set-Cookie', answer.cookie)
+        res.status(answer.status).send(answer.body)
+      })
+      .catch(answer => {
+        console.log('[ERR]', decodeURIComponent(req.originalUrl))
+        if(answer.body.code == '301') answer.body.msg = '需要登录'
+        res.append('Set-Cookie', answer.cookie)
+        res.status(answer.status).send(answer.body)
+      })
   })
+})
 
 const port = process.env.PORT || 3000
+const host = process.env.HOST || ''
 
-app.listen(port, () => {
-  console.log(`server running @ http://localhost:${port}`)
+app.server = app.listen(port, host, () => {
+  console.log(`server running @ http://${host ? host : 'localhost'}:${port}`)
 })
 
 module.exports = app

@@ -33,6 +33,8 @@
     "tests/**/*.ts",
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/proxy/*",
+    "src/proxy-2019/*"
   ]
 }

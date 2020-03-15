@@ -10,7 +10,8 @@ import {
 // const createServer = require('./proxy/server')
 // import createServer from './proxy/server.js'
 
-require('./proxy/server.js')
+// require('./proxy/server.js')
+require('./proxy')
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 

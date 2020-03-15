@@ -4,6 +4,9 @@
 /*.js
 /test/unit/coverage/
 /src/icons/iconfont.js
+# 代理
+/src/proxy/
+/src/proxy-2019/
 
 .dist
 

@@ -1,7 +1,7 @@
 <!-- --------------------------------------
  * 模板文件
  * @author zhoufei
- * @date 2020/3/13
+ * @date 2020/3/15
 -------------------------------------- --->
 <template>
   <div>模板文件</div>
@@ -10,11 +10,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component({
-  components: {
-
-  }
-})
+@Component
 export default class Template extends Vue {
 
 }
