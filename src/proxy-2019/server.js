@@ -39,7 +39,7 @@ app.use(function(req, res, next) {
 })
 
 app.use('/', routes)
-const port = 3000
+const port = 3001
 app.listen(port, () => {
   console.log(`server running @ http://localhost:${port}`)
 })

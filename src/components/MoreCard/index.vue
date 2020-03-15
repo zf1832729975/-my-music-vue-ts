@@ -25,7 +25,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({
   components: {}
 })
-export default class Template extends Vue {
+export default class MoreCard extends Vue {
   @Prop({ default: '' }) url!: string
   @Prop({ default: '' }) title!: string
 }

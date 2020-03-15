@@ -66,6 +66,6 @@ export function getCollectedAlbum(limit: number = 25, offset: number = 0) {
   日本:8
   韩国:16
  */
-export function getNewSongs(id: number, type: number = 0) {
-  return http.get('/top/song', { params: { id, type } })
+export function getNewSongs(type: number = 0) {
+  return http.get('/top/song', { params: { type } })
 }

@@ -20,16 +20,23 @@ export interface Artist {
   id: number
   /** 歌手名 */
   name: string
+  /**  */
+  picUrl: string
 }
 
 /** 专辑 */
 export interface Album {
   id: number
+  /** 专辑名 */
   name: string
+  /** 公司名 */
+  company: string
   /** 专辑图 */
   picUrl: string
   // tns: Array
   pic: number
+  /** 出版时间 */
+  publishTime: string
 }
 
 /** 歌曲信息 */
@@ -119,4 +126,21 @@ export interface State {
   audio: Audio
   /** 播放历史列表 */
   historyList: Map<number, HistoryTrack>
+}
+
+/**
+ * 最新音乐、专辑
+ */
+
+export interface Song {
+  mp3Url: string
+  /** 歌曲名 */
+  name: string
+  /** 歌曲id */
+  id: number
+  /** 别名列表 */
+  alias: number
+  /** 歌手列表 */
+  artists: Array<Artist>
+  album: Album
 }

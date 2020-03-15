@@ -8,6 +8,8 @@
 /src/proxy/
 /src/proxy-2019/
 
+# 模板文件
+/_vue-ts-template
 .dist
 
 .DS_Store

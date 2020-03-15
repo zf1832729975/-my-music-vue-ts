@@ -26,7 +26,7 @@ import Recommend from './Recommend/index.vue'
     Recommend
   }
 })
-export default class Template extends Vue {
+export default class Home extends Vue {
   /** 激活的tabs */
   private tabsActive: string = 'recommend'
 }

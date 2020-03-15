@@ -16,9 +16,13 @@
       element-loading-background="rgba(0, 0, 0, 0)"
     >
       <el-carousel-item v-for="item in list" :key="item.id">
-        <router-link :to="item.url">
-          <el-image :src="item.picUrl" fit="fill"></el-image>
-        </router-link>
+        <a
+          :href="
+            item.url || `#/${targetTypes[item.targetType]}?id=${item.targetId}`
+          "
+        >
+          <el-image :src="item.imageUrl" fit="fill"></el-image>
+        </a>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -27,6 +31,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { banner } from '@/api/index'
+// "1.music-homepage.homepage_banner_force.banner.645137.-1754212816.null"
+// 10 == 专辑
+// 1=== 直接播放
+// 1004 == mv
 
 @Component({
   components: {}
@@ -38,6 +46,11 @@ export default class Carousel extends Vue {
   // private loadError: boolean = false
   /** 是否加载中 */
   private loading: boolean = false
+  private targetTypes = {
+    10: 'album',
+    1: 'song',
+    1004: 'mv'
+  }
   created() {
     this.getBannerList()
   }
@@ -45,7 +58,7 @@ export default class Carousel extends Vue {
   /** 获取 banner 列表 */
   private getBannerList() {
     this.loading = true
-    banner()
+    banner(0)
       .then(res => {
         // this.loadError = false
         console.log('获取 banner 列表 res: ', res)

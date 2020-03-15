@@ -29,7 +29,7 @@ import PlayListHistory from './PlayListHistory.vue'
     PlayListHistory
   }
 })
-export default class Template extends Vue {
+export default class PlayListHistoryMain extends Vue {
   private visible: boolean = false
   private listVisible: boolean = false
 

@@ -13,5 +13,5 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({
   components: {}
 })
-export default class Template extends Vue {}
+export default class Taste extends Vue {}
 </script>

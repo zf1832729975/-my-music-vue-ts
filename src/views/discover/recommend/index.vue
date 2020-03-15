@@ -16,7 +16,7 @@
       <PrivateContent />
     </more-card>
     <more-card title="最新音乐" url="/discover/album">
-      <NewMusic />
+      <NewSong />
     </more-card>
     <more-card title="推荐MV" url="/mv"></more-card>
     <more-card title="主播电台" url="/discover/djradio"></more-card>
@@ -30,14 +30,14 @@ import { Component, Vue } from 'vue-property-decorator'
 import Carousel from './Carousel.vue'
 import RecommendPlaylist from './RecommendPlaylist.vue'
 import PrivateContent from './PrivateContent.vue' // 独家放送
-import NewMusic from './NewMusic.vue'
+import NewSong from './NewSong'
 
 @Component({
   components: {
     Carousel,
     RecommendPlaylist,
     PrivateContent,
-    NewMusic
+    NewSong
   }
 })
 export default class Recommend extends Vue {

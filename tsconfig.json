@@ -35,6 +35,7 @@
   "exclude": [
     "node_modules",
     "src/proxy/*",
-    "src/proxy-2019/*"
+    "src/proxy-2019/*",
+    "_vue-ts-template/*",
   ]
 }
