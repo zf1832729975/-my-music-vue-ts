@@ -16,7 +16,18 @@
     "postuninstall": "electron-builder install-app-deps"
   },
   "main": "background.js",
-  
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,html,vue,ts}": [
+      "prettier --config .prettierrc.js --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
   "dependencies": {
     "apicache": "^1.5.3",
     "axios": "^0.19.1",
