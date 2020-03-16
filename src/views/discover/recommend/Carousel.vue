@@ -9,7 +9,7 @@
       indicator-position="outside"
       :interval="10000"
       type="card"
-      height="250px"
+      height="220px"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="icon-loading big"

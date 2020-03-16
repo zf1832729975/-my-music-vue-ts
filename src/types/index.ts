@@ -1,4 +1,5 @@
 export * from './mv'
+export * from './video'
 
 /** 单个主题配置 */
 export interface Theme {

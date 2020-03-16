@@ -40,6 +40,7 @@
         flex-box="1"
         :show-tooltip="false"
         @change="handleCurrentTimeChange"
+        :disabled="audio.id <= 0"
       >
       </el-slider>
       <span class="progress-duration">{{
@@ -80,6 +81,7 @@
         flex-box="1"
         :step="0.01"
         :format-tooltip="formatTooltipVolume"
+        @change="handleDragVolumeChange"
       >
       </el-slider>
     </div>
@@ -259,7 +261,6 @@ export default class Footer extends Vue {
   @Watch('audio.volume')
   volumeChange(val: number) {
     this.$refs.audio.volume = val
-    this.audio.muted = !val
   }
   @Watch('audio.muted')
   mutedChange(val: boolean) {
@@ -345,6 +346,14 @@ export default class Footer extends Vue {
     }
 
     this.timer = setInterval(() => {
+      const buffered = this.$refs.audio.buffered
+      const arr = []
+      for (let i = 0; i < buffered.length; i++) {
+        arr.push([buffered.start(i), buffered.end(i)])
+      }
+      console.log(' arr: ', arr)
+      console.log(' buffered: ', buffered)
+
       // 拖动的时候不能赋值 dragging
       // @ts-ignore
       if (this.$refs.playProgress && !this.$refs.playProgress.dragging) {
@@ -411,6 +420,10 @@ export default class Footer extends Vue {
 
   handleNextClick() {
     if (this.playList.size) this.palyMode[this.audio.modeIndex].next(this)
+  }
+  /** 拖动声音改变 */
+  handleDragVolumeChange(val: number) {
+    this.audio.muted = !val
   }
 }
 </script>

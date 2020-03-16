@@ -33,7 +33,8 @@ export interface MV extends MVBase {
 /** MV详情 */
 export interface MVDetail extends MVBase {
   // briefDesc: ""
-  // desc: null
+  /** 简介 */
+  desc: string | number
   /** 封面 */
   cover: string
   // cover: "http://p1.music.126.net/ijUg7s_2S8GMbTNsYiepJA==/18676304511774727.jpg"
@@ -57,9 +58,11 @@ export interface MVDetail extends MVBase {
     // 240: 'http://vodkgeyttp8.vod.126.net/cloudmusic/MjQ3NDQ3MjUw/89a6a279dc2acfcd068b45ce72b1f560/bf2750483ed02d4c6263dffefa5959d7.mp4?wsSecret=8d18a325105993fe2df480ce549ef013&wsTime=1584287892'
     // 480: 'http://vodkgeyttp8.vod.126.net/cloudmusic/MjQ3NDQ3MjUw/89a6a279dc2acfcd068b45ce72b1f560/533e4183a709699d566180ed0cd9abe9.mp4?wsSecret=2fc7d603cc5ef4923fa6452b73649caf&wsTime=1584287892'
     /** 240p */
-    240: string
-    480: string
+    // 240: string
+    // 480: string
+    [key: number]: string
   }
+  /** Reward 报酬 */
   isReward: boolean
   // commentThreadId: 'R_MV_5_5436712'
 }
