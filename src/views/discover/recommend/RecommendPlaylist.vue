@@ -54,15 +54,15 @@ export default class RecommendSongList extends Vue {
 
   /** 获取推荐歌单 */
   private async getPersonalized(): Promise<void> {
-    const res = await getPersonalized(30)
-
-    console.log('推荐歌单 res: ', res)
     // @ts-ignore
-    this.list = res.result
+    const res: { result: [] } = await getPersonalized(30)
+
+    if (res && Array.isArray(res.result)) {
+      this.list = res.result.slice(0, 15)
+    }
   }
 
-  private handleClick(item: object) {
-    // @ts-ignore
+  private handleClick(item: { id: string }) {
     this.$router.push(`/playlist?id=${item.id}`)
   }
 

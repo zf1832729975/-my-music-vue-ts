@@ -20,10 +20,12 @@
       <span>总{{ tableDate.length || 0 }}首</span>
       <div>
         <span v-show="activeTab == 'playList'">
-          <el-button type="text" icon="icon-icon-test">收藏全部</el-button>
+          <el-button type="text" icon="iconfont icon-icon-test"
+            >收藏全部</el-button
+          >
           <el-divider direction="vertical"></el-divider>
         </span>
-        <el-button type="text" icon="icon-shanchu" @click="handleClear"
+        <el-button type="text" icon="iconfont icon-shanchu" @click="handleClear"
           >清空</el-button
         >
       </div>
@@ -45,8 +47,8 @@
             <template slot-scope="{ row: [id] }">
               <el-button type="text" v-if="audio.id === id">
                 <!-- 暂停中 -->
-                <i v-if="audio.paused" class="icon-zanting"></i>
-                <i v-else class="icon-bofang playing"></i>
+                <i v-if="audio.paused" class="iconfont icon-zanting"></i>
+                <i v-else class="iconfont icon-bofang playing"></i>
               </el-button>
             </template>
           </el-table-column>
@@ -75,7 +77,7 @@
           <el-table-column label="歌单" width="40px">
             <template slot-scope="{ row: [id, track] }">
               <a :href="`#/playlist?id=${track.playlistId}`" @click="close">
-                <i class="icon-link"></i>
+                <i class="iconfont icon-link"></i>
               </a>
             </template>
           </el-table-column>

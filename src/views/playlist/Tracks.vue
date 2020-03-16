@@ -16,9 +16,9 @@
         <!-- 激活了 -->
         <span v-if="audio.id === scope.row.id">
           <!-- 播放中 -->
-          <i v-if="!audio.paused" class="paly-btn icon-shengyin"></i>
+          <i v-if="!audio.paused" class="paly-btn iconfont icon-shengyin"></i>
           <!-- 暂停 -->
-          <i v-else class="paly-btn icon-jingyin1"></i>
+          <i v-else class="paly-btn iconfont icon-jingyin1"></i>
         </span>
         <span v-else>{{ (scope.$index + 1) | zeroize }}</span>
       </template>
@@ -26,8 +26,16 @@
 
     <el-table-column label="操作" width="80px" :resizable="false">
       <template>
-        <el-button class="opt-btn" type="text" icon="icon-xihuan"></el-button>
-        <el-button class="opt-btn" type="text" icon="icon-xiazai"></el-button>
+        <el-button
+          class="opt-btn"
+          type="text"
+          icon="iconfont icon-xihuan"
+        ></el-button>
+        <el-button
+          class="opt-btn"
+          type="text"
+          icon="iconfont icon-xiazai"
+        ></el-button>
       </template>
     </el-table-column>
     <el-table-column label="音乐标题" prop="name" sortable>

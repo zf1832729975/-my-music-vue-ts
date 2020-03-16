@@ -1,4 +1,4 @@
-export function zeroize(n: string | number) {
+function zeroize(n: string | number) {
   return Number(n) >= 10 ? n : '0' + n
 }
 

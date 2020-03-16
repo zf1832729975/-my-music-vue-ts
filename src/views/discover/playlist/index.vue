@@ -12,7 +12,7 @@
       :width="600"
     >
       <el-button slot="reference" class="select-button"
-        >摇滚<i class="icon icon-xialajiantou"></i
+        >摇滚<i class="icon icon-xialajiantou iconfont"></i
       ></el-button>
 
       <!--  popover 内容 -->
@@ -67,9 +67,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { getPlaylistCatlist, getPlaylistHot } from '@/api'
 
-@Component({
-  components: {}
-})
+@Component
 export default class PlayList extends Vue {
   /** 分类 */
   private categories: Object = {}

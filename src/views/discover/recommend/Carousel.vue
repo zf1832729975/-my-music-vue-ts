@@ -36,9 +36,7 @@ import { banner } from '@/api/index'
 // 1=== 直接播放
 // 1004 == mv
 
-@Component({
-  components: {}
-})
+@Component
 export default class Carousel extends Vue {
   /** banner列表 */
   private list: Array<any> = []

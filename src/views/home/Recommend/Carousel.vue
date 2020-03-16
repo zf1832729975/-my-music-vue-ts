@@ -23,9 +23,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { banner } from '@/api/index'
 
-@Component({
-  components: {}
-})
+@Component
 export default class Carousel extends Vue {
   /** banner列表 */
   private list: Array<any> = []

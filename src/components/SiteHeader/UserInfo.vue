@@ -23,11 +23,15 @@
     <Skin />
     <!-- 邮箱 -->
     <el-badge :value="2">
-      <el-button type="text" icon="icon-youxiang"></el-button>
+      <el-button type="text" icon="icon-youxiang iconfont"></el-button>
     </el-badge>
     <!-- 设置 -->
     <router-link to="/setting">
-      <el-button type="text" class="icon-setting" title="设置"></el-button>
+      <el-button
+        type="text"
+        class="icon-setting iconfont"
+        title="设置"
+      ></el-button>
     </router-link>
   </div>
 </template>

@@ -1,3 +1,5 @@
+export * from './mv'
+
 /** 单个主题配置 */
 export interface Theme {
   /** 主题名、en */

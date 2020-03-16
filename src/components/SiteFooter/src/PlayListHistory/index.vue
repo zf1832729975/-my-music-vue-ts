@@ -15,7 +15,7 @@
   >
     <!-- 减少加载、关闭了就不渲染了，页面中渲染过多会卡 -->
     <PlayListHistory @close="handleClose" v-if="listVisible" />
-    <el-button type="text" icon="icon-yinleliebiao" slot="reference">
+    <el-button type="text" icon="iconfont icon-yinleliebiao" slot="reference">
     </el-button>
   </el-popover>
 </template>

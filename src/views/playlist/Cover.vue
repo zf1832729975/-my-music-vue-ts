@@ -48,19 +48,19 @@
           </el-button>
           <el-button
             type="primary"
-            icon="icon-icon-test1"
+            icon="icon-icon-test1 iconfont"
             title="添加全部到播放列表"
           ></el-button>
         </el-button-group>
 
-        <el-button icon="icon-icon-test"
+        <el-button icon="icon-icon-test iconfont"
           >收藏({{ playlist.subscribedCount }})</el-button
         >
-        <el-button icon="icon-fenxiang"
+        <el-button icon="icon-fenxiang iconfont"
           >分享({{ playlist.shareCount }})</el-button
         >
 
-        <el-button icon="icon-xiazai">下载全部</el-button>
+        <el-button icon="icon-xiazai iconfont">下载全部</el-button>
       </div>
 
       <!-- 标签 -->
@@ -96,7 +96,7 @@
         ></div>
         <i
           v-if="isCanFold"
-          class="opt-arrow icon-xialajiantou"
+          class="opt-arrow iconfont icon-xialajiantou"
           @click="handleExpand"
         ></i>
       </div>

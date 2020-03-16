@@ -13,9 +13,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component({
-  components: {}
-})
+@Component
 export default class MusicDetail extends Vue {
   /** 缩小、关闭 */
   handleShrink() {

@@ -10,7 +10,11 @@
     popper-class="skin"
     @show="popoverShow"
   >
-    <el-button slot="reference" class="icon-pifu" type="text"></el-button>
+    <el-button
+      slot="reference"
+      class="iconfont icon-pifu"
+      type="text"
+    ></el-button>
     <el-tabs v-model="tabActive">
       <el-tab-pane name="theme" label="主题">
         <ul class="theme-list" flex style="flex-wrap:wrap">
@@ -28,7 +32,7 @@
             <div class="theme-inner" @click="changeTheme(theme)">
               <el-image fit="fill" :src="theme.backgroundImage"></el-image>
               <p class="theme-title">{{ theme.title }}</p>
-              <i class="flag-dot icon-xialajiantou"></i>
+              <i class="flag-dot iconfont icon-xialajiantou"></i>
             </div>
           </li>
         </ul>
@@ -53,7 +57,7 @@
                 background: color
               }"
             >
-              <i class="flag-dot icon-xialajiantou"></i>
+              <i class="flag-dot iconfont icon-xialajiantou"></i>
             </div>
           </li>
         </ul>
@@ -76,9 +80,7 @@ import { Theme, Themes } from '@/types'
 // @ts-ignore
 import themeConfig from '@/assets/themes/config'
 
-@Component({
-  components: {}
-})
+@Component
 export default class Skin extends Vue {
   /** 主题 */
   private themes: Themes = themeConfig as Themes

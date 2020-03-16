@@ -7,15 +7,23 @@
   <el-footer class="site-footer" height="70px" flex="cross:center">
     <!-- 播放按钮组 -->
     <div class="play-btn-group" flex-box="0">
-      <el-button type="text" icon="icon-shangyishou1" @click="handlePreClick">
+      <el-button
+        type="text"
+        icon="iconfont icon-shangyishou1"
+        @click="handlePreClick"
+      >
       </el-button>
       <el-button type="text" @click="handlePlayBtnClick">
         <!-- 暂停中 -->
-        <i v-if="audio.paused" class="icon-bofang" title="播放"></i>
+        <i v-if="audio.paused" class="iconfont icon-bofang" title="播放"></i>
         <!-- 播放中 -->
-        <i v-else class="icon-iconstop" title="暂停"></i>
+        <i v-else class="iconfont icon-iconstop" title="暂停"></i>
       </el-button>
-      <el-button type="text" icon="icon-xiayishou1" @click="handleNextClick">
+      <el-button
+        type="text"
+        icon="iconfont icon-xiayishou1"
+        @click="handleNextClick"
+      >
       </el-button>
     </div>
     <!-- 进度条  -->
@@ -54,8 +62,12 @@
     <div flex="cross:center" class="voice">
       <el-button type="text" @click="audio.muted = !audio.muted">
         <!-- 静音是 -->
-        <i v-if="audio.muted" class="icon-jingyin1" title="恢复音量"></i>
-        <i v-else class="icon-shengyin" title="静音"></i>
+        <i
+          v-if="audio.muted"
+          class="iconfont icon-jingyin1"
+          title="恢复音量"
+        ></i>
+        <i v-else class="iconfont icon-shengyin" title="静音"></i>
       </el-button>
 
       <!-- 声音滑块 -->
@@ -78,7 +90,7 @@
       <el-button
         type="text"
         @click="handleModeClick"
-        :icon="palyMode[audio.modeIndex].icon"
+        :icon="'iconfont ' + palyMode[audio.modeIndex].icon"
         :title="palyMode[audio.modeIndex].title"
       >
       </el-button>
@@ -106,7 +118,7 @@
         </el-dropdown-menu>
       </el-dropdown>
 
-      <el-button type="text" icon="icon-suijibofang"> </el-button>
+      <el-button type="text" icon="iconfont icon-suijibofang"> </el-button>
 
       <el-button type="text" class="border">
         词

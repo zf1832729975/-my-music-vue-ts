@@ -23,9 +23,7 @@ interface IFormData {
   keywords: string
 }
 
-@Component({
-  components: {}
-})
+@Component
 export default class Search extends Vue {
   private formData: IFormData = {
     keywords: ''

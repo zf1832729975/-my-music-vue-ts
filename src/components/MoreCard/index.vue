@@ -22,9 +22,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
-@Component({
-  components: {}
-})
+@Component
 export default class MoreCard extends Vue {
   @Prop({ default: '' }) url!: string
   @Prop({ default: '' }) title!: string

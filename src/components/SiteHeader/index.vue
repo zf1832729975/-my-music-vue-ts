@@ -55,19 +55,23 @@
           <!-- 最小化 -->
           <el-button
             type="text"
-            icon="icon-zuixiaohua"
+            icon="icon-zuixiaohua iconfont"
             title="最小化"
             @click="minimize"
           ></el-button>
           <!-- 缩放 -->
           <el-button type="text" @click="maximize">
-            <i v-if="isMaximize" class="icon-zuidahua" title="向下还原"></i>
+            <i
+              v-if="isMaximize"
+              class="iconfont icon-zuidahua"
+              title="向下还原"
+            ></i>
             <i v-else class="el-icon-full-screen" title="最大化"></i>
           </el-button>
           <!-- 关闭 -->
           <el-button
             type="text"
-            icon="icon-close"
+            icon="icon-close iconfont"
             title="关闭"
             @click="close"
           ></el-button>

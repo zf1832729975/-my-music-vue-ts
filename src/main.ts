@@ -3,14 +3,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './plugins'
-import { http, noop } from './utils'
+import { http, noop, formatCount, formatTime, zeroize } from './utils'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = http
-
 Vue.prototype.$bus = new Vue()
-
-console.log(' $process: ', $process)
 
 if (!$process.IS_WEB) {
   require('./utils/electron')
@@ -24,31 +21,6 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-function zeroize(n: string | number) {
-  return Number(n) >= 10 ? n : '0' + n
-}
-
-Vue.filter('zeroize', function(n: string | number) {
-  return Number(n) >= 10 ? n : '0' + n
-})
-
-Vue.filter('formatTime', function(val: number) {
-  let s = Math.floor(val / 1000)
-  let m = zeroize(Math.floor(s / 60))
-  return m + ':' + zeroize(s % 60)
-})
-
-Vue.filter('formatCount', function(n: string | number) {
-  const num: number = Number(n)
-  let arr: Array<[number, string]> = [
-    [100000000, '亿'],
-    [10000, '万']
-  ]
-  for (let i = 0; i < arr.length; i++) {
-    let dot: number = arr[i][0]
-    if (num >= dot) {
-      return parseInt(num / dot + '') + arr[i][1]
-    }
-  }
-  return n
-})
+Vue.filter('zeroize', zeroize)
+Vue.filter('formatTime', formatTime)
+Vue.filter('formatCount', formatCount)

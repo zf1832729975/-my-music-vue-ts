@@ -13,9 +13,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
-@Component({
-  components: {}
-})
+@Component
 export default class NetworkError extends Vue {
   @Prop({ default: '网络不给力哦，请检查你的网络设置-' }) message!: string
 }
