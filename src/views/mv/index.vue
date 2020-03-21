@@ -16,6 +16,14 @@ export default class MV extends Vue {
 </script>
 
 <style lang="scss">
+// el global
+.mv {
+  .el-divider {
+    // margin: 4px 0;
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+}
 .mv {
   padding: 8px;
   margin: 0 auto;
@@ -24,6 +32,11 @@ export default class MV extends Vue {
     font-weight: normal;
     vertical-align: middle;
     margin: 10px 0;
+    .back-arrow {
+      font-size: 18px;
+      cursor: pointer;
+      vertical-align: middle;
+    }
   }
   .mv-name {
     font-size: 18px;
@@ -38,6 +51,7 @@ export default class MV extends Vue {
     margin: 8px 0;
   }
 }
+
 // 评论
 .mv-comment {
   margin-top: 20px;
@@ -62,6 +76,16 @@ export default class MV extends Vue {
       font-size: 20px;
       margin: 2px 4px;
     }
+  }
+}
+
+// MV介绍
+.mv-js {
+  .js-title {
+    // margin: 0;
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: normal;
   }
 }
 </style>

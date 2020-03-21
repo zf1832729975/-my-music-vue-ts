@@ -5,9 +5,9 @@
 </template>
 
 <style lang="scss">
+@import '~@/assets/css/base.scss';
 @import '~@/assets/css/flex.css';
 @import '~@/assets/fonts/index.css';
-@import '~@/assets/css/base.scss';
 .icon-jiazaizhong,
 .icon-jiazaizhong1,
 .icon-loading2,

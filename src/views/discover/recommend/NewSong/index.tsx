@@ -54,12 +54,12 @@ export default class NewSong extends Vue {
               {vm.audio.id === item.id ? (
                 <el-button type="text">
                   {/* 暂停中 */
-                  vm.audio.paused ? (
-                    <i class="icon-jingyin1"></i>
-                  ) : (
+                    vm.audio.paused ? (
+                      <i class="iconfont icon-jingyin1"></i>
+                    ) : (
                     /* 在播放中 */
-                    <i class="icon-shengyin"></i>
-                  )}
+                      <i class="iconfont icon-shengyin"></i>
+                    )}
                 </el-button>
               ) : (
                 <span>{zeroize(initIndex + index)}</span>
@@ -67,7 +67,7 @@ export default class NewSong extends Vue {
             </div>
             <div class="song-image" on-click={() => vm.handlePlayMusic(item)}>
               <Image src={item.album.picUrl}></Image>
-              <i class="play-btn icon-bofang2"></i>
+              <i class="play-btn iconfont icon-bofang2"></i>
             </div>
             <div>
               <p class="song-name">{item.name}</p>

@@ -6,14 +6,13 @@ import VideoPage from './Video'
 
 import { Row, Col, Tag, Button, Divider, Input } from 'element-ui'
 import { formatDate, formatCount } from '@/utils'
-// require videojs style
-// import 'video.js/dist/video-js.css'
-// import 'vue-video-player/src/custom-theme.css'
 
 @Component
 export default class MV extends Vue {
   private mvId: number = 0
   private mv: MVDetail = {
+    id: 0,
+    name: '',
     /** 简介 */
     desc: '',
     /** 封面 */
@@ -42,34 +41,14 @@ export default class MV extends Vue {
       // 240: string
       480: ''
     },
-    isReward: false
-  }
-  private playerOptions = {
-    playbackRates: [0.7, 1.0, 1.5, 2.0], // 播放速度
-    autoplay: false, // 如果true,浏览器准备好时开始回放。
-    muted: false, //  默认情况下将会消除任何音频。
-    loop: false, //  导致视频一结束就重新开始。
-    preload: 'auto', //  建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
-    language: 'zh-CN',
-    aspectRatio: '16:9', //  将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
-    fluid: true, //  当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
-    sources: [
-      {
-        type: 'video/mp4', // 这里的种类支持很多种：基本视频格式、直播、流媒体等，具体可以参看git网址项目
-        src:
-          'http://vodkgeyttp8.vod.126.net/cloudmusic/obj/core/1691395073/f662c419eee69f5139a69069f4ebc596.mp4?wsSecret=50be257780fe8adb1f67760e5609c20b&wsTime=1584289632' // url地址
-      }
-    ],
-    poster:
-      'http://p1.music.126.net/MmM3lmiYh-YTir5m3UIBQQ==/109951164802040042.jpg', // 你的封面地址
-    //  width: document.documentElement.clientWidth, // 播放器宽度
-    notSupportedMessage: '此视频暂无法播放，请稍后再试', // 允许覆盖Video.js无法播放媒体源时显示的默认信息。
-    controlBar: {
-      timeDivider: true,
-      durationDisplay: true,
-      remainingTimeDisplay: false,
-      fullscreenToggle: true // 全屏按钮
-    }
+    isReward: false,
+    artists: [],
+    /** 出版时间 "1997-10-01" */
+    publishTime: '',
+    /** 歌手名 */
+    artistName: '',
+    /** 歌手id */
+    artistId: 0
   }
 
   private commentContent: string = '333'
@@ -104,7 +83,10 @@ export default class MV extends Vue {
           <Col span={16}>
             {/*  */}
             <h2 class="mv-title">
-              <i class="el-icon-arrow-left v-middle"></i>
+              <i
+                class="el-icon-arrow-left back-arrow"
+                onClick={() => this.$router.go(-1)}
+              ></i>
               {/* <i class="icon-borer"></i> */}
               <Tag effect="plain" class="v-middle">
                 MV
@@ -140,7 +122,7 @@ export default class MV extends Vue {
                   type="textarea"
                   maxlength={140}
                   value={this.commentContent}
-                  onChange={this.onCommentChange}
+                  on-change={this.onCommentChange}
                   resize={false}
                 ></Input>
 
@@ -172,14 +154,25 @@ export default class MV extends Vue {
               </div>
             </div>
           </Col>
+
           <Col span={8}>
-            <h3>MV介绍</h3>
-            <Divider></Divider>
-            <p>
-              <span>发布时间： {formatDate(mv.publishTime, 'yyyy-MM-dd')}</span>
-              <span>播放次数： {formatCount(mv.playCount)}次</span>
-            </p>
-            <p>简介：{mv.desc}</p>
+            {/* MV介绍 */}
+            <div class="mv-js">
+              <h3 class="js-title">MV介绍</h3>
+              <Divider></Divider>
+              <p class="">
+                <span>
+                  发布时间： {formatDate(mv.publishTime, 'yyyy-MM-dd')}
+                </span>
+                <span>播放次数： {formatCount(mv.playCount)}次</span>
+              </p>
+              <p>简介：{mv.desc}</p>
+            </div>
+            {/* 相关推荐 */}
+            <div>
+              <h3>相关推荐</h3>
+              <Divider></Divider>
+            </div>
           </Col>
         </Row>
       </div>

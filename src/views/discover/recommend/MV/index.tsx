@@ -21,7 +21,6 @@ export default class RecommendMV extends Vue {
 
   private getRecommendMV() {
     getRecommendMV().then(res => {
-      console.log(' res: ', res)
       this.list = res.result
     })
   }

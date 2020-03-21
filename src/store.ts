@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 // @ts-ignore
 import themeConfig from '@/assets/themes/config'
 import { Track, Theme, State, Audio, HistoryTrack } from '@/types'
-import { loadCache, putCache } from '@/utils'
+import { loadCache, putCache, removeCache } from '@/utils'
 Vue.use(Vuex)
 
 // 生产环境、和开发环境用的不同，开发环境是通过 webpack 注入
@@ -16,6 +16,23 @@ const AUDIO_SK = 'audio_attribute'
 const PLAY_LIST_SK = 'playList'
 const HISTORY_SK = 'historyList'
 const HISTORY_MAX_NUMBER = 100 // 历史记录最大个数
+
+let cachePalyList: Array<[number, Track]> = []
+let cecheHistroyList: Array<[number, HistoryTrack]> = []
+
+try {
+  cachePalyList = loadCache(PLAY_LIST_SK, [])
+} catch (e) {
+  removeCache(PLAY_LIST_SK)
+  cachePalyList = []
+}
+try {
+  cecheHistroyList = loadCache(HISTORY_SK, [])
+} catch (e) {
+  removeCache(HISTORY_SK)
+  cecheHistroyList = []
+}
+
 const defaultAudio: Audio = {
   // 音乐地址
   src: '',
@@ -36,7 +53,8 @@ const defaultAudio: Audio = {
 
 const state: State = {
   currentThemeConfig: currentThemeConfig || {},
-  playList: new Map(loadCache(PLAY_LIST_SK, [])),
+  // playList: new Map(loadCache(PLAY_LIST_SK, [])),
+  playList: new Map(cachePalyList),
   currentPlayId: -1,
   audio: {
     ...defaultAudio /** 防止存储的少一些字段 */,
@@ -44,7 +62,8 @@ const state: State = {
     // 是否暂停
     paused: true
   },
-  historyList: new Map(loadCache(HISTORY_SK, []))
+  // historyList: new Map(loadCache(HISTORY_SK, []))
+  historyList: new Map(cecheHistroyList)
 }
 
 export default new Vuex.Store({

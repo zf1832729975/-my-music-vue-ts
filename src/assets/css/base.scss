@@ -90,7 +90,9 @@ body {
   width: 100% !important;
   height: 100% !important;
 }
-
+.cursor-p {
+  cursor: pointer;
+}
 .text-ellipsis {
   white-space: nowrap;
   // display:block;

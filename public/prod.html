@@ -59,7 +59,8 @@ chunks = {
 
   <!-- iconfont 字体图标临时路径 -->
   <style>
-   .iconfont {
+    [class*="icon-"],
+    .iconfont {
       font-family: "iconfont" !important;
       font-size: 16px;
       font-style: normal;
@@ -86,7 +87,7 @@ chunks = {
     var currentTheme = ''
     try {
       currentTheme = localStorage.getItem('_theme_name')
-    } catch(e) {}
+    } catch (e) { }
 
     if (!currentTheme) {
       for (var name in themes) {
@@ -105,8 +106,8 @@ chunks = {
         // ie 中 file:// 打开报错
         try {
           localStorage.setItem('_theme_name', theme)
-        } catch(e) {}
-        
+        } catch (e) { }
+
         window.$theme = theme
         return true
       } else {
