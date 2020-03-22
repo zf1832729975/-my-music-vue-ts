@@ -44,7 +44,7 @@
             class-name="paly-status-column"
             align="center"
           >
-            <template slot-scope="{ row: [id] }">
+            <template slot-scope="{ row: { id } }">
               <el-button type="text" v-if="audio.id === id">
                 <!-- 暂停中 -->
                 <i v-if="audio.paused" class="iconfont icon-zanting"></i>
@@ -53,7 +53,7 @@
             </template>
           </el-table-column>
           <el-table-column label="音乐标题">
-            <template slot-scope="{ row: [id, track] }">
+            <template slot-scope="{ row: track }">
               <div class="text-ellipsis">
                 <!-- 歌曲名 -->
                 <span class="song-name">{{ track.name }}</span>
@@ -64,7 +64,7 @@
             </template>
           </el-table-column>
           <el-table-column label="歌手名" width="80px">
-            <template slot-scope="{ row: [id, track] }">
+            <template slot-scope="{ row: track }">
               <a
                 class="artist-name text-ellipsis"
                 :href="`#/artist?id=${track.ar[0].id}`"
@@ -75,7 +75,7 @@
             </template>
           </el-table-column>
           <el-table-column label="歌单" width="40px">
-            <template slot-scope="{ row: [id, track] }">
+            <template slot-scope="{ row: track }">
               <a :href="`#/playlist?id=${track.playlistId}`" @click="close">
                 <i class="iconfont icon-link"></i>
               </a>
@@ -86,12 +86,12 @@
             width="80px"
             v-if="activeTab === 'playList'"
           >
-            <template slot-scope="{ row: [id, track] }">
+            <template slot-scope="{ row: track }">
               <span class="song-dt">{{ track.dt | formatTime }}</span>
             </template>
           </el-table-column>
           <el-table-column label="播放时间" width="100px" v-else>
-            <template slot-scope="{ row: [id, track] }">
+            <template slot-scope="{ row: track }">
               <span class="play-date">{{ formatDate(track.playDate) }}</span>
             </template>
           </el-table-column>
@@ -104,17 +104,13 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { State, Mutation } from 'vuex-class'
-import { Track, Audio, HistoryTrack } from '@/types'
+import { Track, Audio, HistoryTrack, HistoryList, PlayList } from '@/types'
 import { formatDate } from '@/utils'
 
 @Component({
   components: {}
 })
 export default class PlayListHistory extends Vue {
-  //  private arr: Array<[number, string]> = [[1, 2]]
-  // private arr: Array<[number, string | number]> = [[1, 2]]
-  private playList: Array<[number, Track]> = []
-  private historyList: Array<[number, HistoryTrack]> = []
   private activeTab: string = 'playList'
   private tabList = [
     {
@@ -128,30 +124,20 @@ export default class PlayListHistory extends Vue {
   ]
 
   // vuex
-  @State('playList') playListMap!: Map<number, Track>
-  @State('historyList') historyListMap!: Map<number, HistoryTrack>
+  @State('playList') playList!: PlayList
+  @State('historyList') historyList!: HistoryList
   @State('audio') audio!: Audio
   @Mutation('UPDATE_playList')
   updatePlayList!: (data: Map<number, Track>) => void
   @Mutation('UPDATE_historyList')
   updateHistoryList!: (data: Map<number, HistoryTrack>) => void
 
-  get tableDate(): Array<[number, Track | HistoryTrack]> {
+  get tableDate(): PlayList | HistoryList {
     if (this.activeTab === 'playList') {
       return this.playList
     } else {
       return this.historyList
     }
-  }
-
-  // watch
-  @Watch('historyListMap', { immediate: true })
-  historyChange(val: Map<number, HistoryTrack>) {
-    this.historyList = JSON.parse(JSON.stringify(val)).reverse()
-  }
-  @Watch('playListMap', { immediate: true })
-  playListChange(val: Map<number, Track>) {
-    this.playList = JSON.parse(JSON.stringify(val))
   }
 
   // methods
@@ -166,8 +152,8 @@ export default class PlayListHistory extends Vue {
     this.$emit('close')
   }
 
-  private handleRowDBClick(row: Array<[number, Track]>) {
-    this.$bus.$emit('play-music', row[1])
+  private handleRowDBClick(row: Track | HistoryTrack) {
+    this.$bus.$emit('play-music', row)
   }
 
   private handleClear() {

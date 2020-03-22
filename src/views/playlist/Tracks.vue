@@ -63,7 +63,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { State, Getter, Action, Mutation, namespace } from 'vuex-class'
-import { Playlist, Artist, Track, Audio } from '@/types'
+import { Playlist, Artist, Track, Audio, PlayList } from '@/types'
 
 @Component({
   name: 'Tracks',
@@ -77,20 +77,15 @@ export default class Tracks extends Vue {
   @Prop({}) playlist!: Playlist
 
   // vuex
-  @State('playList') getPlayList!: Map<number, Track>
+  @State('playList') getPlayList!: PlayList
   @State('audio') audio!: Audio
   // 设置播放列表
-  @Mutation('UPDATE_playList') setPlayList!: (data: Map<number, Track>) => void
+  @Mutation('UPDATE_playList') setPlayList!: (data: PlayList) => void
 
   /** 某一行被双击 */
   handleRowDBClick(row: Track, column: object, event: Event) {
-    const map: Map<number, Track> = new Map<number, Track>()
-    const list = this.playlist.tracks
-    list.forEach(item => {
-      item.playlistId = this.playlist.id
-      map.set(item.id, item)
-    })
-    this.setPlayList(map)
+    const list: PlayList = this.playlist.tracks
+    this.setPlayList(list)
 
     this.$bus.$emit('play-music', row)
   }

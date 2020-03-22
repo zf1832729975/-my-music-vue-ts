@@ -55,12 +55,22 @@ $default-color: #e0e0e0;
   margin-left: 8px;
   border: 1px solid rgba(0, 0, 0, 0.185);
   border-radius: 2px;
+  height: 100%;
   .el-button {
     padding: 2px;
     margin: 1px 4px;
     font-size: 14px;
     font-weight: bold;
     color: #fff;
+  }
+  overflow: hidden;
+  // 分割线
+  .el-divider {
+    // height: 10em;
+    height: 24px;
+    // background-color: #aaa;
+    background-color: rgba(0, 0, 0, 0.185);
+    margin: 0 8px;
   }
 }
 

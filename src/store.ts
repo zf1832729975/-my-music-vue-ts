@@ -2,7 +2,15 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 // @ts-ignore
 import themeConfig from '@/assets/themes/config'
-import { Track, Theme, State, Audio, HistoryTrack } from '@/types'
+import {
+  Track,
+  PlayList,
+  HistoryList,
+  Theme,
+  State,
+  Audio,
+  HistoryTrack
+} from '@/types'
 import { loadCache, putCache, removeCache } from '@/utils'
 Vue.use(Vuex)
 
@@ -16,22 +24,6 @@ const AUDIO_SK = 'audio_attribute'
 const PLAY_LIST_SK = 'playList'
 const HISTORY_SK = 'historyList'
 const HISTORY_MAX_NUMBER = 100 // 历史记录最大个数
-
-let cachePalyList: Array<[number, Track]> = []
-let cecheHistroyList: Array<[number, HistoryTrack]> = []
-
-try {
-  cachePalyList = loadCache(PLAY_LIST_SK, [])
-} catch (e) {
-  removeCache(PLAY_LIST_SK)
-  cachePalyList = []
-}
-try {
-  cecheHistroyList = loadCache(HISTORY_SK, [])
-} catch (e) {
-  removeCache(HISTORY_SK)
-  cecheHistroyList = []
-}
 
 const defaultAudio: Audio = {
   // 音乐地址
@@ -47,14 +39,14 @@ const defaultAudio: Audio = {
   // 是否静音
   muted: false,
   id: 0,
+  index: 0,
   modeIndex: 0,
   qualityIndex: 0
 }
 
 const state: State = {
   currentThemeConfig: currentThemeConfig || {},
-  // playList: new Map(loadCache(PLAY_LIST_SK, [])),
-  playList: new Map(cachePalyList),
+  playList: loadCache<PlayList>(PLAY_LIST_SK, []),
   currentPlayId: -1,
   audio: {
     ...defaultAudio /** 防止存储的少一些字段 */,
@@ -62,8 +54,7 @@ const state: State = {
     // 是否暂停
     paused: true
   },
-  // historyList: new Map(loadCache(HISTORY_SK, []))
-  historyList: new Map(cecheHistroyList)
+  historyList: loadCache<HistoryList>(HISTORY_SK, [])
 }
 
 export default new Vuex.Store({
@@ -72,7 +63,7 @@ export default new Vuex.Store({
     UPDAE_currentThemeConfig(state: State, data: Theme | object) {
       state.currentThemeConfig = data
     },
-    UPDATE_playList(state: State, data: Map<number, Track>) {
+    UPDATE_playList(state: State, data: PlayList) {
       state.playList = data
       putCache(PLAY_LIST_SK, data)
     },
@@ -80,27 +71,19 @@ export default new Vuex.Store({
       state.audio = data
       putCache(AUDIO_SK, data)
     },
-    UPDATE_historyList(state: State, map: Map<number, HistoryTrack>) {
-      if (map.size > HISTORY_MAX_NUMBER) {
-        let deleteId = 0
-        try {
-          map.forEach(item => {
-            deleteId = item.id
-            throw new Error('跳出循环')
-          })
-        } catch (e) {
-          map.delete(deleteId)
-        }
+    UPDATE_historyList(state: State, data: HistoryList) {
+      if (data.length > HISTORY_MAX_NUMBER) {
+        data.pop()
       }
-      state.historyList = map
-      putCache(HISTORY_SK, map)
+      state.historyList = data
+      putCache(HISTORY_SK, data)
     }
   },
   getters: {
     /** 当前播放音乐 */
     currentMusic(state: State): Track {
-      const map = state.playList
-      const res = map.get(state.audio.id)
+      const arr = state.playList
+      const res = arr[state.audio.index]
       if (res) {
         return res
       } else {
@@ -114,6 +97,8 @@ export default new Vuex.Store({
           alia: [],
           /** album 专辑 */
           al: {
+            company: '',
+            publishTime: '',
             id: 0,
             name: '',
             /** 专辑图 */

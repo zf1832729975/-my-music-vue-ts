@@ -26,7 +26,7 @@
     <el-row :gutter="20" class="h-full" flex="cross:center" flex-box="1">
       <el-col :span="12" flex="cross:center">
         <!-- 按钮 -->
-        <div class="dir-btn-group">
+        <div class="dir-btn-group" flex="cross:center">
           <el-button
             icon="el-icon-arrow-left"
             type="text"
@@ -36,6 +36,12 @@
             icon="el-icon-arrow-right"
             type="text"
             @click="forward"
+          ></el-button>
+          <el-divider direction="vertical"></el-divider>
+          <el-button
+            icon="el-icon-refresh"
+            type="text"
+            @click="handleRefresh"
           ></el-button>
         </div>
 
@@ -103,6 +109,10 @@ export default class SiteHeader extends Vue {
   /** 后退 */
   back() {
     this.$router.go(-1)
+  }
+
+  handleRefresh() {
+    this.$emit('refresh')
   }
 
   minimize() {

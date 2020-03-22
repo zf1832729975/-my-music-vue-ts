@@ -1,6 +1,6 @@
 /** 获取缓存 */
 const prefix = 'my-music_'
-export function loadCache(key: string, defaults: any = null) {
+export function loadCache<T>(key: string, defaults: T = null): T {
   key = prefix + key
   const cache = localStorage.getItem(key)
   if (cache === null) {
@@ -16,7 +16,7 @@ export function loadCache(key: string, defaults: any = null) {
 }
 
 /** 存储缓存 */
-export function putCache(key: string, value: any) {
+export function putCache<T>(key: string, value: T) {
   key = prefix + key
   localStorage.setItem(key, JSON.stringify(value))
 }

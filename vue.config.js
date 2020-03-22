@@ -3,11 +3,10 @@ const themeConfig = require('./theme.config')
 const webpack = require('webpack')
 const path = require('path')
 
-
 console.log(' process.env.IS_WEB: ', process.env.IS_WEB)
 
 module.exports = {
-  baseUrl: process.env.NODE_ENV === 'production' ? './' : '/', // 部署应用包时的基本 URL
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/', // 部署应用包时的基本 URL
   // webpack配置
   configureWebpack: {
     entry: {
@@ -47,11 +46,15 @@ module.exports = {
           IS_WEB: !!process.env.IS_WEB,
           THEME: themeConfig.name // 仅在开发环境中用，生产环境中不用
         })
-      }),
+      })
     ]
   },
 
+  // 生产环境的 source map
+  // productionSourceMap: false,
+
   css: {
-    sourceMap: true // 开启 CSS source maps
+    // sourceMap: true // 开启 CSS source maps
+    sourceMap: process.env.NODE_ENV !== 'production' // 开启 CSS source maps
   }
 }

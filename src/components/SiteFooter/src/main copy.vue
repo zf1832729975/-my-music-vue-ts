@@ -177,15 +177,15 @@ export default class Footer extends Vue {
       name: 'SJ',
       pre(vm: Footer) {
         // 0~100 - 50
-        // 比如 len 100 增量 0 ~ 100
-        const len = vm.playList.length + 1
+        // 比如 size 100 增量 0 ~ 100
+        const len = vm.playList.length + 2
         const increment = parseInt(Math.random() * len + '')
         vm.playIncrementMusic(increment)
       },
       next: function(vm: Footer) {
-        // 比如 len 100 增量 0 ~ 100
-        const len = vm.playList.length + 1
-        const increment = Math.floor(Math.random() * len)
+        // 0~100 - 50
+        const len = vm.playList.length + 2
+        const increment = parseInt(Math.random() * len + '')
         vm.playIncrementMusic(increment)
       }
     },
@@ -276,13 +276,10 @@ export default class Footer extends Vue {
     this.audio = this.getInitAudio
 
     // 播放音乐、当传入 id <= 0 时停止播放
-    this.$bus.$on('play-music', (song: Track | HistoryTrack) => {
-      const playList = this.playList
-      const index = playList.findIndex(item => item.id === song.id)
+    this.$bus.$on('play-music', (song: Track) => {
       this.audio.id = song.id
-      this.audio.index = index
       this.audio.currentTime = 0
-      if (song.id <= 0 || index < 0) {
+      if (song.id <= 0) {
         this.audio.src = ''
         this.$nextTick(() => {
           this.pauseMusic()
@@ -327,6 +324,7 @@ export default class Footer extends Vue {
 
   /** 播放音乐  */
   playMusic() {
+    console.log(' this.$refs: ', this.$refs)
     if (!this.audio.src) {
       return
     }
@@ -340,26 +338,34 @@ export default class Footer extends Vue {
     // 就是存在了也要重新存，确保是最新的排列
     if (curTrack) {
       const historyList = this.historyList.slice()
-      let oldIndex: number = historyList.findIndex(
-        item => item.id === curTrack.id
-      )
-      if (oldIndex !== -1) historyList.splice(oldIndex, 1)
-      historyList.unshift({
-        ...curTrack,
-        playDate: new Date()
-      })
-      this.updateHistoryList(historyList)
+      // 就是在第一项，不用更改
+      if (historyList[0] && historyList[0].id === curId) {
+      } else {
+        // 删除原来的
+        let oldIndex: number = historyList.findIndex(
+          item => item.id === curTrack.id
+        )
+        historyList.splice(oldIndex, 1)
+        // 把最新的插入在前面
+        historyList.unshift({
+          ...curTrack,
+          playDate: new Date()
+        })
+        this.updateHistoryList(historyList)
+      }
     }
     if (this.audio.paused === true) {
       this.audio.paused = false
     }
 
     this.timer = setInterval(() => {
-      // const buffered = this.$refs.audio.buffered
-      // const arr = []
-      // for (let i = 0; i < buffered.length; i++) {
-      //   arr.push([buffered.start(i), buffered.end(i)])
-      // }
+      const buffered = this.$refs.audio.buffered
+      const arr = []
+      for (let i = 0; i < buffered.length; i++) {
+        arr.push([buffered.start(i), buffered.end(i)])
+      }
+      console.log(' arr: ', arr)
+      console.log(' buffered: ', buffered)
 
       // 拖动的时候不能赋值 dragging
       // @ts-ignore
@@ -383,7 +389,7 @@ export default class Footer extends Vue {
 
   /** 播放结束 */
   onended() {
-    this.handleNextClick()
+    this.handlePreClick()
   }
 
   /** 操作当前时间播放时间改变 */
@@ -403,14 +409,10 @@ export default class Footer extends Vue {
 
   /** 播放一个 增量的 index */
   playIncrementMusic(increment: number = 0) {
-    console.log(' increment: ', increment)
     if (increment !== 0) {
-      const len = this.playList.length
-      const curIndex = this.audio.index
-      const newIndex = (curIndex + increment) % len
-      const newId = this.playList[newIndex].id
+      const index = this.playList.length + increment
+      const newId = ids[newIndex]
       this.audio.id = newId
-      this.audio.index = newIndex
       this.audio.src = `https://music.163.com/song/media/outer/url?id=${newId}.mp3`
     }
     this.$nextTick(() => {
@@ -419,12 +421,10 @@ export default class Footer extends Vue {
     })
   }
 
-  /** 播放前一首按钮点击 */
   handlePreClick() {
     if (this.playList.length) this.palyMode[this.audio.modeIndex].pre(this)
   }
 
-  /** 播放后一首按钮点击 */
   handleNextClick() {
     if (this.playList.length) this.palyMode[this.audio.modeIndex].next(this)
   }

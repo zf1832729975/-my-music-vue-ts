@@ -107,6 +107,8 @@ export interface Audio {
   muted: boolean
   /** 音乐的 id、id <= 0 表示空、不会播放 */
   id: number
+  /** 当前播放音乐在播放列表中的 index */
+  index: number
   /** 播放模式 index */
   modeIndex: number
   /** 品质 index */
@@ -118,17 +120,22 @@ export interface Audio {
  * ==============================
  */
 
+/** 播放列表 */
+export type PlayList = Array<Track>
+export type HistoryList = Array<HistoryTrack>
+
 export interface State {
   /** 当前主题 */
   currentThemeConfig: Theme | object
   /** 播放列表 */
-  playList: Map<number, Track>
+  // playList: Map<number, Track>
+  playList: PlayList
   /** 当前播放音乐的id */
   currentPlayId: number
   /** 当前选择的音乐的音频信息 */
   audio: Audio
-  /** 播放历史列表 */
-  historyList: Map<number, HistoryTrack>
+  /** 播放历史列表、0代表最新的 index 越大代表以前的、 */
+  historyList: HistoryList
 }
 
 /**

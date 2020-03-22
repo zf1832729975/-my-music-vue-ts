@@ -22,7 +22,7 @@ chunks = {
   }
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
   <meta charset="utf-8">
@@ -83,11 +83,7 @@ chunks = {
   <script>
     var themes = <%= JSON.stringify(themes) %>;
     var chunks = <%= JSON.stringify(chunks) %>;
-    // var currentTheme = localStorage.getItem('_theme_name') ie 中 file:// 打开报错
-    var currentTheme = ''
-    try {
-      currentTheme = localStorage.getItem('_theme_name')
-    } catch (e) { }
+    var currentTheme = localStorage.getItem('_theme_name') // ie 中 file:// 打开报错
 
     if (!currentTheme) {
       for (var name in themes) {
@@ -104,9 +100,7 @@ chunks = {
         currentTheme = theme
         link.setAttribute('href', style)
         // ie 中 file:// 打开报错
-        try {
-          localStorage.setItem('_theme_name', theme)
-        } catch (e) { }
+        localStorage.setItem('_theme_name', theme)
 
         window.$theme = theme
         return true

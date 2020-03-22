@@ -1,11 +1,11 @@
 <template>
   <el-container class="site-container is-vertical">
-    <SiteHeader :aside-width="asideWidth + 'px'" />
+    <SiteHeader :aside-width="asideWidth + 'px'" @refresh="onRefresh" />
     <el-container class="site-container__body">
       <SiteAside :width="asideWidth + 'px'" />
       <el-main class="site-main">
         <el-scrollbar>
-          <router-view></router-view>
+          <router-view v-if="mainVisible"></router-view>
         </el-scrollbar>
       </el-main>
       <MusicCard
@@ -59,6 +59,7 @@ export default class Home extends Vue {
   public dragging: boolean = false
   private disabled: boolean = false
   private range: Array<number> = [200, 700]
+  private mainVisible: boolean = true
   @Watch('$route.path')
   routerPathChange() {
     if (this.isExpand) this.isExpand = false
@@ -71,6 +72,13 @@ export default class Home extends Vue {
   /** 缩小、关闭 */
   private handleShrink() {
     this.isExpand = false
+  }
+
+  onRefresh() {
+    this.mainVisible = false
+    this.$nextTick(() => {
+      this.mainVisible = true
+    })
   }
 
   handleDown(event: Event) {
