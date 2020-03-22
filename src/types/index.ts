@@ -59,7 +59,12 @@ export interface Track {
   playlistId?: number
 }
 
-export interface HistoryTrack extends Track {
+export interface PlayListTrack extends Track {
+  /** 歌单的 id */
+  playlistId: number
+}
+
+export interface HistoryTrack extends PlayListTrack {
   /** 播放时间, JSON.stringify(playDate)=>Date */
   playDate: Date | string
 }
@@ -121,7 +126,7 @@ export interface Audio {
  */
 
 /** 播放列表 */
-export type PlayList = Array<Track>
+export type PlayList = Array<PlayListTrack>
 export type HistoryList = Array<HistoryTrack>
 
 export interface State {

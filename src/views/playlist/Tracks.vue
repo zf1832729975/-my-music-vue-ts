@@ -84,10 +84,19 @@ export default class Tracks extends Vue {
 
   /** 某一行被双击 */
   handleRowDBClick(row: Track, column: object, event: Event) {
-    const list: PlayList = this.playlist.tracks
+    const list: PlayList = this.playlist.tracks.map(item => {
+      return {
+        ...item,
+        playlistId: this.playlist.id
+      }
+    })
+    console.log(' list: ', list)
     this.setPlayList(list)
 
-    this.$bus.$emit('play-music', row)
+    this.$bus.$emit('play-music', {
+      ...row,
+      playlistId: this.playlist.id
+    })
   }
 }
 </script>

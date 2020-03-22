@@ -138,7 +138,14 @@ import { Slider } from 'element-ui'
 
 // import PlayListHistory from './PlayListHistory.vue'
 import PlayListHistory from './PlayListHistory/index.vue'
-import { Track, Audio, HistoryTrack, PlayList, HistoryList } from '@/types'
+import {
+  Track,
+  Audio,
+  HistoryTrack,
+  PlayListTrack,
+  PlayList,
+  HistoryList
+} from '@/types'
 
 let vm: Footer | null = null
 
@@ -276,7 +283,7 @@ export default class Footer extends Vue {
     this.audio = this.getInitAudio
 
     // 播放音乐、当传入 id <= 0 时停止播放
-    this.$bus.$on('play-music', (song: Track | HistoryTrack) => {
+    this.$bus.$on('play-music', (song: PlayListTrack | HistoryTrack) => {
       const playList = this.playList
       const index = playList.findIndex(item => item.id === song.id)
       this.audio.id = song.id
@@ -336,7 +343,7 @@ export default class Footer extends Vue {
 
     const curId = this.audio.id
     const curIndex = this.audio.index
-    const curTrack: Track | undefined = this.playList[curIndex]
+    const curTrack: PlayListTrack | undefined = this.playList[curIndex]
     // 就是存在了也要重新存，确保是最新的排列
     if (curTrack) {
       const historyList = this.historyList.slice()
