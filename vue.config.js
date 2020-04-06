@@ -3,8 +3,6 @@ const themeConfig = require('./theme.config')
 const webpack = require('webpack')
 const path = require('path')
 
-console.log(' process.env.IS_WEB: ', process.env.IS_WEB)
-
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/', // 部署应用包时的基本 URL
   // webpack配置
@@ -51,7 +49,7 @@ module.exports = {
   },
 
   // 生产环境的 source map
-  // productionSourceMap: false,
+  productionSourceMap: false,
 
   css: {
     // sourceMap: true // 开启 CSS source maps

@@ -74,10 +74,33 @@ chunks = {
       vertical-align: baseline;
       display: inline-block;
     }
+    body {
+      min-width: 900px;
+    }
   </style>
 
   <!-- 主题 -->
   <link id="_theme_link" rel="stylesheet" href="">
+
+  <script>
+    // 原生JS实现jQuery的ready方法
+    /* function $ready(fn){
+        if(document.addEventListener) {
+            document.addEventListener('DOMContentLoaded', function() {
+                //注销事件, 避免反复触发
+                document.removeEventListener('DOMContentLoaded',arguments.callee, false);
+                fn();            //执行函数
+            }, false);
+        }else if(document.attachEvent) {        //IE
+            document.attachEvent('onreadystatechange', function() {
+                if(document.readyState == 'complete') {
+                    document.detachEvent('onreadystatechange', arguments.callee);
+                    fn();        //函数执行
+                }
+            });
+        } 
+    }; */
+  </script>
 
   <!-- 主题文件 -->
   <script>
@@ -93,25 +116,54 @@ chunks = {
     }
     window.$theme = currentTheme
 
+     // version 1、主题切换的时候会出错样式变形问题
+    // window.changeTheme = function (theme) {
+    //   var link = document.getElementById('_theme_link')
+    //   var style = themes[theme]
+    //   if (style) {
+    //     currentTheme = theme
+    //     link.setAttribute('href', style)
+    //     // ie 中 file:// 打开报错
+    //     localStorage.setItem('_theme_name', theme)
+
+    //     window.$theme = theme
+    //     return true
+    //   } else {
+    //     throw new Error('没有找到主题样式:', theme)
+    //   }
+    // }
+    
+    //  version 2
     window.changeTheme = function (theme) {
-      var link = document.getElementById('_theme_link')
-      var style = themes[theme]
-      if (style) {
-        currentTheme = theme
-        link.setAttribute('href', style)
-        // ie 中 file:// 打开报错
-        localStorage.setItem('_theme_name', theme)
+      var link = document.createElement('link')
+      var styleSrc = themes[theme]
+      if (styleSrc) {
+        link.setAttribute('id', 'theme_link-' + theme)
+        link.setAttribute('rel', 'stylesheet')
+        link.setAttribute('href', styleSrc)
+        link.onload = function() {
+          // 旧节点删除
+          var oldLink = document.getElementById('_theme_link')
+          document.head.removeChild(oldLink)
+          link.setAttribute('id', '_theme_link')
+        }
+        document.head.appendChild(link)
 
         window.$theme = theme
+        localStorage.setItem('_theme_name', theme)
         return true
       } else {
         throw new Error('没有找到主题样式:', theme)
       }
     }
 
-    window.onload = function () {
-      changeTheme(currentTheme)
-    }
+    changeTheme(currentTheme)
+    // $ready(function() {
+    //   changeTheme(currentTheme)
+    // })
+    // window.onload = function () {
+    //   changeTheme(currentTheme)
+    // }
 
   </script>
 
