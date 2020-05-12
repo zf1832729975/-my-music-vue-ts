@@ -1,12 +1,20 @@
-# music-vue-ts--2
+# 个人云音乐、仿网易云音乐
 
 > Typescript + vue + axios + vuex + sass
+> 有桌面端 electron.js 的
+
+## 预览
+### 首页
+![](./doc/preview_home.png)
+### 歌单详情
+![](./doc/preview_playlist.png)
 
 ## Project setup
 
 ```
 yarn install
 ```
+安装 electron 很容易失败，在安装的时候可以把 electron 删除掉， 值使用 web 端的
 
 ### Compiles and hot-reloads for development
 
