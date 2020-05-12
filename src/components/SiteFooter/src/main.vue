@@ -250,6 +250,7 @@ export default class Footer extends Vue {
   @State('currentPlayId') currentPlayId!: number
   @State('historyList') historyList!: HistoryList
   @Getter('currentMusic') currentMusic!: Track | object
+  @Mutation('UPDATE_playList') updatePlayList!: (dat: PlayList) => void
   @Mutation('UPDATE_audio') updateAudio!: (audio: Audio) => void
   @Mutation('UPDATE_historyList')
   updateHistoryList!: (historyList: HistoryList) => void
@@ -285,16 +286,24 @@ export default class Footer extends Vue {
     // 播放音乐、当传入 id <= 0 时停止播放
     this.$bus.$on('play-music', (song: PlayListTrack | HistoryTrack) => {
       const playList = this.playList
-      const index = playList.findIndex(item => item.id === song.id)
+      let index = playList.findIndex(item => item.id === song.id)
       this.audio.id = song.id
-      this.audio.index = index
       this.audio.currentTime = 0
-      if (song.id <= 0 || index < 0) {
+      if (song.id <= 0) {
         this.audio.src = ''
+        this.audio.index = index
         this.$nextTick(() => {
           this.pauseMusic()
         })
       } else {
+        if (index < 0) {
+          this.playList.splice(this.audio.index + 1, 0, song)
+          this.updatePlayList(this.playList)
+          this.audio.index += 1
+        } else {
+          this.audio.index = index
+        }
+
         this.audio.src = `https://music.163.com/song/media/outer/url?id=${song.id}.mp3`
         // 确保 this.$refs.audio 变化
         this.$nextTick(() => {

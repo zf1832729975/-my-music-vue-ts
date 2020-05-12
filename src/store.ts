@@ -54,7 +54,8 @@ const state: State = {
     // 是否暂停
     paused: true
   },
-  historyList: loadCache<HistoryList>(HISTORY_SK, [])
+  historyList: loadCache<HistoryList>(HISTORY_SK, []),
+  user: {}
 }
 
 export default new Vuex.Store({

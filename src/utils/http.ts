@@ -1,13 +1,13 @@
 import axios from 'axios'
-
 import { Message } from 'element-ui'
+import { getAccessToken } from '@/utils'
 
 // 创建axios实例
 const service = axios.create({
   withCredentials: true,
   // baseURL: 'http://localhost:3000',
-  baseURL: 'http://47.100.52.255:3000',
-  // baseURL: 'http://localhost:3000',
+  // baseURL: 'http://47.100.52.255:3000',
+  baseURL: 'http://localhost:3000',
   // url: ':3000',
   headers: {
     'Content-Type': 'application/json; charset=utf-8'
@@ -18,6 +18,13 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
+    let accessToken = getAccessToken()
+    if (accessToken) {
+      config.headers['Authorization'] = 'Bearer ' + accessToken // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
+    }
+    // if (config.headers.type === 'form') {
+    //   config.data = qs.stringify(config.data)
+    // }
     return config
   },
   error => {

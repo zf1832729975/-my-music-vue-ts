@@ -12,3 +12,5 @@ export * from './date'
 export * from './cache'
 
 export * from './filters'
+
+export * from './user'

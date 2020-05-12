@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+// @ts-ignore
+import VueCookie from 'vue-cookie' // api: https://github.com/alfhen/vue-cookie
 import './plugins'
 import { http, noop, formatCount, formatTime, zeroize } from './utils'
 
@@ -14,6 +16,8 @@ if (!$process.IS_WEB) {
 } else {
   Vue.prototype.$send = noop
 }
+
+Vue.use(VueCookie)
 
 new Vue({
   router,

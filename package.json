@@ -39,6 +39,7 @@
     "pac-proxy-agent": "^4.1.0",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
+    "vue-cookie": "^1.1.4",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.3",
     "vue-video-player": "^5.0.2",

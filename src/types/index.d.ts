@@ -1,5 +1,6 @@
 export * from './mv'
 export * from './video'
+export * from './cookie'
 
 /** 单个主题配置 */
 export interface Theme {
@@ -141,6 +142,72 @@ export interface State {
   audio: Audio
   /** 播放历史列表、0代表最新的 index 越大代表以前的、 */
   historyList: HistoryList
+  // user: Account
+}
+
+/** 账号 */
+export interface Account {
+  //   id: 1691455179
+  // userName: "1_18385328739"
+  // type: 1
+  // status: 0
+  // whitelistAuthority: 0
+  // createTime: 1543878734817
+  // salt: "[B@28e9eb25"
+  // tokenVersion: 1
+  // ban: 0
+  // baoyueVersion: 0
+  // donateVersion: 0
+  // vipType: 0
+  // viptypeVersion: 0
+  // anonimousUser: false
+  id: number
+  userName: string
+  createTime: number
+  // vipType
+}
+
+/**  */
+export interface Profile {
+  /** 描述 */
+  description: string
+  // avatarImgIdStr: string
+  // backgroundImgIdStr: string
+  // experts: {}
+  // backgroundImgId: 109951162868128400
+  userType: 0
+  // avatarUrl: "https://p3.music.126.net/ma8NC_MpYqC-dK_L81FWXQ==/109951163250233892.jpg"
+  /** 头像 */
+  avatarUrl: string
+  defaultAvatar: boolean
+  // province: 520000
+  // vipType: 0
+  // gender: 1
+  // mutual: false
+  // remarkName: null
+  // expertTags: null
+  // authStatus: 0
+  // accountStatus: 0
+  // avatarImgId: 109951163250233890
+  // nickname: "__阿飞哥__"
+  /** 昵称 */
+  nickname: string
+  // birthday: -2209017600000
+  // djStatus: 0
+  // city: 520100
+  // userId: 1691455179
+  // detailDescription: ""
+  // followed: false
+  // backgroundUrl: "http://p3.music.126.net/2zSNIqTcpHL2jIvU6hG0EA==/109951162868128395.jpg"
+  backgroundUrl: string
+  // signature: ""
+  // authority: 0
+  // avatarImgId_str: "109951163250233892"
+  // followeds: 1
+  // follows: 3
+  // eventCount: 0
+  // playlistCount: 1
+  // playlistBeSubscribedCount: 0
 }
 
 /**

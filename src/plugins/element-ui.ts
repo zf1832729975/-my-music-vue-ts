@@ -32,7 +32,10 @@ import {
   Tag,
   Input,
   ColorPicker,
-  Loading
+  Loading,
+  Dialog,
+  Form,
+  FormItem
 } from 'element-ui'
 
 // @ts-ignore
@@ -67,6 +70,9 @@ Vue.use(Tag)
 Vue.use(Input)
 Vue.use(ColorPicker)
 Vue.use(Loading)
+Vue.use(Dialog)
+Vue.use(Form)
+Vue.use(FormItem)
 
 // mini small medium
 Vue.prototype.$ELEMENT = { size: 'mini' }
