@@ -48,29 +48,37 @@
           <el-input v-model="dataForm.mobile" placeholder="请输入手机号">
             <div slot="prepend">
               <i class="iconfont icon-shouji"></i>
-              <el-dropdown size="medium">
+              <el-dropdown
+                size="medium"
+                placement="bottom-start"
+                trigger="click"
+              >
                 <span class="phone-prefix">
                   +{{ dataForm.phonePrefix }}
                   <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
 
-                <el-dropdown-menu slot="dropdown" style="width:200px;">
-                  <el-dropdown-item flex="main:justify">
-                    <span>中国</span>
-                    <span>+86</span>
-                  </el-dropdown-item>
-                  <el-dropdown-item flex="main:justify">
-                    <span>中国香港</span>
-                    <span>+852</span>
-                  </el-dropdown-item>
-                  <el-dropdown-item flex="main:justify">
-                    <span>中国澳门</span>
-                    <span>+853</span>
-                  </el-dropdown-item>
-                  <el-dropdown-item flex="main:justify">
-                    <span>中国台湾</span>
-                    <span>+886</span>
-                  </el-dropdown-item>
+                <el-dropdown-menu slot="dropdown" style="width:243px;">
+                  <el-scrollbar style="height: 240px;">
+                    <div v-for="(item, index) in 20" :key="index">
+                      <el-dropdown-item flex="main:justify">
+                        <span>中国</span>
+                        <span>+86</span>
+                      </el-dropdown-item>
+                      <el-dropdown-item flex="main:justify">
+                        <span>中国香港</span>
+                        <span>+852</span>
+                      </el-dropdown-item>
+                      <el-dropdown-item flex="main:justify">
+                        <span>中国澳门</span>
+                        <span>+853</span>
+                      </el-dropdown-item>
+                      <el-dropdown-item flex="main:justify">
+                        <span>中国台湾</span>
+                        <span>+886</span>
+                      </el-dropdown-item>
+                    </div>
+                  </el-scrollbar>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
