@@ -35,7 +35,11 @@ import {
   Loading,
   Dialog,
   Form,
-  FormItem
+  FormItem,
+  Checkbox,
+  Tooltip,
+  Notification,
+  Message
 } from 'element-ui'
 
 // @ts-ignore
@@ -73,6 +77,10 @@ Vue.use(Loading)
 Vue.use(Dialog)
 Vue.use(Form)
 Vue.use(FormItem)
+Vue.use(Checkbox)
+Vue.use(Tooltip)
 
 // mini small medium
 Vue.prototype.$ELEMENT = { size: 'mini' }
+Vue.prototype.$notify = Notification
+Vue.prototype.$message = Message

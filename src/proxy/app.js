@@ -8,16 +8,16 @@ const exec = require('child_process').exec
 const cache = require('apicache').middleware
 
 // version check
-exec('npm info NeteaseCloudMusicApi version', (err, stdout, stderr) => {
-  if (!err) {
-    let version = stdout.trim()
-    if (packageJSON.version < version) {
-      console.log(
-        `最新版本: ${version}, 当前版本: ${packageJSON.version}, 请及时更新`
-      )
-    }
-  }
-})
+// exec('npm info NeteaseCloudMusicApi version', (err, stdout, stderr) => {
+//   if (!err) {
+//     let version = stdout.trim()
+//     if (packageJSON.version < version) {
+//       console.log(
+//         `最新版本: ${version}, 当前版本: ${packageJSON.version}, 请及时更新`
+//       )
+//     }
+//   }
+// })
 
 const app = express()
 
@@ -26,7 +26,9 @@ app.use((req, res, next) => {
   if (req.path !== '/' && !req.path.includes('.')) {
     res.set({
       'Access-Control-Allow-Credentials': true,
-      'Access-Control-Allow-Origin': req.headers.origin || '*',
+      // 'Access-Control-Allow-Origin': req.headers.origin || '*',
+      'Access-Control-Allow-Origin':
+        req.headers.origin || 'http://localhost:8080',
       // 'Access-Control-Allow-Origin': 'http://47.100.52.255',
       'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
       'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',

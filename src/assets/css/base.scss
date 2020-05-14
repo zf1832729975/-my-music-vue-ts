@@ -51,13 +51,13 @@ body {
   -webkit-app-region: no-drag;
 }
 .db {
-  display: block;
+  display: block !important;
 }
 .di {
-  display: inline;
+  display: inline !important;
 }
 .dib {
-  display: inline-block;
+  display: inline-block !important;
 }
 
 .fl {

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Message } from 'element-ui'
+import { Message, Notification } from 'element-ui'
 import { getAccessToken } from '@/utils'
 
 // 创建axios实例
@@ -18,10 +18,10 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
-    let accessToken = getAccessToken()
-    if (accessToken) {
-      config.headers['Authorization'] = 'Bearer ' + accessToken // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
-    }
+    // let accessToken = getAccessToken()
+    // if (accessToken) {
+    //   config.headers['Authorization'] = 'Bearer ' + accessToken // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
+    // }
     // if (config.headers.type === 'form') {
     //   config.data = qs.stringify(config.data)
     // }
@@ -41,18 +41,23 @@ service.interceptors.response.use(
           break
         case 502:
           console.log(response.data.msg)
-          Message({
-            message: '似乎没有网络哦, 请检查当前网络',
-            type: 'error',
-            center: true
+          // Message({
+          //   message: response.data.msg || '似乎没有网络哦, 请检查当前网络',
+          //   type: 'error'
+          //   // center: true
+          // })
+          Notification.error({
+            message: response.data.msg || '似乎没有网络哦, 请检查当前网络',
+            title: '提示'
+            // center: true
           })
           break
         default:
           console.log(response.data.msg)
           Message({
             message: response.data.msg || '未知错误',
-            type: 'error',
-            center: true
+            type: 'error'
+            // center: true
           })
           break
       }
@@ -64,7 +69,13 @@ service.interceptors.response.use(
   error => {
     if (error.response) {
       const res = error.response.data
-
+      if (res.msg) {
+        Notification.error({
+          message: res.msg || '未知错误',
+          title: '提示'
+          // center: true
+        })
+      }
       return Promise.reject(res)
     } else {
       return Promise.reject(error)
