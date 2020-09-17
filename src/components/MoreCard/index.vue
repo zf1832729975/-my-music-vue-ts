@@ -8,10 +8,14 @@
     <div class="more-view">
       <div class="more-view__content">
         <h3 class="more-view__title">{{ title }}</h3>
-        <router-link :to="url" class="more-btn">
+        <a
+          :href="isUrl ? url : '#' + url"
+          class="more-btn"
+          :target="isUrl ? '_blank' : '_self'"
+        >
           <span>更多</span>
           <i class="el-icon-arrow-right"></i>
-        </router-link>
+        </a>
       </div>
       <el-divider></el-divider>
     </div>
@@ -21,11 +25,18 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import { isURL } from '@/utils'
 
 @Component
 export default class MoreCard extends Vue {
   @Prop({ default: '' }) url!: string
   @Prop({ default: '' }) title!: string
+
+  private isUrl: boolean = false
+
+  created() {
+    this.isUrl = isURL(this.url)
+  }
 }
 </script>
 <style lang="scss">

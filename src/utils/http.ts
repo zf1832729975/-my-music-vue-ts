@@ -7,7 +7,7 @@ const service = axios.create({
   withCredentials: true,
   // baseURL: 'http://localhost:3000',
   // baseURL: 'http://47.100.52.255:3000',
-  baseURL: 'http://localhost:3000',
+  baseURL: BASE_URL,
   // url: ':3000',
   headers: {
     'Content-Type': 'application/json; charset=utf-8'

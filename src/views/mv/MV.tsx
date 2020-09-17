@@ -82,17 +82,20 @@ export default class MV extends Vue {
         <Row gutter={25}>
           <Col span={16}>
             {/*  */}
-            <h2 class="mv-title">
+            <h2 class="mv-title" >
+              <span class="back-row" onClick={() => this.$router.go(-1)}>
               <i
                 class="el-icon-arrow-left back-arrow"
-                onClick={() => this.$router.go(-1)}
               ></i>
               {/* <i class="icon-borer"></i> */}
               <Tag effect="plain" class="v-middle">
                 MV
               </Tag>
               <span class="mv-name">{mv.name}</span>
-              <span class="artist-name">{mv.artistName}</span>
+              </span>
+              <router-link to={"/artist/" + mv.artistId} class="artist-name">
+                {mv.artistName}
+              </router-link>
             </h2>
             <VideoPage clas="mv-video" mv={mv}></VideoPage>
 
@@ -123,7 +126,7 @@ export default class MV extends Vue {
                   maxlength={140}
                   value={this.commentContent}
                   on-change={this.onCommentChange}
-                  resize={false}
+                  resize="none"
                 ></Input>
 
                 <div class="frame-footer" flex="main:justify">

@@ -17,9 +17,15 @@
     </more-card>
     <more-card title="最新音乐" url="/discover/album"> <NewSong /> </more-card>
     <more-card title="推荐MV" url="/mv"> <MV /> </more-card>
-    <more-card title="主播电台" url="/discover/djradio"></more-card>
-    <more-card title="听听" url="/discover/playlist"></more-card>
-    <more-card title="看看" url="/discover/playlist"></more-card>
+    <more-card title="主播电台" url="/discover/djradio">
+      <HostStation />
+    </more-card>
+    <more-card title="听听" url="https://look.163.com/hot?livetype=2">
+      <TingTing />
+    </more-card>
+    <more-card title="看看" url="https://look.163.com/hot">
+      <KanKan />
+    </more-card>
   </div>
 </template>
 
@@ -30,14 +36,19 @@ import RecommendPlaylist from './RecommendPlaylist.vue'
 import PrivateContent from './PrivateContent.vue' // 独家放送
 import NewSong from './NewSong'
 import MV from './MV'
-
+import HostStation from './HostStation.vue'
+import TingTing from './TingTing.vue'
+import KanKan from './KanKan.vue'
 @Component({
   components: {
     Carousel,
     RecommendPlaylist,
     PrivateContent,
     NewSong,
-    MV
+    MV,
+    HostStation,
+    TingTing,
+    KanKan
   }
 })
 export default class Recommend extends Vue {

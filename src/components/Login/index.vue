@@ -5,7 +5,10 @@
 -------------------------------------- --->
 <template>
   <el-dialog
-    width="350px"
+    v-el-drag-dialog
+    @dragDialoging="onDragDialoging"
+    @dragDialogEnd="onDragDialogEnd"
+    width="380px"
     :visible="visible"
     @close="$emit('close')"
     append-to-body
@@ -16,14 +19,14 @@
       <el-tooltip
         placement="right-start"
         effect="light"
-        :value="true"
+        :value="tooltipVisible"
         manual
         popper-class="login-scan-tips"
         v-if="loginWay === PHONE_LOGIN"
       >
         <div slot="content">扫码登录更安全</div>
         <div class="scan-code" @click="handleScanLoginClick">
-          <img src="~@/assets/img/login_OR_code.png" alt="" />
+          <img src="~@/assets/img/login_OR_code.png" alt />
         </div>
       </el-tooltip>
 
@@ -31,9 +34,8 @@
         v-else
         @click="loginWay = PHONE_LOGIN"
         class="cursor-p el-icon-arrow-left"
+        >返回其他登录</span
       >
-        返回其他登录
-      </span>
     </div>
 
     <!-- body -->
@@ -43,7 +45,7 @@
       </div>
 
       <!-- 表单  -->
-      <el-form ref="form" :model="dataForm" :rules="rules" size="medium">
+      <el-form ref="form" :model="dataForm" :rules="rules" size="default">
         <el-form-item prop="mobile">
           <el-input v-model="dataForm.mobile" placeholder="请输入手机号">
             <div slot="prepend">
@@ -101,9 +103,12 @@
           <el-checkbox v-model="autoLogin">自动登录</el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button class="w-full" @click="handleMobileLogin" type="primary">{{
-            logging ? '登录中...' : '登录'
-          }}</el-button>
+          <!-- <el-tooltip placement="top" hide-after :manual="true" v-model="TYGXtis" content="请多行信息、第二行信息">
+              <el-button>登录</el-button>
+            </el-tooltip> -->
+          <el-button class="w-full" @click="handleMobileLogin" type="primary">
+            {{ logging ? '登录中...' : '登录' }}
+          </el-button>
         </el-form-item>
         <el-form-item class="tc">
           <a href="javascript:;" class="register" @click="handleRegister"
@@ -127,8 +132,9 @@
           target="_blank"
         >
           <li class="other-login-item QQ" title="QQ">
-            <i class="iconfont icon-QQ"></i></li
-        ></a>
+            <i class="iconfont icon-QQ"></i>
+          </li>
+        </a>
 
         <li class="other-login-item weibo" title="微博">
           <i class="iconfont icon-weibo"></i>
@@ -162,7 +168,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { Form } from 'element-ui'
+import { Form, Tooltip } from 'element-ui'
 import { phoneLogin } from '@/api'
 import { setAccessToken } from '@/utils'
 import ScanCodeLogin from './ScanCodeLogin.vue'
@@ -184,6 +190,8 @@ export default class Login extends Vue {
   agree = false
   logging = false // 登录中
 
+  tooltipVisible = false
+
   dataForm = {
     mobile: '18385328739',
     // mobile: '',
@@ -202,6 +210,12 @@ export default class Login extends Vue {
     password: []
   }
 
+  mounted() {
+    setTimeout(() => {
+      this.tooltipVisible = true
+    }, 1000)
+  }
+
   // 手机登录
   handleMobileLogin() {
     this.$refs.form.validate(v => {
@@ -218,6 +232,7 @@ export default class Login extends Vue {
                 message: '登录成功',
                 type: 'success'
               })
+              this.$store.commit('UPDAE_userInfo', res.profile)
               setTimeout(() => {
                 this.visible = false
               }, 0)
@@ -240,5 +255,13 @@ export default class Login extends Vue {
 
   // 注册
   handleRegister() {}
+
+  onDragDialoging() {
+    if (this.tooltipVisible) this.tooltipVisible = false
+  }
+
+  onDragDialogEnd() {
+    this.tooltipVisible = true
+  }
 }
 </script>

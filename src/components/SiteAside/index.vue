@@ -72,9 +72,26 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import { State, Getter, Action, Mutation } from 'vuex-class'
+import { Profile } from '@/types'
 
 @Component({})
 export default class SiteAside extends Vue {
   @Prop({ default: '200px' }) width!: string
+
+  get userInfo(): Profile {
+    return this.$store.state.userInfo
+  }
+
+  created() {
+    if (this.userInfo) {
+      this.$http({
+        url: '/user/playlist',
+        params: { uid: this.userInfo.userId }
+      }).then(res => {
+        console.log('获取用户歌单 res: ', res)
+      })
+    }
+  }
 }
 </script>

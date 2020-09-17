@@ -14,3 +14,11 @@ export * from './cache'
 export * from './filters'
 
 export * from './user'
+
+/**
+ * URL地址
+ * @param {*} s
+ */
+export function isURL(s) {
+  return /^http[s]?:\/\/.*/.test(s)
+}

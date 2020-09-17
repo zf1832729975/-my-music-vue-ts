@@ -111,8 +111,8 @@ import { formatDate } from '@/utils'
 @Component({
   components: {},
   filters: {
-    formatDate(data: Date | string | number) {
-      return formatDate(data, 'yyyy-MM-dd')
+    formatDate(date: Date | string | number) {
+      return formatDate(date, 'yyyy-MM-dd')
     }
   }
 })

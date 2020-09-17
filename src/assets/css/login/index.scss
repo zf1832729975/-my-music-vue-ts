@@ -16,6 +16,9 @@ $bgC: #fafafa;
     top: 12px;
     right: 12px;
   }
+  .el-form-item {
+    margin-bottom: 16px;
+  }
   .scan-code {
     width: 35px;
     height: 35px;
@@ -155,4 +158,8 @@ $bgC: #fafafa;
       color: #0c73c2;
     }
   }
+}
+
+.v-model {
+  opacity: 0.1 !important;
 }

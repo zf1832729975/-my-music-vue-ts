@@ -12,6 +12,7 @@ import {
   HistoryTrack
 } from '@/types'
 import { loadCache, putCache, removeCache } from '@/utils'
+import { stat } from 'fs'
 Vue.use(Vuex)
 
 // 生产环境、和开发环境用的不同，开发环境是通过 webpack 注入
@@ -55,7 +56,7 @@ const state: State = {
     paused: true
   },
   historyList: loadCache<HistoryList>(HISTORY_SK, []),
-  user: {}
+  userInfo: JSON.parse(sessionStorage.getItem('user_info') || 'null')
 }
 
 export default new Vuex.Store({
@@ -78,6 +79,10 @@ export default new Vuex.Store({
       }
       state.historyList = data
       putCache(HISTORY_SK, data)
+    },
+    UPDAE_userInfo(state: State, data) {
+      state.userInfo = data
+      sessionStorage.setItem('user_info', JSON.stringify(data))
     }
   },
   getters: {

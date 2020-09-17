@@ -32,8 +32,11 @@ export default class MV extends Vue {
     font-weight: normal;
     vertical-align: middle;
     margin: 10px 0;
+    .back-row {
+      cursor: pointer;
+    }
     .back-arrow {
-      font-size: 18px;
+      font-size: 20px;
       cursor: pointer;
       vertical-align: middle;
     }
@@ -46,6 +49,7 @@ export default class MV extends Vue {
   .artist-name {
     font-size: 14px;
     vertical-align: bottom;
+    margin-left: 10px;
   }
   .mv-btn-group {
     margin: 8px 0;

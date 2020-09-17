@@ -3,6 +3,10 @@ const themeConfig = require('./theme.config')
 const webpack = require('webpack')
 const path = require('path')
 
+
+const HOST = 'http://47.100.52.255:3000'
+const PROXY_PREFIX = '/api'
+const BASE_URL = process.env.NODE_ENV === 'production' ? HOST : PROXY_PREFIX
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/', // 部署应用包时的基本 URL
   // webpack配置
@@ -16,34 +20,35 @@ module.exports = {
     plugins: [
       process.env.NODE_ENV === 'production'
         ? new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: './public/prod.html',
-            inject: false, // 是否注入，默认值为true
-            // minify: {
-            //   // 默认值为 false, 不压缩
-            //   removeAttributeQuotes: true, // 去掉双引号
-            //   removeComments: true, // 去掉注释
-            //   collapseWhitespace: true, // 去掉空白
-            //   minifyJS: true // 压缩js
-            // }
-            minify: {
-              removeAttributeQuotes: false, // 去掉双引号
-              removeComments: true, // 去掉注释
-              collapseWhitespace: false, // 去掉空白
-              minifyJS: false // 压缩js
-            }
-          })
+          filename: 'index.html',
+          template: './public/prod.html',
+          inject: false, // 是否注入，默认值为true
+          // minify: {
+          //   // 默认值为 false, 不压缩
+          //   removeAttributeQuotes: true, // 去掉双引号
+          //   removeComments: true, // 去掉注释
+          //   collapseWhitespace: true, // 去掉空白
+          //   minifyJS: true // 压缩js
+          // }
+          minify: {
+            removeAttributeQuotes: false, // 去掉双引号
+            removeComments: true, // 去掉注释
+            collapseWhitespace: false, // 去掉空白
+            minifyJS: false // 压缩js
+          }
+        })
         : new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: './public/dev.html',
-            inject: true
-          }),
+          filename: 'index.html',
+          template: './public/dev.html',
+          inject: true
+        }),
 
       new webpack.DefinePlugin({
         $process: JSON.stringify({
           IS_WEB: !!process.env.IS_WEB,
           THEME: themeConfig.name // 仅在开发环境中用，生产环境中不用
-        })
+        }),
+        BASE_URL: JSON.stringify(BASE_URL)
       })
     ]
   },
@@ -51,6 +56,17 @@ module.exports = {
   // 生产环境的 source map
   productionSourceMap: false,
 
+  devServer: {
+    proxy: {
+      [PROXY_PREFIX]: {
+        target: HOST,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + PROXY_PREFIX]: ''
+        }
+      }
+    }
+  },
   css: {
     // sourceMap: true // 开启 CSS source maps
     sourceMap: process.env.NODE_ENV !== 'production' // 开启 CSS source maps

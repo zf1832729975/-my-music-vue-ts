@@ -66,7 +66,11 @@ body {
 .fr {
   float: right;
 }
-
+.clearfix::after {
+  clear: both;
+  content: " ";
+  display: block;
+}
 .tl {
   text-align: left;
 }
@@ -93,12 +97,33 @@ body {
 .cursor-p {
   cursor: pointer;
 }
+.text-ell,
 .text-ellipsis {
   white-space: nowrap;
   // display:block;
   text-overflow: ellipsis;
   overflow: hidden;
   // display: inline-block;
+}
+
+.zh {
+  &-row {
+    margin-left:-8px;margin-right:-8px;
+    position: relative;
+    box-sizing: border-box;
+    &::before, 
+    &::after {
+      display: table;
+      content: "";
+      clear: both;
+    }
+  }
+  &-col-5 {
+    width: 20%;
+    float: left;
+    box-sizing: border-box;
+    padding: 0 8px;
+  }
 }
 
 @mixin margin1($dir) {

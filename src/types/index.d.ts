@@ -142,8 +142,12 @@ export interface State {
   audio: Audio
   /** 播放历史列表、0代表最新的 index 越大代表以前的、 */
   historyList: HistoryList
-  // user: Account
+  userInfo: Profile | null
 }
+
+// export interface UserInfo {
+//   Account
+// }
 
 /** 账号 */
 export interface Account {
@@ -196,6 +200,8 @@ export interface Profile {
   // djStatus: 0
   // city: 520100
   // userId: 1691455179
+  /** 用户id */
+  userId: number
   // detailDescription: ""
   // followed: false
   // backgroundUrl: "http://p3.music.126.net/2zSNIqTcpHL2jIvU6hG0EA==/109951162868128395.jpg"

@@ -6,6 +6,7 @@ import store from './store'
 import VueCookie from 'vue-cookie' // api: https://github.com/alfhen/vue-cookie
 import './plugins'
 import { http, noop, formatCount, formatTime, zeroize } from './utils'
+import ElDragDialog from './directive/el-drag-dialog'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = http
@@ -18,6 +19,7 @@ if (!$process.IS_WEB) {
 }
 
 Vue.use(VueCookie)
+Vue.use(ElDragDialog)
 
 new Vue({
   router,
