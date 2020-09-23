@@ -15,19 +15,28 @@
         maxlength="140"
         v-model="commentCotent"
         resize="none"
+        :autofocus="true"
       ></el-input>
 
       <div class="frame-footer" flex="main:justify">
         <span class="comment-face">
           <i class="iconfont icon-biaoqing-xue"></i>
           <i class="iconfont icon-zuichun"></i>
+          <i class="icon">#</i>
         </span>
         <el-button onClick="{this.handleComment}">评论</el-button>
       </div>
     </div>
 
+    <div class="comment-none" v-if="commentData.total === 0">
+      还没有评论，快来抢沙发~
+    </div>
+
     <!-- {/* 精彩评论 */} -->
-    <div class="comment-type wonderful-comment" v-if="commentData.hotComments">
+    <div
+      class="comment-type wonderful-comment"
+      v-if="commentData.hotComments && commentData.hotComments.length"
+    >
       <p class="comment-type-name">精彩评论</p>
       <ul clas="comment-list">
         <CommentItem
@@ -45,7 +54,10 @@
     </div>
 
     <!-- {/* 最新评论 */} -->
-    <div class="comment-type comment-latest" v-if="commentData.comments">
+    <div
+      class="comment-type comment-latest"
+      v-if="commentData.comments && commentData.comments.length"
+    >
       <p class="comment-type-name">
         最新评论<span>({{ commentData.total }})</span>
       </p>
@@ -158,12 +170,15 @@ export default class Comment extends Vue {
 
   // 滚动到评论顶部
   scrollToCommentTop() {
+    console.log(' this.$refs: ', this.$refs)
     const commentEl = this.$refs.comment
     const scrollEl = this.findScrollEl()
     if (scrollEl && commentEl instanceof Element) {
+      console.log(' commentEl.offsetTop: ', commentEl.offsetTop)
       const num = commentEl.offsetTop - 30
       const scrollTop = num < 0 ? 0 : num
-      scrollEl.scrollTop = num
+      console.log('滚动距离 scrollTop: ', scrollTop)
+      scrollEl.scrollTop = scrollTop
     }
   }
 }
@@ -182,6 +197,20 @@ export default class Comment extends Vue {
   margin: 16px 0;
   &:hover {
     color: #333;
+  }
+}
+// 评论框
+.comment-frame {
+  padding: 10px;
+  background: #f0f0f2;
+  .frame-footer {
+    padding-top: 8px;
+  }
+  .iconfont {
+    vertical-align: middle;
+    cursor: pointer;
+    font-size: 20px;
+    margin: 2px 4px;
   }
 }
 .comment-pagination {
@@ -206,5 +235,10 @@ export default class Comment extends Vue {
   color: #333;
   padding: 16px 0;
   border-bottom: 1px solid #f0f0f0;
+}
+.comment-none {
+  text-align: center;
+  color: #999;
+  margin: 20px;
 }
 </style>

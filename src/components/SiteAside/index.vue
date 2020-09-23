@@ -58,6 +58,7 @@
       <dl>
         <dt class="text">
           <span class="fr right-btn">
+            <!-- 新建歌单 -->
             <CreatePlaylist @change="getPlaylist" />
             <i
               class="el-icon-arrow-right arrow-icon"
@@ -68,18 +69,28 @@
           创建的歌单
         </dt>
         <div v-show="!foldStatus.subscribed">
-          <dd>
-            <i class="icon iconfont icon-xihuan"></i>
-            <span class="text">我喜欢的音乐</span>
-          </dd>
-          <dd v-for="playlist in createPlaylist" :key="playlist.id">
-            <i
-              class="icon iconfont"
-              :class="
-                playlist.privacy === 10 ? 'icon-mima' : 'icon-yinleliebiao'
-              "
-            ></i>
-            <span class="text">{{ playlist.name }}</span>
+          <dd
+            v-for="(playlist, index) in createPlaylist"
+            :key="playlist.id"
+            @click="handlePlaylistClick(playlist)"
+            :class="{
+              'is-active':
+                $route.name === 'playlist' && playlist.id == $route.query.id
+            }"
+          >
+            <template v-if="index === 0">
+              <i class="icon iconfont icon-xihuan"></i>
+              <span class="text">我喜欢的音乐</span>
+            </template>
+            <template v-else>
+              <i
+                class="icon iconfont"
+                :class="
+                  playlist.privacy === 10 ? 'icon-mima' : 'icon-yinleliebiao'
+                "
+              ></i>
+              <span class="text">{{ playlist.name }}</span>
+            </template>
           </dd>
         </div>
       </dl>
@@ -96,7 +107,15 @@
           收藏的歌单
         </dt>
         <div v-show="!foldStatus.created">
-          <dd v-for="playlist in subscribedPlaylist" :key="playlist.id">
+          <dd
+            v-for="playlist in subscribedPlaylist"
+            :key="playlist.id"
+            @click="handlePlaylistClick(playlist)"
+            :class="{
+              'is-active':
+                $route.name === 'playlist' && playlist.id == $route.query.id
+            }"
+          >
             <i class="icon iconfont icon-yinleliebiao"></i>
             <span class="text">{{ playlist.name }}</span>
           </dd>
@@ -167,6 +186,11 @@ export default class SiteAside extends Vue {
         }
       })
     }
+  }
+
+  // 歌单click
+  handlePlaylistClick(playlist: Playlist) {
+    this.$router.push({ name: 'playlist', query: { id: playlist.id } })
   }
 }
 </script>

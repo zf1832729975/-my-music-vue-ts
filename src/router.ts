@@ -83,7 +83,7 @@ const mainRoutes = [
     name: 'mv',
     component: _import('mv')
   },
-  /** 播放列表页面  */
+  /** 歌单  */
   {
     path: 'playlist',
     name: 'playlist',

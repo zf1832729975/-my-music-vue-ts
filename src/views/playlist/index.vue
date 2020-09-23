@@ -10,7 +10,7 @@
     <Cover :playlist="playlist" />
     <!-- 封面 end-->
 
-    <el-tabs value="track">
+    <el-tabs v-model="tabsActive">
       <el-tab-pane name="track" label="歌曲列表">
         <!-- 歌曲列表 -->
         <Tracks :playlist="playlist" />
@@ -19,14 +19,16 @@
         name="comment"
         :label="`评论(${playlist.commentCount})`"
         lazy
-      ></el-tab-pane>
+      >
+        <Comment :id="playlistId" type="playlist"></Comment>
+      </el-tab-pane>
       <el-tab-pane name="collect" label="收藏者" lazy></el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getPlaylistDetail } from '@/api'
 import { Playlist, Artist, Track } from '@/types'
 import Tracks from './Tracks.vue'
@@ -36,9 +38,9 @@ import Cover from './Cover.vue'
   components: { Tracks, Cover }
 })
 export default class PlayList extends Vue {
-  /** 歌单id */
-  private playlistId: number = 0
+  // private playlistId: number = 0
   /** 加载中 */
+  private tabsActive: string = 'track'
   private loading: boolean = false
   private playlist: Playlist = {
     subscribers: [],
@@ -58,8 +60,15 @@ export default class PlayList extends Vue {
     id: 0
   }
 
-  created() {
-    this.playlistId = +this.$route.query.id
+  /** 歌单id */
+  get playlistId(): number {
+    const route = this.$route
+    return Number(route.query.id)
+  }
+
+  @Watch('playlistId', { immediate: true })
+  playlistIdChange() {
+    this.tabsActive = 'track'
     this.getPlaylistDetail()
   }
 
@@ -109,6 +118,9 @@ export default class PlayList extends Vue {
   }
   .el-tabs__item {
     font-size: 14px;
+  }
+  .comment {
+    margin: 20px;
   }
 }
 </style>

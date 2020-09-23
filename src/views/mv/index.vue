@@ -66,21 +66,6 @@ export default class MV extends Vue {
     font-size: 12px;
     color: #555;
   }
-
-  // 评论框
-  .comment-frame {
-    padding: 10px;
-    background: #f0f0f2;
-    .frame-footer {
-      padding-top: 8px;
-    }
-    .iconfont {
-      vertical-align: middle;
-      cursor: pointer;
-      font-size: 20px;
-      margin: 2px 4px;
-    }
-  }
 }
 
 // MV介绍
