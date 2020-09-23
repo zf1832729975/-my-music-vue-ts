@@ -4,7 +4,7 @@ const webpack = require('webpack')
 const path = require('path')
 
 
-const HOST = 'http://47.100.52.255:3000'
+const HOST = 'http://www.7749tian.com:3000'
 const PROXY_PREFIX = '/api'
 const BASE_URL = process.env.NODE_ENV === 'production' ? HOST : PROXY_PREFIX
 module.exports = {

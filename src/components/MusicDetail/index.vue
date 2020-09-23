@@ -4,7 +4,7 @@
  * @date 2020/3/13
 -------------------------------------- --->
 <template>
-  <div class="music-detail">
+  <el-scrollbar class="music-detail">
     <div class="musicDt_header">
       <div class="musicDt_media musicDt_w">
         <div class="musicDt_action">
@@ -53,8 +53,9 @@
         听友评论
         <span>（已有112576条评论）</span>
       </h3>
+      <Comment :id="music.id" type="music"></Comment>
     </div>
-  </div>
+  </el-scrollbar>
 </template>
 
 <script lang="ts">
@@ -69,7 +70,24 @@ export default class MusicDetail extends Vue {
     this.$emit('shrink')
   }
 
-  @Getter('currentMusic') music!: Track | object
+  @Getter('currentMusic') music!: Track
+
+  created() {
+    this.getSongDetail()
+    this.getLyric()
+  }
+
+  // 获取歌曲详情
+  async getSongDetail() {
+    const data = await this.$http.get(`/song/detail?ids=${this.music.id}`)
+    console.log('获取歌曲详情 data: ', data)
+  }
+
+  // 获取歌词
+  async getLyric() {
+    const data = await this.$http.get(`/lyric?id=${this.music.id}`)
+    console.log('获取歌词 data: ', data)
+  }
 }
 </script>
 

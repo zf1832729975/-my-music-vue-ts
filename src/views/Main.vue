@@ -8,25 +8,25 @@
           <router-view v-if="mainVisible"></router-view>
         </el-scrollbar>
       </el-main>
-      <MusicCard
-        v-if="!isExpand"
-        @expand="handleExpand"
-        :style="{
-          width: asideWidth + 'px'
-        }"
-      />
+      <template v-if="!isExpand">
+        <MusicCard
+          @expand="handleExpand"
+          :style="{
+            width: asideWidth + 'px'
+          }"
+        />
+        <!-- 拖动条蒙版、让鼠标变成箭头形状，防止来回更改作用 -->
+        <div class="drag-mark" v-if="dragging"></div>
+        <!-- 拖动条 -->
+        <div
+          class="drag-bar"
+          :style="{
+            left: asideWidth + 'px'
+          }"
+          @mousedown="handleDown"
+        ></div>
+      </template>
       <MusicDetail v-else @shrink="handleShrink" />
-
-      <!-- 拖动条蒙版、让鼠标变成箭头形状，防止来回更改作用 -->
-      <div class="drag-mark" v-if="dragging"></div>
-      <!-- 拖动条 -->
-      <div
-        class="drag-bar"
-        :style="{
-          left: asideWidth + 'px'
-        }"
-        @mousedown="handleDown"
-      ></div>
     </el-container>
     <SiteFooter />
   </el-container>

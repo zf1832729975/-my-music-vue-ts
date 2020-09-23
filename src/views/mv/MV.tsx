@@ -7,7 +7,6 @@ import VideoPage from './Video'
 import { Row, Col, Tag, Button, Divider, Input, Avatar } from 'element-ui'
 import { formatDate, formatCount } from '@/utils'
 
-
 // @Component
 // export default class Comment extends Vue {
 
@@ -108,16 +107,16 @@ export default class MV extends Vue {
             {/*  */}
             <h2 class="mv-title" >
               <span class="back-row" onClick={() => this.$router.go(-1)}>
-              <i
-                class="el-icon-arrow-left back-arrow"
-              ></i>
-              {/* <i class="icon-borer"></i> */}
-              <Tag effect="plain" class="v-middle">
+                <i
+                  class="el-icon-arrow-left back-arrow"
+                ></i>
+                {/* <i class="icon-borer"></i> */}
+                <Tag effect="plain" class="v-middle">
                 MV
-              </Tag>
-              <span class="mv-name">{mv.name}</span>
+                </Tag>
+                <span class="mv-name">{mv.name}</span>
               </span>
-              <router-link to={"/artist/" + mv.artistId} class="artist-name">
+              <router-link to={'/artist/' + mv.artistId} class="artist-name">
                 {mv.artistName}
               </router-link>
             </h2>
@@ -136,7 +135,7 @@ export default class MV extends Vue {
             </div>
 
             {/* 评论 */}
-            <comment ></comment>
+            <comment id={mv.id} type="mv"></comment>
 
             <div class="mv-comment" style="display:none">
               <h3 class="title">
