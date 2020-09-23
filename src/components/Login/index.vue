@@ -62,7 +62,7 @@
 
                 <el-dropdown-menu slot="dropdown" style="width:243px;">
                   <el-scrollbar style="height: 240px;">
-                    <div v-for="(item, index) in 20" :key="index">
+                    <div v-for="(item, index) in 10" :key="index">
                       <el-dropdown-item flex="main:justify">
                         <span>中国</span>
                         <span>+86</span>
@@ -170,7 +170,8 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { Form, Tooltip } from 'element-ui'
 import { phoneLogin } from '@/api'
-import { setAccessToken } from '@/utils'
+import { setAuthCookie } from '@/utils'
+import { UserInfo } from '@/types'
 import ScanCodeLogin from './ScanCodeLogin.vue'
 
 @Component({
@@ -178,7 +179,7 @@ import ScanCodeLogin from './ScanCodeLogin.vue'
 })
 export default class Login extends Vue {
   // @ts-ignore
-  $refs: {
+  $refs!: {
     form: Form
   }
   SCAN_CODE_LOGIN = 'scan_code_login'
@@ -218,29 +219,37 @@ export default class Login extends Vue {
 
   // 手机登录
   handleMobileLogin() {
-    this.$refs.form.validate(v => {
+    this.$refs.form.validate(async v => {
       if (this.logging) return
       if (v) {
         this.logging = true
-        phoneLogin(this.dataForm.mobile, this.dataForm.password)
-          .then(res => {
-            console.log('登录 res: ', res)
-            if (res.code === 200) {
-              setAccessToken(res.token)
-              this.$notify({
-                title: '提示',
-                message: '登录成功',
-                type: 'success'
-              })
-              this.$store.commit('UPDAE_userInfo', res.profile)
-              setTimeout(() => {
-                this.visible = false
-              }, 0)
-            }
-          })
-          .finally(() => {
-            this.logging = false
-          })
+        const res = await phoneLogin(
+          this.dataForm.mobile,
+          this.dataForm.password
+        )
+        this.logging = false
+        console.log('登录 res: ', res)
+        if (res.code !== 200) {
+          return this.$message.error('登录失败')
+        }
+        setAuthCookie(res.token)
+        this.$notify({
+          title: '提示',
+          message: '登录成功',
+          type: 'success'
+        })
+        // this.$store.commit('UPDAE_userInfo', res)
+        sessionStorage.setItem('login_res', JSON.stringify(res))
+
+        const userInfo = await this.$http.get(
+          '/user/detail?uid=' + res.profile.userId
+        )
+
+        this.$store.commit('UPDAE_userInfo', userInfo)
+
+        setTimeout(() => {
+          this.visible = false
+        }, 0)
       }
     })
   }

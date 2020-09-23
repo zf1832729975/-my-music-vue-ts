@@ -53,7 +53,7 @@
               <span> <i class="el-icon-medal"></i>等级 </span>
               <span class="menu-right">
                 <strong>
-                  <em>LV.2</em>
+                  <em>LV.{{ userInfo.level }}</em>
                 </strong>
                 <i class="el-icon-arrow-right"></i>
               </span>
@@ -135,15 +135,15 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import UserInfo from '@/components/UserInfo/index.vue'
+// import UserInfo from '@/components/UserInfo/index.vue'
 import Skin from './Skin.vue'
 import Login from '@/components/Login/index.vue'
-import { Profile } from '@/types'
+import { Profile, UserInfo } from '@/types'
 import { clearLoginInfo } from '@/utils'
 
 @Component({
   components: {
-    UserInfo,
+    // UserInfo,
     Skin,
     Login
   }
@@ -151,13 +151,29 @@ import { clearLoginInfo } from '@/utils'
 export default class HeaderUserInfo extends Vue {
   private loginVisible: boolean = false
 
-  get profile(): Profile {
+  get userInfo(): UserInfo | null {
     return this.$store.state.userInfo
+  }
+
+  get profile(): Profile | null {
+    return this.userInfo ? this.userInfo.profile : null
+  }
+
+  created() {
+    const { profile } = this
+    if (profile) this.getUserInfo()
+  }
+
+  async getUserInfo() {
+    const userInfo = await this.$http.get(
+      '/user/detail?uid=' + this.userInfo.profile.userId
+    )
+
+    this.$store.commit('UPDAE_userInfo', userInfo)
   }
 
   handleLogout() {
     this.$http.get('/logout').then(res => {
-      // console.log('退出登录 res: ', res)
       clearLoginInfo()
       this.$store.commit('UPDAE_userInfo', null)
       setTimeout(() => {

@@ -9,6 +9,7 @@ import {
   Theme,
   State,
   Audio,
+  UserInfo,
   HistoryTrack
 } from '@/types'
 import { loadCache, putCache, removeCache } from '@/utils'
@@ -80,7 +81,7 @@ export default new Vuex.Store({
       state.historyList = data
       putCache(HISTORY_SK, data)
     },
-    UPDAE_userInfo(state: State, data) {
+    UPDAE_userInfo(state: State, data: UserInfo | null) {
       state.userInfo = data
       sessionStorage.setItem('user_info', JSON.stringify(data))
     }

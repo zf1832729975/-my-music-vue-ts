@@ -29,5 +29,10 @@ module.exports = {
     'no-spaced-func': 2, // 函数调用时 函数名与()之间不能有空格
     'space-before-function-paren': [2, 'never'], // 函数定义时括号前面要不要有空格
     'no-useless-escape': 0 // 禁用不必要的转义字符
+  },
+   // 全局变量
+   globals: {
+    // 设置为 "writable" 以允许重写变量，或 "readonly" 不允许重写变量
+    BASE_URL: 'readonly'
   }
 }

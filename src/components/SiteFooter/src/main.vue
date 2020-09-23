@@ -157,7 +157,7 @@ let vm: Footer | null = null
 })
 export default class Footer extends Vue {
   // @ts-ignore
-  $refs: {
+  public $refs!: {
     audio: HTMLAudioElement
     playProgress: Slider
   }

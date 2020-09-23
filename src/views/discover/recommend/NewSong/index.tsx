@@ -42,7 +42,6 @@ export default class NewSong extends Vue {
       return list.map((item, index) => {
         return (
           <li
-            flex
             flex="cross:center"
             on-dbclick={() => vm.handlePlayMusic(item)}
             class={{

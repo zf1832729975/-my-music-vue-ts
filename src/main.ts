@@ -2,10 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// @ts-ignore
-import VueCookie from 'vue-cookie' // api: https://github.com/alfhen/vue-cookie
 import './plugins'
-import { http, noop, formatCount, formatTime, zeroize } from './utils'
+import {
+  http,
+  noop,
+  formatCount,
+  formatTime,
+  zeroize,
+  formatDate
+} from './utils'
 import ElDragDialog from './directive/el-drag-dialog'
 
 Vue.config.productionTip = false
@@ -18,7 +23,6 @@ if (!$process.IS_WEB) {
   Vue.prototype.$send = noop
 }
 
-Vue.use(VueCookie)
 Vue.use(ElDragDialog)
 
 new Vue({
@@ -30,3 +34,4 @@ new Vue({
 Vue.filter('zeroize', zeroize)
 Vue.filter('formatTime', formatTime)
 Vue.filter('formatCount', formatCount)
+Vue.filter('formatDate', formatDate)

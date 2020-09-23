@@ -56,15 +56,51 @@
 
       <!-- 每一个卡片 创建的歌单 -->
       <dl>
-        <dt class="text">创建的歌单</dt>
-        <dd>
-          <i class="icon iconfont icon-xihuan"></i>
-          <span class="text">我喜欢的音乐</span>
-        </dd>
-        <dd>
-          <i class="icon iconfont icon-yinleliebiao"></i>
-          <span class="text">古风</span>
-        </dd>
+        <dt class="text">
+          <span class="fr right-btn">
+            <CreatePlaylist @change="getPlaylist" />
+            <i
+              class="el-icon-arrow-right arrow-icon"
+              :class="{ folded: foldStatus.subscribed }"
+              @click="foldStatus.subscribed = !foldStatus.subscribed"
+            ></i>
+          </span>
+          创建的歌单
+        </dt>
+        <div v-show="!foldStatus.subscribed">
+          <dd>
+            <i class="icon iconfont icon-xihuan"></i>
+            <span class="text">我喜欢的音乐</span>
+          </dd>
+          <dd v-for="playlist in createPlaylist" :key="playlist.id">
+            <i
+              class="icon iconfont"
+              :class="
+                playlist.privacy === 10 ? 'icon-mima' : 'icon-yinleliebiao'
+              "
+            ></i>
+            <span class="text">{{ playlist.name }}</span>
+          </dd>
+        </div>
+      </dl>
+
+      <dl>
+        <dt class="text">
+          <span class="fr right-btn">
+            <i
+              class="el-icon-arrow-right arrow-icon"
+              :class="{ folded: foldStatus.created }"
+              @click="foldStatus.created = !foldStatus.created"
+            ></i>
+          </span>
+          收藏的歌单
+        </dt>
+        <div v-show="!foldStatus.created">
+          <dd v-for="playlist in subscribedPlaylist" :key="playlist.id">
+            <i class="icon iconfont icon-yinleliebiao"></i>
+            <span class="text">{{ playlist.name }}</span>
+          </dd>
+        </div>
       </dl>
     </el-scrollbar>
   </el-aside>
@@ -73,23 +109,62 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { State, Getter, Action, Mutation } from 'vuex-class'
-import { Profile } from '@/types'
+import { UserInfo, Playlist } from '@/types'
+import CreatePlaylist from './CreatePlaylist.vue'
 
-@Component({})
+@Component({
+  components: { CreatePlaylist }
+})
 export default class SiteAside extends Vue {
   @Prop({ default: '200px' }) width!: string
 
-  get userInfo(): Profile {
+  private playlist: Array<Playlist> = []
+  /** 订阅/收藏的歌单 */
+  private subscribedPlaylist: Array<Playlist> = []
+  /** 创建的歌单 */
+  private createPlaylist: Array<Playlist> = []
+  get userInfo(): UserInfo {
     return this.$store.state.userInfo
   }
 
+  // 折叠状态
+  private foldStatus = {
+    subscribed: false,
+    created: false
+  }
+
   created() {
-    if (this.userInfo) {
-      this.$http({
+    this.getPlaylist()
+    // this.getUserInfo()
+  }
+
+  // 获取用户信息 , 歌单，收藏，mv, dj 数量
+  async getUserInfo() {
+    const res = await this.$http.get('/user/subcount')
+    // console.log('获取用户信息 , 歌单，收藏，mv, dj 数量 res: ', res)
+  }
+
+  /** 获取歌单 */
+  public async getPlaylist() {
+    if (this.userInfo && this.userInfo.profile) {
+      const res = await this.$http({
         url: '/user/playlist',
-        params: { uid: this.userInfo.userId }
-      }).then(res => {
-        console.log('获取用户歌单 res: ', res)
+        params: {
+          uid: this.userInfo.profile.userId,
+          _t: Date.now() /* 取消缓存 */
+        }
+      })
+
+      console.log('获取用户歌单 res: ', res)
+      const playlist: Array<Playlist> = res.playlist
+      const subscribedPlaylist: Array<Playlist> = (this.subscribedPlaylist = [])
+      const createPlaylist: Array<Playlist> = (this.createPlaylist = [])
+      playlist.map((item: Playlist) => {
+        if (item.subscribed) {
+          subscribedPlaylist.push(item)
+        } else {
+          createPlaylist.push(item)
+        }
       })
     }
   }

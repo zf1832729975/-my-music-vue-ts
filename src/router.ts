@@ -6,7 +6,9 @@ Vue.use(Router)
 
 function _import(file: string) {
   return function() {
-    return import('@/views/' + file + '/index.vue')
+    return import(
+      /* webpackChunkName: "[request]" */ '@/views/' + file + '/index.vue'
+    )
   }
 }
 
@@ -112,7 +114,8 @@ export default new Router({
     {
       path: '*',
       name: '404',
-      component: () => import('@/views/common/404.vue')
+      component: () =>
+        import(/* webpackChunkName: "404" */ '@/views/common/404.vue')
     }
   ]
 })

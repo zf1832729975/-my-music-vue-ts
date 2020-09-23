@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Message, Notification } from 'element-ui'
-import { getAccessToken } from '@/utils'
+import { getAuthCookie } from '@/utils'
 
 // 创建axios实例
 const service = axios.create({
@@ -18,7 +18,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
-    // let accessToken = getAccessToken()
+    // let accessToken = getAuthCookie()
     // if (accessToken) {
     //   config.headers['Authorization'] = 'Bearer ' + accessToken // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
     // }

@@ -8,15 +8,13 @@ import { MVDetail } from '@/types'
 
 @Component
 export default class Video extends Vue {
-  $refs: {
+  public $refs!: {
     /** video 视频播放 ref */
     video: HTMLVideoElement
   }
   @Prop({ required: true }) mv!: MVDetail
 
-  private quality: string = '480'
-
-  private video: HTMLVideoElement = {}
+  private quality: number = 480
 
   private playerOptions = {
     playbackRates: [0.7, 1.0, 1.5, 2.0], // 播放速度
@@ -50,8 +48,8 @@ export default class Video extends Vue {
   created() {}
 
   // methods
-  private handleResourceChange(quality: string) {
-    this.quality = quality
+  private handleResourceChange(quality: string|number) {
+    this.quality = Number(quality)
     // console.log(' this: ', this)
     console.log(' this.$refs: ', this.$refs)
   }

@@ -142,12 +142,22 @@ export interface State {
   audio: Audio
   /** 播放历史列表、0代表最新的 index 越大代表以前的、 */
   historyList: HistoryList
-  userInfo: Profile | null
+  userInfo: UserInfo | null
 }
 
-// export interface UserInfo {
-//   Account
-// }
+export interface UserInfo {
+  /** 等级  */
+  level: number
+  /**  */
+  listenSongs: number
+  userPoint: Object
+  mobileSign: boolean
+  pcSign: boolean
+  profile: Profile
+  createTime: number | Date
+  createDays: number
+  bindings: Array<Object>
+}
 
 /** 账号 */
 export interface Account {

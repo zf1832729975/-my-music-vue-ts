@@ -4,8 +4,26 @@ import { getMVDetail } from '@/api'
 import { MVDetail } from '@/types'
 import VideoPage from './Video'
 
-import { Row, Col, Tag, Button, Divider, Input } from 'element-ui'
+import { Row, Col, Tag, Button, Divider, Input, Avatar } from 'element-ui'
 import { formatDate, formatCount } from '@/utils'
+
+
+// @Component
+// export default class Comment extends Vue {
+
+//   render() {
+//     return (<div>
+//       <div flex="cross:center main:justify">
+//         <div>
+//           <Avatar size={60} src></Avatar>
+//         </div>
+//         <div>
+
+//         </div>
+//       </div>
+//     </div>)
+//   }
+// }
 
 @Component
 export default class MV extends Vue {
@@ -65,7 +83,13 @@ export default class MV extends Vue {
       console.log('获取MV详情 res: ', res)
       const mv = (this.mv = res.data)
       // this.playerOptions.poster = mv
+      this.getCommentList()
     })
+  }
+  private async getCommentList() {
+    const res = await this.$http.get(`/comment/mv?id=${this.mvId}`)
+    // const hotComment = await this.$http.get()
+    console.log('mv 评论 res: ', res)
   }
 
   /** comment change */
@@ -112,7 +136,9 @@ export default class MV extends Vue {
             </div>
 
             {/* 评论 */}
-            <div class="mv-comment">
+            <comment ></comment>
+
+            <div class="mv-comment" style="display:none">
               <h3 class="title">
                 评论<span class="comment-count">({mv.commentCount})</span>
               </h3>
@@ -155,6 +181,7 @@ export default class MV extends Vue {
                   <li clas="comment-item"></li>
                 </ul>
               </div>
+
             </div>
           </Col>
 

@@ -81,17 +81,17 @@ export default class Home extends Vue {
     })
   }
 
-  handleDown(event: Event) {
+  handleDown(event: MouseEvent) {
     if (this.disabled) return
     event.preventDefault()
     this.onDragStart(event)
     window.addEventListener('mousemove', this.onDragging)
-    window.addEventListener('touchmove', this.onDragging)
+    // window.addEventListener('touchmove', this.onDragging)
     window.addEventListener('mouseup', this.onDragEnd)
-    window.addEventListener('touchend', this.onDragEnd)
+    // window.addEventListener('touchend', this.onDragEnd)
     window.addEventListener('contextmenu', this.onDragEnd)
   }
-  onDragStart(event: Event) {
+  onDragStart(event: MouseEvent) {
     this.dragging = true
     const x = event.clientX
     if (this.range[0] <= x && x <= this.range[1]) this.asideWidth = x
@@ -100,7 +100,7 @@ export default class Home extends Vue {
     // if (LEFT_MIN_WIDTH <= x && x <= max) this.asideWidth = x
   }
 
-  onDragEnd() {
+  onDragEnd(event: MouseEvent) {
     if (this.dragging) {
       /*
        * 防止在 mouseup 后立即触发 click，导致滑块有几率产生一小段位移
@@ -110,13 +110,13 @@ export default class Home extends Vue {
         this.dragging = false
       }, 0)
       window.removeEventListener('mousemove', this.onDragging)
-      window.removeEventListener('touchmove', this.onDragging)
+      // window.removeEventListener('touchmove', this.onDragging)
       window.removeEventListener('mouseup', this.onDragEnd)
-      window.removeEventListener('touchend', this.onDragEnd)
+      // window.removeEventListener('touchend', this.onDragEnd)
       window.removeEventListener('contextmenu', this.onDragEnd)
     }
   }
-  onDragging(event: Event) {
+  onDragging(event: MouseEvent) {
     const x = event.clientX
     if (this.range[0] <= x && x <= this.range[1]) this.asideWidth = x
     // const x = event.clientX

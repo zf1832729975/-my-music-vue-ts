@@ -44,7 +44,7 @@ function newDate(date: Date | string | number = new Date()): Date {
 */
 export function formatDate(
   date: Date | string | number = new Date(),
-  format: string = 'yyyy/MM/dd HH:mm 周w'
+  format: string = 'yyyy年MM月dd日 HH:mm'
 ): string {
   date = newDate(date)
   var y = date.getFullYear()

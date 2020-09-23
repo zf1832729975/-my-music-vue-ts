@@ -1,7 +1,6 @@
 import Vue from 'vue'
 // import { http } from './utils'
 import { AxiosStatic } from 'axios'
-
 import { IPCRenderer } from './utils/electron'
 
 interface Emit {

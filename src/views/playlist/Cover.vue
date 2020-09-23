@@ -127,7 +127,7 @@ export default class Cover extends Vue {
     this.isExpand = !this.isExpand
   }
 
-  $refs: {
+  $refs!: {
     intro: HTMLElement
   }
 
