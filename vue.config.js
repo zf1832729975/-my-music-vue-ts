@@ -21,7 +21,7 @@ module.exports = {
       process.env.NODE_ENV === 'production'
         ? new HtmlWebpackPlugin({
           filename: 'index.html',
-          template: './public/prod.html',
+          template: './template/prod.html',
           inject: false, // 是否注入，默认值为true
           // minify: {
           //   // 默认值为 false, 不压缩
@@ -39,7 +39,7 @@ module.exports = {
         })
         : new HtmlWebpackPlugin({
           filename: 'index.html',
-          template: './public/dev.html',
+          template: './template/dev.html',
           inject: true
         }),
 
