@@ -12,7 +12,7 @@
     ></el-avatar>
     <div flex-box="1">
       <div class="content">
-        <router-link class="nickname" :to="`/user-info/${comment.user.userId}`"
+        <router-link class="nickname" :to="`/user/${comment.user.userId}`"
           >{{ comment.user.nickname }}：</router-link
         >{{ comment.content }}
       </div>
@@ -24,9 +24,7 @@
           v-for="beReplied in comment.beReplied"
           :key="beReplied.beRepliedCommentId"
         >
-          <router-link
-            class="nickname"
-            :to="`/user-info/${beReplied.user.userId}`"
+          <router-link class="nickname" :to="`/user/${beReplied.user.userId}`"
             >@{{ beReplied.user.nickname }}：</router-link
           >{{ beReplied.content }}
         </li>

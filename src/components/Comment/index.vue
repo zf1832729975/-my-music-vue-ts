@@ -4,7 +4,7 @@
  * @date 2020/9/21
 -------------------------------------- --->
 <template>
-  <div class="comment" ref="comment">
+  <div class="comment">
     <!-- <el-divider></el-divider> -->
     <!-- {/* 评论框 */} -->
     <div class="comment-frame">
@@ -27,6 +27,8 @@
         <el-button onClick="{this.handleComment}">评论</el-button>
       </div>
     </div>
+
+    <div ref="scrollToTopPonit"></div>
 
     <div class="comment-none" v-if="commentData.total === 0">
       还没有评论，快来抢沙发~
@@ -167,17 +169,14 @@ export default class Comment extends Vue {
     }
     return null
   }
-
   // 滚动到评论顶部
   scrollToCommentTop() {
-    console.log(' this.$refs: ', this.$refs)
-    const commentEl = this.$refs.comment
+    const scrollToTopPonitEl = this.$refs.scrollToTopPonit
     const scrollEl = this.findScrollEl()
-    if (scrollEl && commentEl instanceof Element) {
-      console.log(' commentEl.offsetTop: ', commentEl.offsetTop)
-      const num = commentEl.offsetTop - 30
-      const scrollTop = num < 0 ? 0 : num
-      console.log('滚动距离 scrollTop: ', scrollTop)
+    if (scrollEl && scrollToTopPonitEl instanceof Element) {
+      const scrollTop = scrollToTopPonitEl.offsetTop
+      console.log('滚动距离之前 scrollEl.scrollTop: ', scrollEl.scrollTop)
+      console.log('滚动距离之后 scrollTop: ', scrollTop)
       scrollEl.scrollTop = scrollTop
     }
   }
@@ -203,6 +202,7 @@ export default class Comment extends Vue {
 .comment-frame {
   padding: 10px;
   background: #f0f0f2;
+  margin-bottom: 20px;
   .frame-footer {
     padding-top: 8px;
   }

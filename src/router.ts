@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import { component } from 'vue/types/umd'
 import Main from './views/Main.vue'
 
 Vue.use(Router)
@@ -99,6 +100,12 @@ const mainRoutes = [
     path: '/setting',
     name: 'setting',
     component: _import('setting')
+  },
+  {
+    path: '/user/:id',
+    name: 'user',
+    component: () =>
+      import(/* webpackChunkName: "user" */ '@/views/user/_id.vue')
   }
 ]
 

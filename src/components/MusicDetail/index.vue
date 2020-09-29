@@ -9,7 +9,7 @@
       <div class="musicDt_media musicDt_w">
         <div class="musicDt_action">
           <img :src="music.al.picUrl" alt class="musicDt_action_pic" />
-          <div class="musicDt_action_btns">
+          <div class="musicDt_action_btns" style="margin-top:24px;">
             <el-button class="musicDt_action_btn" icon>喜欢</el-button>
             <el-button class="musicDt_action_btn" icon>收藏</el-button>
             <el-button class="musicDt_action_btn" icon>&nbsp;VIP下载</el-button>
@@ -41,6 +41,7 @@
               </span>
             </div>
           </div>
+          <Lyric v-if="lyricData" :lyric="lyricData.lrc.lyric"></Lyric>
         </div>
       </div>
     </div>
@@ -59,12 +60,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
 import { Track } from '@/types'
-
-@Component
+import Lyric from './Lyric.vue'
+@Component({
+  components: { Lyric }
+})
 export default class MusicDetail extends Vue {
+  private lyricData: Object | null = null
   /** 缩小、关闭 */
   handleShrink() {
     this.$emit('shrink')
@@ -72,11 +76,11 @@ export default class MusicDetail extends Vue {
 
   @Getter('currentMusic') music!: Track
 
-  created() {
+  @Watch('music.id', { immediate: true })
+  musicIdChange() {
     this.getSongDetail()
     this.getLyric()
   }
-
   // 获取歌曲详情
   async getSongDetail() {
     const data = await this.$http.get(`/song/detail?ids=${this.music.id}`)
@@ -87,6 +91,7 @@ export default class MusicDetail extends Vue {
   async getLyric() {
     const data = await this.$http.get(`/lyric?id=${this.music.id}`)
     console.log('获取歌词 data: ', data)
+    this.lyricData = data
   }
 }
 </script>

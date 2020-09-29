@@ -9,15 +9,29 @@
     <div flex="cross:center" v-if="profile">
       <el-avatar :size="22" :src="profile.avatarUrl"></el-avatar>
       <!-- 用户信息 Popover -->
-      <el-popover popper-class="userinfo-popover">
+      <el-popover popper-class="userinfo-popover" v-model="popoverVisible">
+        <p class="ml-2 user-name" slot="reference">
+          {{ profile.nickname }}
+          <i class="arrow-down el-icon-caret-bottom"></i>
+        </p>
+
         <!-- 用户信息详细面板 -->
-        <!-- <UserInfo /> -->
         <div style="width:280px;">
           <div style="padding:16px;">
             <div flex="cross:center main:justify">
               <span flex="cross:center">
-                <el-avatar :size="44" :src="profile.avatarUrl"></el-avatar>
-                <span>{{ profile.nickname }}</span>
+                <router-link
+                  :to="`/user/${profile.userId}`"
+                  @click.native="hiddenPopover"
+                >
+                  <el-avatar :size="44" :src="profile.avatarUrl"></el-avatar>
+                </router-link>
+                <router-link
+                  :to="`/user/${profile.userId}`"
+                  @click.native="hiddenPopover"
+                >
+                  <span>{{ profile.nickname }}</span>
+                </router-link>
               </span>
               <el-button size="mini">签到</el-button>
             </div>
@@ -92,11 +106,6 @@
             </li>
           </ul>
         </div>
-
-        <p class="ml-2 user-name" slot="reference">
-          {{ profile.nickname }}
-          <i class="arrow-down el-icon-caret-bottom"></i>
-        </p>
       </el-popover>
     </div>
 
@@ -150,6 +159,7 @@ import { clearLoginInfo } from '@/utils'
 })
 export default class HeaderUserInfo extends Vue {
   private loginVisible: boolean = false
+  private popoverVisible: boolean = false
 
   get userInfo(): UserInfo | null {
     return this.$store.state.userInfo
@@ -166,7 +176,7 @@ export default class HeaderUserInfo extends Vue {
 
   async getUserInfo() {
     const userInfo = await this.$http.get(
-      '/user/detail?uid=' + this.userInfo.profile.userId
+      '/user/detail?uid=' + this.userInfo.profile.userId + '&_t=' + Date.now()
     )
 
     this.$store.commit('UPDAE_userInfo', userInfo)
@@ -180,6 +190,10 @@ export default class HeaderUserInfo extends Vue {
         window.location.reload()
       })
     })
+  }
+
+  hiddenPopover() {
+    this.popoverVisible = false
   }
 }
 </script>

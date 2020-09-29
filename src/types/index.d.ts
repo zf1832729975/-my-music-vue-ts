@@ -101,7 +101,7 @@ export interface Playlist {
 export interface Audio {
   /** 音乐地址 */
   src: string
-  /** 当前时间 */
+  /** 当前时间 67.080431 */
   currentTime: number
   /** 持续时间、总长 */
   duration: number
@@ -196,7 +196,8 @@ export interface Profile {
   defaultAvatar: boolean
   // province: 520000
   // vipType: 0
-  // gender: 1
+  /** 性别 */
+  gender: 1 | 2
   // mutual: false
   // remarkName: null
   // expertTags: null
@@ -219,11 +220,16 @@ export interface Profile {
   // signature: ""
   // authority: 0
   // avatarImgId_str: "109951163250233892"
-  // followeds: 1
-  // follows: 3
-  // eventCount: 0
-  // playlistCount: 1
-  // playlistBeSubscribedCount: 0
+  /** 被关注、粉丝 */
+  followeds: number
+  /** 关注 */
+  follows: number
+  /** 动态 */
+  eventCount: number
+  /** 歌单 */
+  playlistCount: number
+  /** 被收藏 */
+  playlistBeSubscribedCount: 0
 }
 
 /**
