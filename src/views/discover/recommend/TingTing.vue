@@ -6,7 +6,7 @@
 <template>
   <div class="disTT">
     <div class="zh-row">
-      <div v-for="item in 5" class="zh-col-5">
+      <div v-for="(item, index) in 5" class="zh-col-5" :key="index">
         <a href="#" target="_blank">
           <div class="disTT-image-box">
             <span class="disTT-tag">流行</span>
@@ -31,7 +31,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component
-export default class Template extends Vue {}
+export default class TingTing extends Vue {}
 </script>
 
 <style lang="scss">

@@ -3,7 +3,6 @@ const themeConfig = require('./theme.config')
 const webpack = require('webpack')
 const path = require('path')
 
-
 const HOST = 'http://www.7749tian.com:3000'
 const PROXY_PREFIX = '/api'
 const BASE_URL = process.env.NODE_ENV === 'production' ? HOST : PROXY_PREFIX
@@ -20,28 +19,28 @@ module.exports = {
     plugins: [
       process.env.NODE_ENV === 'production'
         ? new HtmlWebpackPlugin({
-          filename: 'index.html',
-          template: './template/prod.html',
-          inject: false, // 是否注入，默认值为true
-          // minify: {
-          //   // 默认值为 false, 不压缩
-          //   removeAttributeQuotes: true, // 去掉双引号
-          //   removeComments: true, // 去掉注释
-          //   collapseWhitespace: true, // 去掉空白
-          //   minifyJS: true // 压缩js
-          // }
-          minify: {
-            removeAttributeQuotes: false, // 去掉双引号
-            removeComments: true, // 去掉注释
-            collapseWhitespace: false, // 去掉空白
-            minifyJS: false // 压缩js
-          }
-        })
+            filename: 'index.html',
+            template: './template/prod.html',
+            inject: false, // 是否注入，默认值为true
+            // minify: {
+            //   // 默认值为 false, 不压缩
+            //   removeAttributeQuotes: true, // 去掉双引号
+            //   removeComments: true, // 去掉注释
+            //   collapseWhitespace: true, // 去掉空白
+            //   minifyJS: true // 压缩js
+            // }
+            minify: {
+              removeAttributeQuotes: false, // 去掉双引号
+              removeComments: true, // 去掉注释
+              collapseWhitespace: false, // 去掉空白
+              minifyJS: false // 压缩js
+            }
+          })
         : new HtmlWebpackPlugin({
-          filename: 'index.html',
-          template: './template/dev.html',
-          inject: true
-        }),
+            filename: 'index.html',
+            template: './template/dev.html',
+            inject: true
+          }),
 
       new webpack.DefinePlugin({
         $process: JSON.stringify({

@@ -7,3 +7,7 @@ $primary-color: #3396fc;
 $site-header-height: 48px;
 $site-aside-width: 200px;
 $site-footer-height: 50px;
+
+:export {
+  primaryColor: $primary-color;
+}

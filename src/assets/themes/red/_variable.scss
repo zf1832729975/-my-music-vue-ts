@@ -4,3 +4,7 @@
  */ 
 
 $primary-color: #C62F2F;
+
+:export {
+  primaryColor: $primary-color;
+}
