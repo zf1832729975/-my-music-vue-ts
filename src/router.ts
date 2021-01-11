@@ -106,6 +106,11 @@ const mainRoutes = [
     name: 'user',
     component: () =>
       import(/* webpackChunkName: "user" */ '@/views/user/_id.vue')
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: _import('search')
   }
 ]
 

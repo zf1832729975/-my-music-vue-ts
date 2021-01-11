@@ -17,7 +17,7 @@
       </el-button-group>
     </el-header>
     <el-footer height="30px" flex="main:justify  cross:center">
-      <span>总{{ tableDate.length || 0 }}首</span>
+      <span>总{{ tableData.length || 0 }}首</span>
       <div>
         <span v-show="activeTab == 'playList'">
           <el-button type="text" icon="iconfont icon-icon-test"
@@ -34,7 +34,7 @@
       <el-scrollbar>
         <el-table
           :show-header="false"
-          :data="tableDate"
+          :data="tableData"
           stripe
           @row-dblclick="handleRowDBClick"
         >
@@ -76,7 +76,18 @@
           </el-table-column>
           <el-table-column label="歌单" width="40px">
             <template slot-scope="{ row: track }">
-              <a :href="`#/playlist?id=${track.playlistId}`" @click="close">
+              <a
+                :href="`#/playlist?id=${track.playlistId}`"
+                @click="close"
+                v-if="track.playlistId"
+              >
+                <i class="iconfont icon-link"></i>
+              </a>
+              <a
+                :href="`#/search?keyword=${track.keyword}`"
+                @click="close"
+                v-else-if="track.keyword"
+              >
                 <i class="iconfont icon-link"></i>
               </a>
             </template>
@@ -128,11 +139,11 @@ export default class PlayListHistory extends Vue {
   @State('historyList') historyList!: HistoryList
   @State('audio') audio!: Audio
   @Mutation('UPDATE_playList')
-  updatePlayList!: (data: Map<number, Track>) => void
+  updatePlayList!: (data: PlayList) => void
   @Mutation('UPDATE_historyList')
-  updateHistoryList!: (data: Map<number, HistoryTrack>) => void
+  updateHistoryList!: (data: PlayList) => void
 
-  get tableDate(): PlayList | HistoryList {
+  get tableData(): PlayList | HistoryList {
     if (this.activeTab === 'playList') {
       return this.playList
     } else {
@@ -158,10 +169,10 @@ export default class PlayListHistory extends Vue {
 
   private handleClear() {
     if (this.activeTab === 'playList') {
-      this.updatePlayList(new Map())
+      this.updatePlayList([])
       this.$bus.$emit('play-music', { id: 0, msg: '清空' })
     } else {
-      this.updateHistoryList(new Map())
+      this.updateHistoryList([])
     }
   }
 }

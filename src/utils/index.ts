@@ -22,3 +22,23 @@ export * from './user'
 export function isURL(s) {
   return /^http[s]?:\/\/.*/.test(s)
 }
+
+/*
+ * 防抖
+ * @param {function} fn
+ * @param {number} delay 延迟
+ */
+export function debounce(fn: Function, delay = 300) {
+  let timeout: any = null
+  return function() {
+    // @ts-ignore
+    let context = this
+    let args = arguments
+
+    if (timeout) clearTimeout(timeout)
+
+    timeout = setTimeout(function() {
+      fn.apply(context, args)
+    }, delay)
+  }
+}

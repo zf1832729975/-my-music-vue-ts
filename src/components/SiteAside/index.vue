@@ -126,7 +126,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { State, Getter, Action, Mutation } from 'vuex-class'
 import { UserInfo, Playlist } from '@/types'
 import CreatePlaylist from './CreatePlaylist.vue'
@@ -163,6 +163,7 @@ export default class SiteAside extends Vue {
     // console.log('获取用户信息 , 歌单，收藏，mv, dj 数量 res: ', res)
   }
 
+  @Watch('userInfo')
   /** 获取歌单 */
   public async getPlaylist() {
     if (this.userInfo && this.userInfo.profile) {

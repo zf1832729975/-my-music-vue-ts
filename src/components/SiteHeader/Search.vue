@@ -15,7 +15,8 @@
       <el-input
         slot="reference"
         size="mini"
-        v-model="keywords"
+        v-model="keyword"
+        @keyup.enter.native="handleSearch"
         @focus="onInputFocus"
         placeholder="搜索音乐，视频，歌词，电台"
       >
@@ -24,7 +25,7 @@
 
       <!-- 热搜榜 -->
       <el-scrollbar class="header-search-scrollbar">
-        <p style="padding-left:16px;padding-top:14px;">热搜榜</p>
+        <p style="padding-left: 16px; padding-top: 14px">热搜榜</p>
         <ul class="search-hot-list">
           <li
             v-for="(search, index) in searchHotList"
@@ -32,7 +33,7 @@
             flex="cross:center"
             class="search-hot-item"
             :class="{ front: index < 3 }"
-            @click="handleSearchHotClick(search)"
+            @click="handleSearchHotClick(search.searchWord)"
           >
             <span class="search-index">{{ index + 1 }}</span>
             <span>
@@ -54,18 +55,20 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
+import { debounce } from '@/utils'
+
 // form data interface
 interface IFormData {
-  keywords: string
+  keyword: string
 }
 
 @Component
 export default class Search extends Vue {
   private formData: IFormData = {
-    keywords: ''
+    keyword: ''
   }
 
-  private keywords: string = ''
+  private keyword: string = ''
 
   private popoverVisible: boolean = false
   private searchHotList: Array<Object> = []
@@ -77,11 +80,13 @@ export default class Search extends Vue {
 
   async onInputFocus() {
     await this.getSearchHot()
-    this.popoverVisible = true
+    // debounce( () => {
+    //   this.popoverVisible = true
+    // }, 100)
+    setTimeout(() => {
+      this.popoverVisible = true
+    }, 100)
   }
-
-  // 搜索
-  handleSearch() {}
 
   // 热搜
   getSearchHot() {
@@ -94,8 +99,15 @@ export default class Search extends Vue {
     })
   }
 
-  handleSearchHotClick(search) {
-    this.keywords = search.searchWord
+  handleSearchHotClick(keyword: string) {
+    this.keyword = keyword
+    this.handleSearch()
+  }
+
+  // 搜索
+  handleSearch() {
+    this.$router.replace({ name: 'search', query: { keyword: this.keyword } })
+    this.popoverVisible = false
   }
 }
 </script>

@@ -70,6 +70,10 @@ export default new Vuex.Store({
       state.playList = data
       putCache(PLAY_LIST_SK, data)
     },
+    playListUnshift(state, item) {
+      state.playList.unshift(item)
+      putCache(PLAY_LIST_SK, state.playList)
+    },
     UPDATE_audio(state: State, data: Audio) {
       state.audio = data
       putCache(AUDIO_SK, data)

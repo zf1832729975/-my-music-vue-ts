@@ -40,7 +40,8 @@ import {
   Tooltip,
   Notification,
   Message,
-  Pagination
+  Pagination,
+  Progress
 } from 'element-ui'
 
 // @ts-ignore
@@ -81,6 +82,7 @@ Vue.use(FormItem)
 Vue.use(Checkbox)
 Vue.use(Tooltip)
 Vue.use(Pagination)
+Vue.use(Progress)
 
 // mini small medium
 Vue.prototype.$ELEMENT = { size: 'mini' }
