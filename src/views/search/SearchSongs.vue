@@ -123,7 +123,7 @@ export default class SearchSongs extends Vue {
       }
       console.log(' item: ', item)
       this.$store.commit('playListUnshift', item)
-      this.$bus.$emit('play-music', find)
+      this.$bus.$emit('play-music', item)
     } else {
       this.$bus.$emit('play-music', find)
     }
